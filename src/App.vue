@@ -12,6 +12,20 @@
       </div>
     </nav>
     <router-view/>
+    <footer id="main-footer">
+      <div class="container footer-container">
+        <div class="footer-col">
+          <p><span @click="changeRoute('/home')">Zotr.pl</span> | <span>Kontakt</span> | <span>Blog</span></p>
+        </div>
+        <div class="footer-col">
+          <v-icon color="#202020" class="social-media-icon">mdi-facebook</v-icon>
+          <v-icon color="#202020" class="social-media-icon">mdi-instagram</v-icon>
+        </div>
+        <div class="footer-col">
+          <img @click="changeRoute('/home')" src="./assets/logo.png" alt="Logo" class="logo footer">
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 
