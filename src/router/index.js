@@ -7,7 +7,7 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: 'Home',
     component: HomeView
   },
@@ -15,6 +15,10 @@ const routes = [
     path: '/rankings',
     name: 'Rankings',
     component: RankingsView
+  },
+  {
+    path: '/',
+    redirect: '/home'
   }
 ]
 

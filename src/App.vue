@@ -1,12 +1,13 @@
 <template>
-  <div id="app">
+  <div id="app" data-app>
     <nav id="main-nav">
       <div class="container">
-        <img @click="$router.push('/home')" src="./assets/logo.png" alt="Logo" class="logo">
+        <img @click="changeRoute('/home')" src="./assets/logo.png" alt="Logo" class="logo">
         <ul>
-          <li>Kontakt</li>
+          <li :class="{ active: $route.path === '/home' }" @click="changeRoute('/home')">Strona główna</li>
+          <li :class="{ active: $route.path === '/rankings' }" @click="changeRoute('/rankings')">Rankingi</li>
           <li>Blog</li>
-          <li @click="$router.push('/rankings')">Rankingi</li>
+          <li>Kontakt</li>
         </ul>
       </div>
     </nav>
@@ -21,10 +22,15 @@ export default {
 
   components: {
   },
-
   data: () => ({
-    //
-  })
+  }),
+  methods: {
+    changeRoute (route) {
+      if (route !== this.$route.path) {
+        this.$router.push(route)
+      }
+    }
+  }
 }
 </script>
 <style lang="scss">

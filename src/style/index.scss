@@ -3,22 +3,53 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   font-family: 'Poppins';
+  background: #FAFAFA;
 }
+//#app {
+//}
+
+p {
+  font-family: 'Poppins';
+  color: #202020;
+  &.section-header {
+    font-size: 20px;
+  }
+  &.category {
+    font-size: 15px;
+  }
+}
+
+.py-2 { padding: 1rem 0 }
+
 ul {
   list-style: none;
 }
+
 img {
   width: 100%;
   &:hover {
     cursor: pointer;
   }
 }
+
+//.py-2 { padding: 2rem 0 }
+
+@function set-text-color($color) {
+  @if(lightness($color) > 60) {
+    @return #000;
+  } @else {
+    @return #fff
+  }
+}
+
 #main-nav {
   background: #fff;
   position: sticky;
   top: 0;
+  z-index: 2;
   .container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -33,6 +64,9 @@ img {
   margin: auto;
   padding: 0 2rem;
   overflow: hidden;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 #main-nav ul {
   justify-self: end;
@@ -42,10 +76,11 @@ img {
     font-weight: bold;
     &:hover {
       cursor: pointer;
-      background: red;
+      background: #f3f3f3;
     }
     &.active {
-      background: pink;
+      color: set-text-color(#df3968);
+      background:  #df3968;
     }
   }
 }
@@ -66,10 +101,70 @@ img {
 //  }
 //}
 .showcase-content {
-  text-align: center;
   display: grid;
-  grid-template-rows: 2fr 1fr;
+  grid-template-rows: repeat(2, 1fr);
+  row-gap: 1rem;
+  text-align: center;
+  width: 50%;
+  z-index: 1;
+}
+#most-popular-categories .categories-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 2rem;
+  width: 70%;
+  margin: 2rem auto;
+}
+.card {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 1;
+  background: #ffffff;
+  border-radius: 5px;
+  padding: 3rem 0;
+  &:hover {
+    cursor: pointer;
+    background: rgb(223, 57, 104, 0.1);
+  }
+}
+
+#last-blog-post {
+  background: #ffffff;
+}
+
+#last-blog-post .blog-container {
+  display: grid;
+  grid-template-rows: 1fr 4fr;
+  text-align: center;
+  padding: 1rem;
+}
+
+.post-content {
+  padding: 0.5rem;
+  display: flex;
+}
+
+.post-image {
+  width: 300px;
+  height: 200px;
+}
+
+.post-text {
+  text-align: left;
+  padding: 0 2rem;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
 }
