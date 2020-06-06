@@ -33,24 +33,24 @@
         </div>
       </div>
     </header>
-    <section id="most-popular-categories" class="py-2">
+    <section id="most-popular-categories" class="py-1">
       <div class="container">
         <p class="section-header">Popularne kategorie</p>
         <div class="categories-container">
           <article class="card">
-            <v-icon class="py-2" x-large>mdi-cellphone</v-icon>
+            <v-icon color="#df3968" class="py-2" x-large>mdi-cellphone</v-icon>
             <p class="category">Smartfony</p>
           </article>
           <article class="card">
-            <v-icon class="py-2" x-large>mdi-laptop</v-icon>
+            <v-icon color="#df3968" class="py-2" x-large>mdi-laptop</v-icon>
             <p class="category">Laptopy</p>
           </article>
           <article class="card">
-            <v-icon class="py-2" x-large>mdi-expansion-card</v-icon>
+            <v-icon color="#df3968" class="py-2" x-large>mdi-expansion-card</v-icon>
             <p class="category">Karty graficzne</p>
           </article>
           <article class="card">
-            <v-icon class="py-2" x-large>mdi-mouse</v-icon>
+            <v-icon color="#df3968" class="py-2" x-large>mdi-mouse</v-icon>
             <p class="category">Myszki</p>
           </article>
         </div>
@@ -104,7 +104,10 @@ export default {
 </script>
 
 <style lang="scss">
-  .theme--light.v-icon {
+  #home {
+    flex: 1 0 auto;
+  }
+  #showcase .theme--light.v-icon {
     color: #df3968 !important;
   }
   #showcase {

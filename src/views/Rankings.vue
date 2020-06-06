@@ -1,5 +1,6 @@
 <template>
-<div class="container"></div>
+<div id="rankings">
+</div>
 </template>
 
 <script>
@@ -8,6 +9,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+  #rankings {
+    flex: 1 0 auto;
+  }
 </style>
