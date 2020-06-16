@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import { bus } from '../main'
 import VueSlider from 'vue-slider-component'
 export default {
   name: 'Rankings',
@@ -138,13 +139,18 @@ export default {
     'sliderCollection' (value) {
       console.log(value)
     }
+  },
+  beforeMount () {
+    bus.$on('getProducts', (value) => {
+      this.sliderCollection = this.categories === value
+    })
   }
 }
 </script>
 
 <style lang="scss">
   #rankings {
-    flex: 1 0 auto;
+    flex: 1;
   }
   #category-photo {
     /*color: #333;*/

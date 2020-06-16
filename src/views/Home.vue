@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import { bus } from '../main'
 export default {
   name: 'Home',
   data () {
@@ -81,23 +82,31 @@ export default {
       search: null,
       categories: [
         {
-          id: 1,
           name: 'Smartfony'
         },
         {
-          id: 2,
           name: 'Laptopy'
         },
         {
-          id: 3,
           name: 'Karty graficzne'
         },
         {
-          id: 4,
+          name: 'Klawiatury'
+        },
+        {
+          name: 'Słuchawki'
+        },
+        {
           name: 'Myszki'
         }
       ],
       selectedCategory: null
+    }
+  },
+  methods: {
+    goToRankings (category) {
+      bus.$emit('getProducts', category)
+      this.$router.push('/rankings')
     }
   }
 }
@@ -105,7 +114,7 @@ export default {
 
 <style lang="scss">
   #home {
-    flex: 1 0 auto;
+    flex: 1;
   }
   #showcase .theme--light.v-icon {
     color: #df3968 !important;
