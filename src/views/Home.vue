@@ -61,7 +61,7 @@
         <div class="blog-container">
           <p class="section-header">Aktualności</p>
           <div class="post-content">
-            <img class="post-image" src="../assets/smartphone.jpeg">
+            <img class="post-image" src="../assets/blog-image.jpeg">
             <div class="post-text">
               <h4>Nowy iPhone - bez złącza ładowania?</h4>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import { bus } from '../main'
 export default {
   name: 'Home',
   data () {
@@ -81,23 +82,31 @@ export default {
       search: null,
       categories: [
         {
-          id: 1,
           name: 'Smartfony'
         },
         {
-          id: 2,
           name: 'Laptopy'
         },
         {
-          id: 3,
           name: 'Karty graficzne'
         },
         {
-          id: 4,
+          name: 'Klawiatury'
+        },
+        {
+          name: 'Słuchawki'
+        },
+        {
           name: 'Myszki'
         }
       ],
       selectedCategory: null
+    }
+  },
+  methods: {
+    goToRankings (category) {
+      bus.$emit('getProducts', category)
+      this.$router.push('/rankings')
     }
   }
 }
@@ -105,7 +114,7 @@ export default {
 
 <style lang="scss">
   #home {
-    flex: 1 0 auto;
+    flex: 1;
   }
   #showcase .theme--light.v-icon {
     color: #df3968 !important;
