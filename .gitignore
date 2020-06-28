@@ -9,6 +9,7 @@
 .nuxt/*
 .idea/*
 node_modules
+package-lock.json
 
 # Generated files
 .idea/**/contentModel.xml
