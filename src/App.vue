@@ -5,7 +5,8 @@
         <img @click="changeRoute('/home')" src="./assets/logo.png" alt="Logo" class="logo">
         <ul>
           <li :class="{ active: $route.path === '/home' }" @click="changeRoute('/home')">Strona główna</li>
-          <li :class="{ active: $route.path === '/rankings' }" @click="changeRoute('/rankings')">Rankingi</li>
+          <li :class="{ active: $route.path.substring(0, 9) === '/rankings' }" @click="changeRoute('/rankings/smartphones')">Rankingi
+          </li>
           <li>Blog</li>
           <li>Kontakt</li>
         </ul>
@@ -22,7 +23,7 @@
           <v-icon color="#202020" class="social-media-icon">mdi-instagram</v-icon>
         </div>
         <div class="footer-col">
-          <img @click="changeRoute('/home')" src="./assets/logo.png" alt="Logo" class="logo footer">
+          <img @click="changeRoute('/home')" src="./assets/logo2.png" alt="Logo" class="logo footer">
         </div>
       </div>
     </footer>

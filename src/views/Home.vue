@@ -37,19 +37,19 @@
       <div class="container">
         <p class="section-header">Popularne kategorie</p>
         <div class="categories-container">
-          <article class="card">
+          <article class="card" @click="sendCategory('smartphones')">
             <v-icon color="#df3968" class="py-2" x-large>mdi-cellphone</v-icon>
             <p class="category">Smartfony</p>
           </article>
-          <article class="card">
+          <article class="card" @click="sendCategory('laptops')">
             <v-icon color="#df3968" class="py-2" x-large>mdi-laptop</v-icon>
             <p class="category">Laptopy</p>
           </article>
-          <article class="card" @click="testt">
+          <article class="card" @click="sendCategory('graphicsCards')">
             <v-icon color="#df3968" class="py-2" x-large>mdi-expansion-card</v-icon>
             <p class="category">Karty graficzne</p>
           </article>
-          <article class="card">
+          <article class="card" @click="sendCategory('mouses')">
             <v-icon color="#df3968" class="py-2" x-large>mdi-mouse</v-icon>
             <p class="category">Myszki</p>
           </article>
@@ -74,8 +74,6 @@
 </template>
 
 <script>
-import { bus } from '../main'
-import ProductsService from '../services/productsService'
 export default {
   name: 'Home',
   data () {
@@ -83,36 +81,49 @@ export default {
       search: null,
       categories: [
         {
-          name: 'Smartfony'
+          name: 'Smartfony',
+          route: '/smartphones'
         },
         {
-          name: 'Laptopy'
+          name: 'Laptopy',
+          route: '/laptops'
         },
         {
-          name: 'Karty graficzne'
+          name: 'Karty graficzne',
+          route: '/graphicsCards'
         },
         {
-          name: 'Klawiatury'
+          name: 'Klawiatury biurowe',
+          route: '/keyboards'
         },
         {
-          name: 'Słuchawki'
+          name: 'Klawiatury gamingowe',
+          route: '/keyboards'
         },
         {
-          name: 'Myszki'
+          name: 'Słuchawki bezprzewodowe',
+          route: '/wirelessHeadphones'
+        },
+        {
+          name: 'Myszki biurowe',
+          route: '/mouses'
+        },
+        {
+          name: 'Myszki gamingowe',
+          route: '/mouses'
         }
       ],
-      selectedCategory: null,
-      productsService: new ProductsService()
+      selectedCategory: null
     }
   },
   methods: {
-    async testt () {
-      const prod = await this.productsService.getAllGraphicsCards()
-      console.log(prod)
-    },
-    goToRankings (category) {
-      bus.$emit('getProducts', category)
-      this.$router.push('/rankings')
+    sendCategory (category) {
+      this.$router.push(`/rankings/${category}`)
+    }
+  },
+  watch: {
+    'selectedCategory' (value) {
+      this.$router.push(`/rankings${value.route}`)
     }
   }
 }
