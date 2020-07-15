@@ -111,6 +111,10 @@ export default {
         {
           name: 'Myszki gamingowe',
           route: '/mouses'
+        },
+        {
+          name: 'Monitory',
+          route: '/monitors'
         }
       ],
       selectedCategory: null

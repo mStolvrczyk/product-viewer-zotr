@@ -21,9 +21,38 @@
       <v-icon class="rankings-icon" color="#fff" large>mdi-headphones</v-icon>
       <p class="category rankings">Słuchawki</p>
     </div>
+    <v-menu
+      transition="slide-y-transition"
+      bottom
+      rounded="0"
+      offset-y
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <div class="rankings-menu-el"
+          v-bind="attrs"
+          v-on="on"
+        >
+          <v-icon class="rankings-icon" color="#fff" large>mdi-mouse</v-icon>
+          <p class="category rankings">Myszki</p>
+        </div>
+      </template>
+      <v-list>
+        <v-list-item
+          color="#fff"
+          @click="getProducts('smartphones')"
+        >
+          <v-list-item-title>gamingowe</v-list-item-title>
+        </v-list-item>
+        <v-list-item
+          @click="getProducts('drones')"
+        >
+          <v-list-item-title>biurowe</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
     <div class="rankings-menu-el">
-      <v-icon class="rankings-icon" color="#fff" large>mdi-mouse</v-icon>
-      <p class="category rankings">Myszki</p>
+      <v-icon class="rankings-icon" color="#fff" large>mdi-monitor</v-icon>
+      <p class="category rankings">Monitory</p>
     </div>
   </section>
   <section id="category-photo">

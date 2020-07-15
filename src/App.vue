@@ -23,7 +23,7 @@
           <v-icon color="#202020" class="social-media-icon">mdi-instagram</v-icon>
         </div>
         <div class="footer-col">
-          <img @click="changeRoute('/home')" src="./assets/logo2.png" alt="Logo" class="logo footer">
+          <img  @click="changeRoute('/home')" src="./assets/logo2.png" alt="Logo" class="logo footer">
         </div>
       </div>
     </footer>
