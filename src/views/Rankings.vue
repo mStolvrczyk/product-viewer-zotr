@@ -1,80 +1,88 @@
 <template>
 <div id="rankings">
   <section id="rankings-menu">
-    <div class="rankings-menu-el">
-      <v-icon class="rankings-icon" color="#fff" large>mdi-cellphone</v-icon>
+    <div class="rankings-menu-el" @click="switchCategory('smartphones')">
+      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-cellphone</v-icon>
       <p class="category rankings">Smartfony</p>
     </div>
-    <div class="rankings-menu-el">
-      <v-icon class="rankings-icon" color="#fff" large>mdi-laptop</v-icon>
+    <div class="rankings-menu-el" @click="switchCategory('laptops')">
+      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-laptop</v-icon>
       <p class="category rankings">Laptopy</p>
     </div>
-    <div class="rankings-menu-el">
-      <v-icon class="rankings-icon" color="#fff" large>mdi-expansion-card</v-icon>
+    <div class="rankings-menu-el" @click="switchCategory('graphicsCards')">
+      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-expansion-card</v-icon>
       <p class="category rankings">Karty graficzne</p>
     </div>
-    <v-menu
-      class="drop-down-cat"
-      transition="slide-y-transition"
-      bottom
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <div class="rankings-menu-el"
-           v-bind="attrs"
-           v-on="on"
-        >
-          <v-icon class="rankings-icon" color="#fff" large>mdi-keyboard-outline</v-icon>
-          <p class="category rankings">Klawiatury</p>
-        </div>
-      </template>
-      <v-list>
-        <v-list-item
-          color="#fff"
-          @click="getProducts('smartphones')"
-        >
-          <v-list-item-title>gamingowe</v-list-item-title>
-        </v-list-item>
-        <v-list-item
-          @click="getProducts('drones')"
-        >
-          <v-list-item-title>biurowe</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
-    <div class="rankings-menu-el">
-      <v-icon class="rankings-icon" color="#fff" large>mdi-headphones</v-icon>
+    <div class="rankings-menu-el" @click="switchCategory('keyboards')">
+      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-keyboard-outline</v-icon>
+      <p class="category rankings">Klawiatury</p>
+    </div>
+<!--    <v-menu-->
+<!--      class="drop-down-cat"-->
+<!--      transition="slide-y-transition"-->
+<!--      bottom-->
+<!--    >-->
+<!--      <template v-slot:activator="{ on, attrs }">-->
+<!--        <div class="rankings-menu-el"-->
+<!--           v-bind="attrs"-->
+<!--           v-on="on"-->
+<!--        >-->
+<!--          <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-keyboard-outline</v-icon>-->
+<!--          <p class="category rankings">Klawiatury</p>-->
+<!--        </div>-->
+<!--      </template>-->
+<!--      <v-list>-->
+<!--        <v-list-item-->
+<!--          color="#fff"-->
+<!--          @click="switchCategory('keyboards/true')"-->
+<!--        >-->
+<!--          <v-list-item-title>gamingowe</v-list-item-title>-->
+<!--        </v-list-item>-->
+<!--        <v-list-item-->
+<!--          @click="switchCategory('keyboards/false')"-->
+<!--        >-->
+<!--          <v-list-item-title>biurowe</v-list-item-title>-->
+<!--        </v-list-item>-->
+<!--      </v-list>-->
+<!--    </v-menu>-->
+    <div class="rankings-menu-el" @click="switchCategory('wirelessheadphones')">
+      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-headphones</v-icon>
       <p class="category rankings">Słuchawki</p>
     </div>
-    <v-menu
-      class="drop-down-cat"
-      transition="slide-y-transition"
-      bottom
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <div class="rankings-menu-el"
-          v-bind="attrs"
-          v-on="on"
-        >
-          <v-icon class="rankings-icon" color="#fff" large>mdi-mouse</v-icon>
-          <p class="category rankings">Myszki</p>
-        </div>
-      </template>
-      <v-list>
-        <v-list-item
-          color="#fff"
-          @click="getProducts('smartphones')"
-        >
-          <v-list-item-title>gamingowe</v-list-item-title>
-        </v-list-item>
-        <v-list-item
-          @click="getProducts('drones')"
-        >
-          <v-list-item-title>biurowe</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
-    <div class="rankings-menu-el">
-      <v-icon class="rankings-icon" color="#fff" large>mdi-monitor</v-icon>
+    <div class="rankings-menu-el" @click="switchCategory('mouses')">
+      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-mouse</v-icon>
+      <p class="category rankings">Myszki</p>
+    </div>
+<!--    <v-menu-->
+<!--      class="drop-down-cat"-->
+<!--      transition="slide-y-transition"-->
+<!--      bottom-->
+<!--    >-->
+<!--      <template v-slot:activator="{ on, attrs }">-->
+<!--        <div class="rankings-menu-el"-->
+<!--          v-bind="attrs"-->
+<!--          v-on="on"-->
+<!--        >-->
+<!--          <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-mouse</v-icon>-->
+<!--          <p class="category rankings">Myszki</p>-->
+<!--        </div>-->
+<!--      </template>-->
+<!--      <v-list>-->
+<!--        <v-list-item-->
+<!--          color="#fff"-->
+<!--          @click="switchCategory('mouses/true')"-->
+<!--        >-->
+<!--          <v-list-item-title>gamingowe</v-list-item-title>-->
+<!--        </v-list-item>-->
+<!--        <v-list-item-->
+<!--          @click="switchCategory('mouses/false')"-->
+<!--        >-->
+<!--          <v-list-item-title>biurowe</v-list-item-title>-->
+<!--        </v-list-item>-->
+<!--      </v-list>-->
+<!--    </v-menu>-->
+    <div class="rankings-menu-el" @click="switchCategory('monitors')">
+      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-monitor</v-icon>
       <p class="category rankings">Monitory</p>
     </div>
   </section>
@@ -103,7 +111,13 @@
           height="14px"
         />
       </div>
-      <div v-if="products !== null">
+      <div id="filters">
+        <div class="container">
+          <v-switch v-model="gaming" :label="'biurowe'"></v-switch>
+          <v-switch v-model="gaming" :label="'gamingowe'"></v-switch>
+        </div>
+      </div>
+      <div id="products" v-if="products !== null">
         <div v-if="$route.params.category === 'drones'">
           <div v-for="product in sliderCollection" :key="product.index" class="product-el">
             <v-img class="product-image" :src="getImgUrl(product.imagePath)"/>
@@ -251,7 +265,8 @@ export default {
       sliderValue: [400, 3000],
       sliderCollection: null,
       products: null,
-      productsService: new ProductsService()
+      productsService: new ProductsService(),
+      gaming: false
     }
   },
   methods: {
@@ -259,15 +274,20 @@ export default {
       return require('../assets/productImages' + imagePath)
     },
     async getProducts (category) {
+      this.products = null
       this.sliderCollection = this.products = await this.productsService.getAllProducts(category)
+    },
+    async switchCategory (category) {
+      this.$router.push(`/rankings/${category}`)
     }
   },
   watch: {
     'sliderValue' (value) {
       this.sliderCollection = this.products.filter(({ price }) => value[0] <= parseFloat(price.replace(' ', '')) && parseFloat(price.replace(' ', '')) <= value[1])
-      console.log(parseFloat('2248,00 zł'))
-      // console.log(value[1])
-      // console.log(this.sliderCollection)
+    },
+    '$route.path' () {
+      console.log(this.$route.params.category)
+      this.getProducts(this.$route.params.category)
     }
   },
   mounted () {

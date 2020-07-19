@@ -23,7 +23,9 @@ p {
   &.category {
     font-size: 15px;
     &.rankings {
-      color: #df3968;
+      text-transform: uppercase;
+      font-weight: bold;
+      color: #ffffff;
     }
   }
   &.product-specs {
