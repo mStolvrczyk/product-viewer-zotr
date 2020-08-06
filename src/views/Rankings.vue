@@ -1,22 +1,46 @@
 <template>
 <div id="rankings">
   <section id="rankings-menu">
+    <v-menu
+      class="drop-down-cat"
+      transition="slide-y-transition"
+      bottom
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <div class="rankings-menu-el"
+             v-bind="attrs"
+             v-on="on"
+        >
+          <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-keyboard-outline</v-icon>
+          <p class="category rankings">Laptopy</p>
+        </div>
+      </template>
+      <v-list>
+        <v-list-item
+          color="#fff"
+          @click="switchCategory('keyboards/true')"
+        >
+          <v-list-item-title>gamingowe</v-list-item-title>
+        </v-list-item>
+        <v-list-item
+          @click="switchCategory('keyboards/false')"
+        >
+          <v-list-item-title>biurowe</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
     <div class="rankings-menu-el" @click="switchCategory('smartphones')">
       <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-cellphone</v-icon>
       <p class="category rankings">Smartfony</p>
-    </div>
-    <div class="rankings-menu-el" @click="switchCategory('laptops')">
-      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-laptop</v-icon>
-      <p class="category rankings">Laptopy</p>
     </div>
     <div class="rankings-menu-el" @click="switchCategory('graphicsCards')">
       <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-expansion-card</v-icon>
       <p class="category rankings">Karty graficzne</p>
     </div>
-    <div class="rankings-menu-el" @click="switchCategory('keyboards')">
-      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-keyboard-outline</v-icon>
-      <p class="category rankings">Klawiatury</p>
-    </div>
+<!--    <div class="rankings-menu-el" @click="switchCategory('keyboards')">-->
+<!--      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-keyboard-outline</v-icon>-->
+<!--      <p class="category rankings">Klawiatury</p>-->
+<!--    </div>-->
 <!--    <v-menu-->
 <!--      class="drop-down-cat"-->
 <!--      transition="slide-y-transition"-->
@@ -45,14 +69,14 @@
 <!--        </v-list-item>-->
 <!--      </v-list>-->
 <!--    </v-menu>-->
-    <div class="rankings-menu-el" @click="switchCategory('wirelessheadphones')">
-      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-headphones</v-icon>
-      <p class="category rankings">Słuchawki</p>
-    </div>
-    <div class="rankings-menu-el" @click="switchCategory('mouses')">
-      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-mouse</v-icon>
-      <p class="category rankings">Myszki</p>
-    </div>
+<!--    <div class="rankings-menu-el" @click="switchCategory('wirelessheadphones')">-->
+<!--      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-headphones</v-icon>-->
+<!--      <p class="category rankings">Słuchawki</p>-->
+<!--    </div>-->
+<!--    <div class="rankings-menu-el" @click="switchCategory('mouses')">-->
+<!--      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-mouse</v-icon>-->
+<!--      <p class="category rankings">Myszki</p>-->
+<!--    </div>-->
 <!--    <v-menu-->
 <!--      class="drop-down-cat"-->
 <!--      transition="slide-y-transition"-->
@@ -81,10 +105,10 @@
 <!--        </v-list-item>-->
 <!--      </v-list>-->
 <!--    </v-menu>-->
-    <div class="rankings-menu-el" @click="switchCategory('monitors')">
-      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-monitor</v-icon>
-      <p class="category rankings">Monitory</p>
-    </div>
+<!--    <div class="rankings-menu-el" @click="switchCategory('monitors')">-->
+<!--      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-monitor</v-icon>-->
+<!--      <p class="category rankings">Monitory</p>-->
+<!--    </div>-->
   </section>
   <section id="category-photo">
     <div id="container">
@@ -112,9 +136,11 @@
         />
       </div>
       <div id="filters">
-        <div class="container">
-          <v-switch v-model="gaming" :label="'biurowe'"></v-switch>
-          <v-switch v-model="gaming" :label="'gamingowe'"></v-switch>
+        <div class="container filters">
+          <div id="filters-container">
+            <v-switch v-model="gaming" :label="'biurowe'"></v-switch>
+            <v-switch v-model="gaming" :label="'gamingowe'"></v-switch>
+          </div>
         </div>
       </div>
       <div id="products" v-if="products !== null">
@@ -297,6 +323,12 @@ export default {
 </script>
 
 <style lang="scss">
+  #filters-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem;
+  }
   .v-menu__content {
     border-radius: 0;
   }
