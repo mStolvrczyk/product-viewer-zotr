@@ -299,9 +299,13 @@ export default {
     getImgUrl (imagePath) {
       return require('../assets/productImages' + imagePath)
     },
-    async getProducts (category) {
+    async getProducts (category, subcategory) {
       this.products = null
-      this.sliderCollection = this.products = await this.productsService.getAllProducts(category)
+      if (subcategory !== undefined) {
+        this.sliderCollection = this.products = await this.productsService.getSubProducts(category, subcategory)
+      } else {
+        this.sliderCollection = this.products = await this.productsService.getAllProducts(category)
+      }
     },
     async switchCategory (category) {
       this.$router.push(`/rankings/${category}`)
@@ -312,14 +316,11 @@ export default {
       this.sliderCollection = this.products.filter(({ price }) => value[0] <= parseFloat(price.replace(' ', '')) && parseFloat(price.replace(' ', '')) <= value[1])
     },
     '$route.path' () {
-      if (this.$route.params.type === undefined) {
-        console.log('dupa')
-      }
-      this.getProducts(this.$route.params.category, this.$route.params.type)
+      this.getProducts(this.$route.params.category, this.$route.params.subcategory)
     }
   },
   mounted () {
-    this.getProducts(this.$route.params.category)
+    this.getProducts(this.$route.params.category, this.$route.params.subcategory)
   }
 }
 </script>
@@ -342,7 +343,7 @@ export default {
     background: #333;
     padding: 2rem;
     position: relative;
-    width: 70%;
+    width: 100%;
     margin: 0 auto;
     &:before {
       content: '';

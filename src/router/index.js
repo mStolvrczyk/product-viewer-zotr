@@ -16,7 +16,7 @@ const routes = [
     name: 'Rankings',
     component: RankingsView,
     children: [
-      { path: ':type', component: RankingsView }
+      { path: ':subcategory', component: RankingsView }
     ]
   },
   {
