@@ -8,6 +8,7 @@
     >
       <template v-slot:activator="{ on, attrs }">
         <div class="rankings-menu-el"
+             :class="{ active: $route.path === '/rankings/laptops/gamingLaptops' || $route.path === '/rankings/laptops/regularLaptops'}"
              v-bind="attrs"
              v-on="on"
         >
@@ -29,11 +30,11 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <div class="rankings-menu-el" @click="switchCategory('smartphones')">
+    <div :class="{ active: $route.path === '/rankings/smartphones'}" class="rankings-menu-el" @click="switchCategory('smartphones')">
       <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-cellphone</v-icon>
       <p class="category rankings">Smartfony</p>
     </div>
-    <div class="rankings-menu-el" @click="switchCategory('graphicsCards')">
+    <div :class="{ active: $route.path === '/rankings/graphicsCards'}" class="rankings-menu-el" @click="switchCategory('graphicsCards')">
       <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-expansion-card</v-icon>
       <p class="category rankings">Karty graficzne</p>
     </div>
@@ -110,11 +111,38 @@
 <!--      <p class="category rankings">Monitory</p>-->
 <!--    </div>-->
   </section>
-  <section id="category-photo">
-    <div id="container">
-      <div id="photo-container">
-        <div id="photo-content">
+  <section v-if="$route.path==='/rankings/smartphones'" class="category-photo smartphone">
+    <div class="container">
+      <div class="photo-container">
+        <div class="photo-content">
           <h1>Telefony</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section v-else-if="$route.path==='/rankings/graphicsCards'" class="category-photo graphics-card">
+    <div class="container">
+      <div class="photo-container">
+        <div class="photo-content">
+          <h1>Karty graficzne</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section v-else-if="$route.path==='/rankings/laptops/gamingLaptops'" class="category-photo gaming-laptop">
+    <div class="container">
+      <div class="photo-container">
+        <div class="photo-content">
+          <h1>Laptopy gamingowe</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section v-else-if="$route.path==='/rankings/laptops/regularLaptops'" class="category-photo regular-laptop">
+    <div class="container">
+      <div class="photo-container">
+        <div class="photo-content">
+          <h1>Laptopy biurowe</h1>
         </div>
       </div>
     </div>
@@ -126,7 +154,7 @@
         <vue-slider
           v-model="sliderValue"
           :min="200"
-          :max="10000"
+          :max="9000"
           :interval="50"
           :tooltip-formatter="val => val+' zł'"
           tooltip="always"
@@ -288,7 +316,7 @@ export default {
   },
   data () {
     return {
-      sliderValue: [400, 3000],
+      sliderValue: [3000, 6000],
       sliderCollection: null,
       products: null,
       productsService: new ProductsService(),
@@ -338,8 +366,7 @@ export default {
   #rankings {
     flex: 1;
   }
-  #category-photo {
-    /*color: #333;*/
+  .category-photo {
     background: #333;
     padding: 2rem;
     position: relative;
@@ -348,12 +375,23 @@ export default {
     &:before {
       content: '';
       position: absolute;
-      background: url('../assets/smartphone.jpg')no-repeat center center/cover;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       opacity: 0.4;
+    }
+    &.smartphone:before {
+      background: url('../assets/categoriesImages/smartphone.png')no-repeat center center/cover;
+    }
+    &.graphics-card:before {
+      background: url('../assets/categoriesImages/graphicsCard.png')no-repeat center center/cover;
+    }
+    &.gaming-laptop:before {
+      background: url('../assets/categoriesImages/gamingLaptop.png')no-repeat center center/cover;
+    }
+    &.regular-laptop:before {
+      background: url('../assets/categoriesImages/regularLaptop.png')no-repeat center center/cover;
     }
   }
 </style>
