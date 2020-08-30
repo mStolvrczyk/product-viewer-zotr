@@ -213,7 +213,7 @@
           </div>
         </div>
         <div v-if="$route.params.category === 'laptops'">
-          <div v-for="product in sliderCollection" :key="product.index" class="product-el">
+          <div v-for="product in sliderCollection" :key="product._id" class="product-el">
             <v-img contain class="product-image" :src="getImgUrl(product.imagePath)"/>
             <div class="second-col">
               <h3>{{ product.brand + ' ' + product.model }}</h3>
@@ -226,17 +226,19 @@
           </div>
         </div>
         <div v-if="$route.params.category === 'smartphones'">
-          <div v-for="product in sliderCollection" :key="product.index" class="product-el">
-            <v-img contain class="product-image" :src="getImgUrl(product.imagePath)"/>
-            <div class="second-col">
-              <h3>{{ product.brand + ' ' + product.model }}</h3>
-              <p class="product-specs">Ekran: {{ product.screen }} | Bateria: {{ product.battery
-                }} | Pamięć: {{ product.memory }}</p>
-              <div class="price">
-                {{ product.price }}
+          <transition-group name="fade">
+            <div v-for="product in sliderCollection" :key="product._id" class="product-el">
+              <v-img contain class="product-image" :src="getImgUrl(product.imagePath)"/>
+              <div class="second-col">
+                <h3>{{ product.brand + ' ' + product.model }}</h3>
+                <p class="product-specs">Ekran: {{ product.screen }} | Bateria: {{ product.battery
+                  }} | Pamięć: {{ product.memory }}</p>
+                <div class="price">
+                  {{ product.price }}
+                </div>
               </div>
             </div>
-          </div>
+          </transition-group>
         </div>
 <!--        <div v-if="$route.params.category === 'monitors'">-->
 <!--          <div v-for="product in sliderCollection" :key="product.index" class="product-el">-->
@@ -354,6 +356,18 @@ export default {
 </script>
 
 <style lang="scss">
+  .popup-enter,
+  .popup-leave-to{
+    transform: rotateY(50deg);
+  }
+  .popup-enter-to,
+  .popup-leave {
+    transform: rotateY(0deg);
+  }
+  .popup-enter-active,
+  .popup-leave-active {
+    transition: transform 400ms;
+  }
   #filters-container {
     display: flex;
     justify-content: center;

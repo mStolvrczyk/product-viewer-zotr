@@ -12,7 +12,12 @@
         </ul>
       </div>
     </nav>
-    <router-view/>
+    <transition
+      name="fade"
+      mode="out-in"
+    >
+      <router-view/>
+    </transition>
     <footer id="main-footer">
       <div class="container footer-container">
         <div class="footer-col">
@@ -50,4 +55,14 @@ export default {
 </script>
 <style lang="scss">
   @import "style";
+  .fade-enter-active,
+  .fade-leave-active {
+    transition-duration: 0.3s;
+    transition-property: opacity;
+    transition-timing-function: ease;
+  }
+  .fade-enter,
+  .fade-leave-active {
+    opacity: 0
+  }
 </style>

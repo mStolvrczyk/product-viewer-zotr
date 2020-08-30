@@ -95,11 +95,13 @@ img {
   li {
     padding: 0.75rem;
     font-weight: bold;
+      transition: background 0.3s;
     &:hover {
       cursor: pointer;
       background: #f3f3f3;
     }
     &.active {
+      //transition: background 1s;
       color: set-text-color(#df3968);
       background:  #df3968;
     }
@@ -150,6 +152,7 @@ img {
   background: #ffffff;
   border-radius: 5px;
   padding: 3rem 0;
+  transition: box-shadow 0.3s;
   &:hover {
     cursor: pointer;
     box-shadow: 5px 0 15px #BDBDBD;
@@ -199,6 +202,7 @@ img {
   align-items: center;
   padding: 0.3rem;
   margin: 0 0.5rem;
+  transition: background 0.3s;
   &:hover {
     background: rgb(167, 167, 167, 0.4);
     cursor: pointer;
@@ -216,6 +220,16 @@ img {
   justify-content: center;
   align-items: center;
   padding: 4rem;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
 }
 /* component style */
 .vue-slider-disabled .vue-slider-process {
@@ -402,6 +416,7 @@ img {
   background: #fff;
   display: grid;
   grid-template-columns: 1fr 6fr 1fr;
+  transition: box-shadow 0.3s;
   &:hover {
     cursor: pointer;
     box-shadow: 5px 0 15px #BDBDBD;
