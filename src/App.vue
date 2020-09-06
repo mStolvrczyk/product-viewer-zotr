@@ -42,14 +42,40 @@ export default {
 
   components: {
   },
-  data: () => ({
-  }),
+  data () {
+    return {
+      scrolled: false
+    }
+  },
   methods: {
     changeRoute (route) {
       if (route !== this.$route.path) {
         this.$router.push(route)
       }
+    },
+    scrollTest () {
+      const navbar = document.getElementById('main-nav')
+      if (window.pageYOffset > 100) {
+        console.log(window.pageYOffset)
+        if (this.scrolled === false) {
+          navbar.style.transform = 'translateY(-100px)'
+        }
+        if (navbar.style.position === 'relative') {
+          setTimeout(() => {
+            navbar.style.transform = 'translateY(0)'
+            navbar.style.position = 'sticky'
+            this.scrolled = true
+          }, 500)
+        }
+      } else if (window.pageYOffset === 0) {
+        console.log(window.pageYOffset)
+        navbar.style.position = 'relative'
+        this.scrolled = false
+      }
     }
+  },
+  created () {
+    window.onscroll = this.scrollTest
   }
 }
 </script>
