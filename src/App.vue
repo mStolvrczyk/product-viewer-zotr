@@ -42,14 +42,34 @@ export default {
 
   components: {
   },
-  data: () => ({
-  }),
+  data () {
+    return {
+      scrolled: false,
+      prevScrollPos: window.pageYOffset
+    }
+  },
   methods: {
     changeRoute (route) {
       if (route !== this.$route.path) {
         this.$router.push(route)
       }
+    },
+    navbarAction () {
+      const currScrollPos = window.pageYOffset
+      const navbar = document.getElementById('main-nav')
+      if (window.pageYOffset > 100 && (this.prevScrollPos > currScrollPos)) {
+        navbar.style.position = 'sticky'
+        navbar.style.transform = 'translateY(0)'
+      } else if (window.pageYOffset > 100 && (this.prevScrollPos < currScrollPos)) {
+        navbar.style.transform = 'translateY(-110px)'
+      } else if (window.pageYOffset === 0) {
+        navbar.style.position = 'relative'
+      }
+      this.prevScrollPos = currScrollPos
     }
+  },
+  created () {
+    window.onscroll = this.navbarAction
   }
 }
 </script>
