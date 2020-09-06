@@ -43,16 +43,16 @@
           </article>
           <article class="card" @click="sendCategory('laptops')">
             <v-icon color="#df3968" class="py-2" x-large>mdi-laptop</v-icon>
-            <p class="category">Laptopy</p>
+            <p class="category">Laptopy biurowe</p>
           </article>
           <article class="card" @click="sendCategory('graphicsCards')">
             <v-icon color="#df3968" class="py-2" x-large>mdi-expansion-card</v-icon>
             <p class="category">Karty graficzne</p>
           </article>
-          <article class="card" @click="sendCategory('mouses')">
-            <v-icon color="#df3968" class="py-2" x-large>mdi-mouse</v-icon>
-            <p class="category">Myszki</p>
-          </article>
+<!--          <article class="card" @click="sendCategory('mouses')">-->
+<!--            <v-icon color="#df3968" class="py-2" x-large>mdi-mouse</v-icon>-->
+<!--            <p class="category">Myszki</p>-->
+<!--          </article>-->
         </div>
       </div>
     </section>
@@ -85,33 +85,37 @@ export default {
           route: '/smartphones'
         },
         {
-          name: 'Laptopy',
-          route: '/laptops'
+          name: 'Laptopy gamingowe',
+          route: '/laptops/gamingLaptops'
+        },
+        {
+          name: 'Laptopy biurowe',
+          route: '/laptops/regularLaptops'
         },
         {
           name: 'Karty graficzne',
           route: '/graphicsCards'
-        },
-        {
-          name: 'Klawiatury biurowe',
-          route: '/keyboards'
-        },
-        {
-          name: 'Klawiatury gamingowe',
-          route: '/keyboards'
-        },
-        {
-          name: 'Słuchawki bezprzewodowe',
-          route: '/wirelessHeadphones'
-        },
-        {
-          name: 'Myszki biurowe',
-          route: '/mouses'
-        },
-        {
-          name: 'Myszki gamingowe',
-          route: '/mouses'
         }
+        // {
+        //   name: 'Klawiatury gamingowe',
+        //   route: '/keyboards'
+        // },
+        // {
+        //   name: 'Słuchawki bezprzewodowe',
+        //   route: '/wirelessHeadphones'
+        // },
+        // {
+        //   name: 'Myszki biurowe',
+        //   route: '/mouses'
+        // },
+        // {
+        //   name: 'Myszki gamingowe',
+        //   route: '/mouses'
+        // },
+        // {
+        //   name: 'Monitory',
+        //   route: '/monitors'
+        // }
       ],
       selectedCategory: null
     }

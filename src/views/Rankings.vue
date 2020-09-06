@@ -1,36 +1,148 @@
 <template>
 <div id="rankings">
   <section id="rankings-menu">
-    <div class="rankings-menu-el">
-      <v-icon class="rankings-icon" color="#fff" large>mdi-cellphone</v-icon>
+    <v-menu
+      class="drop-down-cat"
+      transition="slide-y-transition"
+      bottom
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <div class="rankings-menu-el"
+             :class="{ active: $route.path === '/rankings/laptops/gamingLaptops' || $route.path === '/rankings/laptops/regularLaptops'}"
+             v-bind="attrs"
+             v-on="on"
+        >
+          <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-keyboard-outline</v-icon>
+          <p class="category rankings">Laptopy</p>
+        </div>
+      </template>
+      <v-list>
+        <v-list-item
+          color="#fff"
+          @click="switchCategory('laptops/gamingLaptops')"
+        >
+          <v-list-item-title>gamingowe</v-list-item-title>
+        </v-list-item>
+        <v-list-item
+          @click="switchCategory('laptops/regularLaptops')"
+        >
+          <v-list-item-title>biurowe</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+    <div :class="{ active: $route.path === '/rankings/smartphones'}" class="rankings-menu-el" @click="switchCategory('smartphones')">
+      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-cellphone</v-icon>
       <p class="category rankings">Smartfony</p>
     </div>
-    <div class="rankings-menu-el">
-      <v-icon class="rankings-icon" color="#fff" large>mdi-laptop</v-icon>
-      <p class="category rankings">Laptopy</p>
-    </div>
-    <div class="rankings-menu-el">
-      <v-icon class="rankings-icon" color="#fff" large>mdi-expansion-card</v-icon>
+    <div :class="{ active: $route.path === '/rankings/graphicsCards'}" class="rankings-menu-el" @click="switchCategory('graphicsCards')">
+      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-expansion-card</v-icon>
       <p class="category rankings">Karty graficzne</p>
     </div>
-    <div class="rankings-menu-el">
-      <v-icon class="rankings-icon" color="#fff" large>mdi-keyboard-outline</v-icon>
-      <p class="category rankings">Klawiatury</p>
-    </div>
-    <div class="rankings-menu-el">
-      <v-icon class="rankings-icon" color="#fff" large>mdi-headphones</v-icon>
-      <p class="category rankings">Słuchawki</p>
-    </div>
-    <div class="rankings-menu-el">
-      <v-icon class="rankings-icon" color="#fff" large>mdi-mouse</v-icon>
-      <p class="category rankings">Myszki</p>
+<!--    <div class="rankings-menu-el" @click="switchCategory('keyboards')">-->
+<!--      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-keyboard-outline</v-icon>-->
+<!--      <p class="category rankings">Klawiatury</p>-->
+<!--    </div>-->
+<!--    <v-menu-->
+<!--      class="drop-down-cat"-->
+<!--      transition="slide-y-transition"-->
+<!--      bottom-->
+<!--    >-->
+<!--      <template v-slot:activator="{ on, attrs }">-->
+<!--        <div class="rankings-menu-el"-->
+<!--           v-bind="attrs"-->
+<!--           v-on="on"-->
+<!--        >-->
+<!--          <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-keyboard-outline</v-icon>-->
+<!--          <p class="category rankings">Klawiatury</p>-->
+<!--        </div>-->
+<!--      </template>-->
+<!--      <v-list>-->
+<!--        <v-list-item-->
+<!--          color="#fff"-->
+<!--          @click="switchCategory('keyboards/true')"-->
+<!--        >-->
+<!--          <v-list-item-title>gamingowe</v-list-item-title>-->
+<!--        </v-list-item>-->
+<!--        <v-list-item-->
+<!--          @click="switchCategory('keyboards/false')"-->
+<!--        >-->
+<!--          <v-list-item-title>biurowe</v-list-item-title>-->
+<!--        </v-list-item>-->
+<!--      </v-list>-->
+<!--    </v-menu>-->
+<!--    <div class="rankings-menu-el" @click="switchCategory('wirelessheadphones')">-->
+<!--      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-headphones</v-icon>-->
+<!--      <p class="category rankings">Słuchawki</p>-->
+<!--    </div>-->
+<!--    <div class="rankings-menu-el" @click="switchCategory('mouses')">-->
+<!--      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-mouse</v-icon>-->
+<!--      <p class="category rankings">Myszki</p>-->
+<!--    </div>-->
+<!--    <v-menu-->
+<!--      class="drop-down-cat"-->
+<!--      transition="slide-y-transition"-->
+<!--      bottom-->
+<!--    >-->
+<!--      <template v-slot:activator="{ on, attrs }">-->
+<!--        <div class="rankings-menu-el"-->
+<!--          v-bind="attrs"-->
+<!--          v-on="on"-->
+<!--        >-->
+<!--          <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-mouse</v-icon>-->
+<!--          <p class="category rankings">Myszki</p>-->
+<!--        </div>-->
+<!--      </template>-->
+<!--      <v-list>-->
+<!--        <v-list-item-->
+<!--          color="#fff"-->
+<!--          @click="switchCategory('mouses/true')"-->
+<!--        >-->
+<!--          <v-list-item-title>gamingowe</v-list-item-title>-->
+<!--        </v-list-item>-->
+<!--        <v-list-item-->
+<!--          @click="switchCategory('mouses/false')"-->
+<!--        >-->
+<!--          <v-list-item-title>biurowe</v-list-item-title>-->
+<!--        </v-list-item>-->
+<!--      </v-list>-->
+<!--    </v-menu>-->
+<!--    <div class="rankings-menu-el" @click="switchCategory('monitors')">-->
+<!--      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-monitor</v-icon>-->
+<!--      <p class="category rankings">Monitory</p>-->
+<!--    </div>-->
+  </section>
+  <section v-if="$route.path==='/rankings/smartphones'" class="category-photo smartphone">
+    <div class="container">
+      <div class="photo-container">
+        <div class="photo-content">
+          <h1>Telefony</h1>
+        </div>
+      </div>
     </div>
   </section>
-  <section id="category-photo">
-    <div id="container">
-      <div id="photo-container">
-        <div id="photo-content">
-          <h1>Telefony</h1>
+  <section v-else-if="$route.path==='/rankings/graphicsCards'" class="category-photo graphics-card">
+    <div class="container">
+      <div class="photo-container">
+        <div class="photo-content">
+          <h1>Karty graficzne</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section v-else-if="$route.path==='/rankings/laptops/gamingLaptops'" class="category-photo gaming-laptop">
+    <div class="container">
+      <div class="photo-container">
+        <div class="photo-content">
+          <h1>Laptopy gamingowe</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section v-else-if="$route.path==='/rankings/laptops/regularLaptops'" class="category-photo regular-laptop">
+    <div class="container">
+      <div class="photo-container">
+        <div class="photo-content">
+          <h1>Laptopy biurowe</h1>
         </div>
       </div>
     </div>
@@ -42,7 +154,7 @@
         <vue-slider
           v-model="sliderValue"
           :min="200"
-          :max="10000"
+          :max="9000"
           :interval="50"
           :tooltip-formatter="val => val+' zł'"
           tooltip="always"
@@ -51,21 +163,29 @@
           height="14px"
         />
       </div>
-      <div v-if="products !== null">
-        <div v-if="$route.params.category === 'drones'">
-          <div v-for="product in sliderCollection" :key="product.index" class="product-el">
-            <v-img class="product-image" :src="getImgUrl(product.imagePath)"/>
-            <div class="second-col">
-              <h3>{{ product.brand + ' ' + product.model }}</h3>
-              <p class="product-specs">Kamera: {{ product.camera }} | Maksymalny czas działania: {{
-                product.batteryWorkTime
-                }} | Kontroler: {{ product.controller }}</p>
-              <div class="price">
-                {{ product.price }}
-              </div>
-            </div>
-          </div>
-        </div>
+<!--      <div id="filters">-->
+<!--        <div class="container filters">-->
+<!--          <div id="filters-container">-->
+<!--            <v-switch v-model="gaming" :label="'biurowe'"></v-switch>-->
+<!--            <v-switch v-model="gaming" :label="'gamingowe'"></v-switch>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+      <div id="products" v-if="products !== null">
+<!--        <div v-if="$route.params.category === 'drones'">-->
+<!--          <div v-for="product in sliderCollection" :key="product.index" class="product-el">-->
+<!--            <v-img class="product-image" :src="getImgUrl(product.imagePath)"/>-->
+<!--            <div class="second-col">-->
+<!--              <h3>{{ product.brand + ' ' + product.model }}</h3>-->
+<!--              <p class="product-specs">Kamera: {{ product.camera }} | Maksymalny czas działania: {{-->
+<!--                product.batteryWorkTime-->
+<!--                }} | Kontroler: {{ product.controller }}</p>-->
+<!--              <div class="price">-->
+<!--                {{ product.price }}-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
         <div v-if="$route.params.category === 'graphicsCards'">
           <div v-for="product in sliderCollection" :key="product.index" class="product-el">
             <v-img class="product-image" :src="getImgUrl(product.imagePath)"/>
@@ -81,7 +201,7 @@
         </div>
         <div v-if="$route.params.category === 'keyboards'">
           <div v-for="product in sliderCollection" :key="product.index" class="product-el">
-            <v-img class="product-image" :src="getImgUrl(product.imagePath)"/>
+            <v-img contain class="product-image" :src="getImgUrl(product.imagePath)"/>
             <div class="second-col">
               <h3>{{ product.brand + ' ' + product.model }}</h3>
               <p class="product-specs">Typ: {{ product.keyboardType }} | Łączność: {{ product.connection
@@ -93,8 +213,8 @@
           </div>
         </div>
         <div v-if="$route.params.category === 'laptops'">
-          <div v-for="product in sliderCollection" :key="product.index" class="product-el">
-            <v-img class="product-image" :src="getImgUrl(product.imagePath)"/>
+          <div v-for="product in sliderCollection" :key="product._id" class="product-el">
+            <v-img contain class="product-image" :src="getImgUrl(product.imagePath)"/>
             <div class="second-col">
               <h3>{{ product.brand + ' ' + product.model }}</h3>
               <p class="product-specs">RAM: {{ product.ram }} | CPU: {{ product.cpu
@@ -105,60 +225,62 @@
             </div>
           </div>
         </div>
-        <div v-if="$route.params.category === 'monitors'">
-          <div v-for="product in sliderCollection" :key="product.index" class="product-el">
-            <v-img class="product-image" :src="getImgUrl(product.imagePath)"/>
-            <div class="second-col">
-              <h3>{{ product.brand + ' ' + product.model }}</h3>
-              <p class="product-specs">Rozdzielczość: {{ product.resolution }} | Przekątna ekranu: {{
-                product.displaySize
-                }} | Matryca: {{ product.matrixType }}</p>
-              <div class="price">
-                {{ product.price }}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div v-if="$route.params.category === 'mouses'">
-          <div v-for="product in sliderCollection" :key="product.index" class="product-el">
-            <v-img class="product-image" :src="getImgUrl(product.imagePath)"/>
-            <div class="second-col">
-              <h3>{{ product.brand + ' ' + product.model }}</h3>
-              <p class="product-specs">DPI: {{ product.dpi }} | Liczba przycisków: {{ product.numberOfButtons
-                }} | Łączność: {{ product.connection }}</p>
-              <div class="price">
-                {{ product.price }}
-              </div>
-            </div>
-          </div>
-        </div>
         <div v-if="$route.params.category === 'smartphones'">
-          <div v-for="product in sliderCollection" :key="product.index" class="product-el">
-            <v-img class="product-image" :src="getImgUrl(product.imagePath)"/>
-            <div class="second-col">
-              <h3>{{ product.brand + ' ' + product.model }}</h3>
-              <p class="product-specs">Ekran: {{ product.screen }} | Bateria: {{ product.battery
-                }} | Pamięć: {{ product.memory }}</p>
-              <div class="price">
-                {{ product.price }}
+          <transition-group name="fade">
+            <div v-for="product in sliderCollection" :key="product._id" class="product-el">
+              <v-img contain class="product-image" :src="getImgUrl(product.imagePath)"/>
+              <div class="second-col">
+                <h3>{{ product.brand + ' ' + product.model }}</h3>
+                <p class="product-specs">Ekran: {{ product.screen }} | Bateria: {{ product.battery
+                  }} | Pamięć: {{ product.memory }}</p>
+                <div class="price">
+                  {{ product.price }}
+                </div>
               </div>
             </div>
-          </div>
+          </transition-group>
         </div>
-        <div v-if="$route.params.category === 'wirelessheadphones'">
-          <div v-for="product in sliderCollection" :key="product.index" class="product-el">
-            <v-img class="product-image" :src="getImgUrl(product.imagePath)"/>
-            <div class="second-col">
-              <h3>{{ product.brand + ' ' + product.model }}</h3>
-              <p class="product-specs">Typ: {{ product.type }} | Maksymalny czas pracy: {{
-                product.batteryWorkTime
-                }} | Zasięg: {{ product.reach }}</p>
-              <div class="price">
-                {{ product.price }}
-              </div>
-            </div>
-          </div>
-        </div>
+<!--        <div v-if="$route.params.category === 'monitors'">-->
+<!--          <div v-for="product in sliderCollection" :key="product.index" class="product-el">-->
+<!--            <v-img class="product-image" :src="getImgUrl(product.imagePath)"/>-->
+<!--            <div class="second-col">-->
+<!--              <h3>{{ product.brand + ' ' + product.model }}</h3>-->
+<!--              <p class="product-specs">Rozdzielczość: {{ product.resolution }} | Przekątna ekranu: {{-->
+<!--                product.displaySize-->
+<!--                }} | Matryca: {{ product.matrixType }}</p>-->
+<!--              <div class="price">-->
+<!--                {{ product.price }}-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div v-if="$route.params.category === 'mouses'">-->
+<!--          <div v-for="product in sliderCollection" :key="product.index" class="product-el">-->
+<!--            <v-img class="product-image" :src="getImgUrl(product.imagePath)"/>-->
+<!--            <div class="second-col">-->
+<!--              <h3>{{ product.brand + ' ' + product.model }}</h3>-->
+<!--              <p class="product-specs">DPI: {{ product.dpi }} | Liczba przycisków: {{ product.numberOfButtons-->
+<!--                }} | Łączność: {{ product.connection }}</p>-->
+<!--              <div class="price">-->
+<!--                {{ product.price }}-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div v-if="$route.params.category === 'wirelessheadphones'">-->
+<!--          <div v-for="product in sliderCollection" :key="product.index" class="product-el">-->
+<!--            <v-img class="product-image" :src="getImgUrl(product.imagePath)"/>-->
+<!--            <div class="second-col">-->
+<!--              <h3>{{ product.brand + ' ' + product.model }}</h3>-->
+<!--              <p class="product-specs">Typ: {{ product.type }} | Maksymalny czas pracy: {{-->
+<!--                product.batteryWorkTime-->
+<!--                }} | Zasięg: {{ product.reach }}</p>-->
+<!--              <div class="price">-->
+<!--                {{ product.price }}-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
       <div v-else>
         <v-progress-linear
@@ -196,54 +318,94 @@ export default {
   },
   data () {
     return {
-      sliderValue: [400, 3000],
+      sliderValue: [3000, 6000],
       sliderCollection: null,
       products: null,
-      productsService: new ProductsService()
+      productsService: new ProductsService(),
+      gaming: false
     }
   },
   methods: {
     getImgUrl (imagePath) {
       return require('../assets/productImages' + imagePath)
     },
-    async getProducts (category) {
-      this.sliderCollection = this.products = await this.productsService.getAllProducts(category)
+    async getProducts (category, subcategory) {
+      this.products = null
+      if (subcategory !== undefined) {
+        this.sliderCollection = this.products = await this.productsService.getSubProducts(category, subcategory)
+      } else {
+        this.sliderCollection = this.products = await this.productsService.getAllProducts(category)
+      }
+    },
+    async switchCategory (category) {
+      this.$router.push(`/rankings/${category}`)
     }
   },
   watch: {
     'sliderValue' (value) {
       this.sliderCollection = this.products.filter(({ price }) => value[0] <= parseFloat(price.replace(' ', '')) && parseFloat(price.replace(' ', '')) <= value[1])
-      console.log(parseFloat('2248,00 zł'))
-      // console.log(value[1])
-      // console.log(this.sliderCollection)
+    },
+    '$route.path' () {
+      this.getProducts(this.$route.params.category, this.$route.params.subcategory)
     }
   },
   mounted () {
-    this.getProducts(this.$route.params.category)
+    this.getProducts(this.$route.params.category, this.$route.params.subcategory)
   }
 }
 </script>
 
 <style lang="scss">
+  .popup-enter,
+  .popup-leave-to{
+    transform: rotateY(50deg);
+  }
+  .popup-enter-to,
+  .popup-leave {
+    transform: rotateY(0deg);
+  }
+  .popup-enter-active,
+  .popup-leave-active {
+    transition: transform 400ms;
+  }
+  #filters-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem;
+  }
+  .v-menu__content {
+    border-radius: 0;
+  }
   #rankings {
     flex: 1;
   }
-  #category-photo {
-    /*color: #333;*/
+  .category-photo {
     background: #333;
     padding: 2rem;
     position: relative;
-    width: 70%;
+    width: 100%;
     margin: 0 auto;
     &:before {
       content: '';
       position: absolute;
-      background: url('../assets/smartphone.jpg')no-repeat center center/cover;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       opacity: 0.4;
+    }
+    &.smartphone:before {
+      background: url('../assets/categoriesImages/smartphone.png')no-repeat center center/cover;
+    }
+    &.graphics-card:before {
+      background: url('../assets/categoriesImages/graphicsCard.png')no-repeat center center/cover;
+    }
+    &.gaming-laptop:before {
+      background: url('../assets/categoriesImages/gamingLaptop.png')no-repeat center center/cover;
+    }
+    &.regular-laptop:before {
+      background: url('../assets/categoriesImages/regularLaptop.png')no-repeat center center/cover;
     }
   }
 </style>
