@@ -44,7 +44,8 @@ export default {
   },
   data () {
     return {
-      scrolled: false
+      scrolled: false,
+      prevScrollPos: window.pageYOffset
     }
   },
   methods: {
@@ -53,29 +54,22 @@ export default {
         this.$router.push(route)
       }
     },
-    scrollTest () {
+    navbarAction () {
+      const currScrollPos = window.pageYOffset
       const navbar = document.getElementById('main-nav')
-      if (window.pageYOffset > 100) {
-        console.log(window.pageYOffset)
-        if (this.scrolled === false) {
-          navbar.style.transform = 'translateY(-100px)'
-        }
-        if (navbar.style.position === 'relative') {
-          setTimeout(() => {
-            navbar.style.transform = 'translateY(0)'
-            navbar.style.position = 'sticky'
-            this.scrolled = true
-          }, 500)
-        }
+      if (window.pageYOffset > 100 && (this.prevScrollPos > currScrollPos)) {
+        navbar.style.position = 'sticky'
+        navbar.style.transform = 'translateY(0)'
+      } else if (window.pageYOffset > 100 && (this.prevScrollPos < currScrollPos)) {
+        navbar.style.transform = 'translateY(-110px)'
       } else if (window.pageYOffset === 0) {
-        console.log(window.pageYOffset)
         navbar.style.position = 'relative'
-        this.scrolled = false
       }
+      this.prevScrollPos = currScrollPos
     }
   },
   created () {
-    window.onscroll = this.scrollTest
+    window.onscroll = this.navbarAction
   }
 }
 </script>
