@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/Home'
 import RankingsView from '../views/Rankings'
+import AdminPanelView from '../views/AdminPanel'
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,11 @@ const routes = [
   {
     path: '/',
     redirect: '/home'
+  },
+  {
+    path: '/adminpanel',
+    name: 'AdminPanel',
+    component: AdminPanelView
   }
 ]
 

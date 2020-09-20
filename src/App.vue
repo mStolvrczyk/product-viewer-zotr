@@ -9,6 +9,12 @@
           </li>
           <li>Blog</li>
           <li>Kontakt</li>
+          <v-btn large color="rgb(223, 57, 104)"
+                 @click="changeRoute('/adminpanel')" icon>
+            <v-icon>
+              mdi-account-cog
+            </v-icon>
+          </v-btn>
         </ul>
       </div>
     </nav>
