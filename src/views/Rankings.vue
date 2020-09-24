@@ -12,7 +12,7 @@
              v-bind="attrs"
              v-on="on"
         >
-          <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-keyboard-outline</v-icon>
+          <v-icon class="rankings-icon" color="#fff" size="27px">mdi-keyboard-outline</v-icon>
           <p class="category rankings">Laptopy</p>
         </div>
       </template>
@@ -31,11 +31,11 @@
       </v-list>
     </v-menu>
     <div :class="{ active: $route.path === '/rankings/smartphones'}" class="rankings-menu-el" @click="switchCategory('smartphones')">
-      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-cellphone</v-icon>
+      <v-icon class="rankings-icon" color="#fff" size="27px">mdi-cellphone</v-icon>
       <p class="category rankings">Smartfony</p>
     </div>
     <div :class="{ active: $route.path === '/rankings/graphicsCards'}" class="rankings-menu-el" @click="switchCategory('graphicsCards')">
-      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-expansion-card</v-icon>
+      <v-icon class="rankings-icon" color="#fff" size="27px">mdi-expansion-card</v-icon>
       <p class="category rankings">Karty graficzne</p>
     </div>
 <!--    <div class="rankings-menu-el" @click="switchCategory('keyboards')">-->
@@ -356,6 +356,9 @@ export default {
 </script>
 
 <style lang="scss">
+  h1 {
+    color: #333;
+  }
   .popup-enter,
   .popup-leave-to{
     transform: rotateY(50deg);
@@ -381,7 +384,7 @@ export default {
     flex: 1;
   }
   .category-photo {
-    background: #333;
+    background: #fff;
     padding: 2rem;
     position: relative;
     width: 100%;
@@ -393,13 +396,13 @@ export default {
       left: 0;
       width: 100%;
       height: 100%;
-      opacity: 0.4;
+      opacity: 0.3;
     }
     &.smartphone:before {
-      background: url('../assets/categoriesImages/smartphone.png')no-repeat center center/cover;
+      background: url('../assets/categoriesImages/pexels-jessica-lewis-583848.jpg')no-repeat 60% 40%/cover;
     }
     &.graphics-card:before {
-      background: url('../assets/categoriesImages/graphicsCard.png')no-repeat center center/cover;
+      background: url('../assets/categoriesImages/graphicsCard.jpg')no-repeat center center/cover;
     }
     &.gaming-laptop:before {
       background: url('../assets/categoriesImages/gamingLaptop.png')no-repeat center center/cover;
