@@ -23,7 +23,7 @@ p {
   &.category {
     font-size: 15px;
     &.rankings {
-      text-transform: uppercase;
+      //text-transform: uppercase;
       font-weight: bold;
       color: #ffffff;
     }
@@ -194,7 +194,7 @@ img {
   padding: 0.8rem;
   display: flex;
   //grid-template-columns: repeat(6, 1fr);
-  background: #202020;
+  background: #df3968;
   justify-content: center;
 }
 
@@ -202,7 +202,7 @@ img {
   display: flex;
   align-items: center;
   padding: 0.3rem;
-  margin: 0 0.5rem;
+  margin: 0 1.5rem;
   transition: background 0.3s;
   &:hover {
     background: rgb(167, 167, 167, 0.4);
