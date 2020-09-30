@@ -191,12 +191,17 @@ img {
   padding: 0 2rem;
 }
 
-#rankings-menu {
+.rankings-menu {
   padding: 0.8rem;
   display: flex;
   //grid-template-columns: repeat(6, 1fr);
-  background: #df3968;
   justify-content: center;
+  &.rankings {
+    background: #df3968;
+  }
+  &.admin-panel {
+    background: #333;
+  }
 }
 
 .rankings-menu-el {

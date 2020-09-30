@@ -1,15 +1,116 @@
 <template>
   <div id="admin-panel">
-    <div class="admin-panel-card">
-    </div>
-<!--      :rules="nameRules"-->
-<!--      :counter="10"-->
-<!--    <v-text-field-->
-<!--      v-model="firstname"-->
-<!--      label="First name"-->
-<!--      required-->
-<!--    ></v-text-field>-->
-<!--    <v-btn @click="scrape"></v-btn>-->
+    <section class="rankings-menu admin-panel">
+      <v-menu
+        class="drop-down-cat"
+        transition="slide-y-transition"
+        bottom
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <div class="rankings-menu-el"
+               :class="{ active: $route.path === '/rankings/laptops/gamingLaptops' || $route.path === '/rankings/laptops/regularLaptops'}"
+               v-bind="attrs"
+               v-on="on"
+          >
+            <v-icon class="rankings-icon" color="#fff" size="27px">mdi-keyboard-outline</v-icon>
+            <p class="category rankings">Laptopy</p>
+          </div>
+        </template>
+        <v-list>
+          <v-list-item
+            color="#fff"
+            @click="switchCategory('laptops/gamingLaptops')"
+          >
+            <v-list-item-title>gamingowe</v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            @click="switchCategory('laptops/regularLaptops')"
+          >
+            <v-list-item-title>biurowe</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+      <div :class="{ active: $route.path === '/rankings/smartphones'}" class="rankings-menu-el" @click="switchCategory('smartphones')">
+        <v-icon class="rankings-icon" color="#fff" size="27px">mdi-cellphone</v-icon>
+        <p class="category rankings">Smartfony</p>
+      </div>
+      <div :class="{ active: $route.path === '/rankings/graphicsCards'}" class="rankings-menu-el" @click="switchCategory('graphicsCards')">
+        <v-icon class="rankings-icon" color="#fff" size="27px">mdi-expansion-card</v-icon>
+        <p class="category rankings">Karty graficzne</p>
+      </div>
+      <!--    <div class="rankings-menu-el" @click="switchCategory('keyboards')">-->
+      <!--      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-keyboard-outline</v-icon>-->
+      <!--      <p class="category rankings">Klawiatury</p>-->
+      <!--    </div>-->
+      <!--    <v-menu-->
+      <!--      class="drop-down-cat"-->
+      <!--      transition="slide-y-transition"-->
+      <!--      bottom-->
+      <!--    >-->
+      <!--      <template v-slot:activator="{ on, attrs }">-->
+      <!--        <div class="rankings-menu-el"-->
+      <!--           v-bind="attrs"-->
+      <!--           v-on="on"-->
+      <!--        >-->
+      <!--          <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-keyboard-outline</v-icon>-->
+      <!--          <p class="category rankings">Klawiatury</p>-->
+      <!--        </div>-->
+      <!--      </template>-->
+      <!--      <v-list>-->
+      <!--        <v-list-item-->
+      <!--          color="#fff"-->
+      <!--          @click="switchCategory('keyboards/true')"-->
+      <!--        >-->
+      <!--          <v-list-item-title>gamingowe</v-list-item-title>-->
+      <!--        </v-list-item>-->
+      <!--        <v-list-item-->
+      <!--          @click="switchCategory('keyboards/false')"-->
+      <!--        >-->
+      <!--          <v-list-item-title>biurowe</v-list-item-title>-->
+      <!--        </v-list-item>-->
+      <!--      </v-list>-->
+      <!--    </v-menu>-->
+      <!--    <div class="rankings-menu-el" @click="switchCategory('wirelessheadphones')">-->
+      <!--      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-headphones</v-icon>-->
+      <!--      <p class="category rankings">Słuchawki</p>-->
+      <!--    </div>-->
+      <!--    <div class="rankings-menu-el" @click="switchCategory('mouses')">-->
+      <!--      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-mouse</v-icon>-->
+      <!--      <p class="category rankings">Myszki</p>-->
+      <!--    </div>-->
+      <!--    <v-menu-->
+      <!--      class="drop-down-cat"-->
+      <!--      transition="slide-y-transition"-->
+      <!--      bottom-->
+      <!--    >-->
+      <!--      <template v-slot:activator="{ on, attrs }">-->
+      <!--        <div class="rankings-menu-el"-->
+      <!--          v-bind="attrs"-->
+      <!--          v-on="on"-->
+      <!--        >-->
+      <!--          <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-mouse</v-icon>-->
+      <!--          <p class="category rankings">Myszki</p>-->
+      <!--        </div>-->
+      <!--      </template>-->
+      <!--      <v-list>-->
+      <!--        <v-list-item-->
+      <!--          color="#fff"-->
+      <!--          @click="switchCategory('mouses/true')"-->
+      <!--        >-->
+      <!--          <v-list-item-title>gamingowe</v-list-item-title>-->
+      <!--        </v-list-item>-->
+      <!--        <v-list-item-->
+      <!--          @click="switchCategory('mouses/false')"-->
+      <!--        >-->
+      <!--          <v-list-item-title>biurowe</v-list-item-title>-->
+      <!--        </v-list-item>-->
+      <!--      </v-list>-->
+      <!--    </v-menu>-->
+      <!--    <div class="rankings-menu-el" @click="switchCategory('monitors')">-->
+      <!--      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-monitor</v-icon>-->
+      <!--      <p class="category rankings">Monitory</p>-->
+      <!--    </div>-->
+    </section>
   </div>
 </template>
 
@@ -43,9 +144,6 @@ export default {
   //border-radius: 5px;
 }
 #admin-panel {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   flex: 1;
 }
 </style>

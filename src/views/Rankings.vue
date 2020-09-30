@@ -1,6 +1,6 @@
 <template>
 <div id="rankings">
-  <section id="rankings-menu">
+  <section class="rankings-menu rankings">
     <v-menu
       class="drop-down-cat"
       transition="slide-y-transition"
