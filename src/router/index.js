@@ -25,9 +25,12 @@ const routes = [
     redirect: '/home'
   },
   {
-    path: '/adminpanel',
+    path: '/adminpanel/:category',
     name: 'AdminPanel',
-    component: AdminPanelView
+    component: AdminPanelView,
+    children: [
+      { path: ':subcategory', component: AdminPanelView }
+    ]
   }
 ]
 

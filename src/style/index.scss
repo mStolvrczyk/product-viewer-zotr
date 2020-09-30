@@ -192,14 +192,15 @@ img {
 }
 
 .rankings-menu {
-  padding: 0.8rem;
   display: flex;
   //grid-template-columns: repeat(6, 1fr);
   justify-content: center;
   &.rankings {
+    padding: 0.8rem;
     background: #df3968;
   }
   &.admin-panel {
+    padding: 0.3rem;
     background: #333;
   }
 }
@@ -208,8 +209,13 @@ img {
   display: flex;
   align-items: center;
   padding: 0.3rem;
-  margin: 0 1.5rem;
   transition: background 0.3s;
+  &.rankings {
+    margin: 0 1.5rem;
+  }
+  &.admin-panel {
+    margin: 0 0.5rem;
+  }
   &:hover {
     background: rgb(167, 167, 167, 0.4);
     cursor: pointer;
@@ -422,7 +428,7 @@ img {
   padding: 1rem;
   background: #fff;
   display: grid;
-  grid-template-columns: 1fr 6fr 1fr;
+  grid-template-columns: 1fr 4fr 1fr;
   transition: box-shadow 0.3s;
   &:hover {
     cursor: pointer;
@@ -431,8 +437,12 @@ img {
   .second-col {
     padding: 2rem 0.5rem;
     text-align: left;
-    display: flex;
     flex-direction: column;
+  }
+  .third-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 #slider-section {

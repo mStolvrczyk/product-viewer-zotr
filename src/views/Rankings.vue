@@ -7,7 +7,7 @@
       bottom
     >
       <template v-slot:activator="{ on, attrs }">
-        <div class="rankings-menu-el"
+        <div class="rankings-menu-el rankings"
              :class="{ active: $route.path === '/rankings/laptops/gamingLaptops' || $route.path === '/rankings/laptops/regularLaptops'}"
              v-bind="attrs"
              v-on="on"
@@ -30,11 +30,11 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <div :class="{ active: $route.path === '/rankings/smartphones'}" class="rankings-menu-el" @click="switchCategory('smartphones')">
+    <div :class="{ active: $route.path === '/rankings/smartphones'}" class="rankings-menu-el rankings" @click="switchCategory('smartphones')">
       <v-icon class="rankings-icon" color="#fff" size="27px">mdi-cellphone</v-icon>
       <p class="category rankings">Smartfony</p>
     </div>
-    <div :class="{ active: $route.path === '/rankings/graphicsCards'}" class="rankings-menu-el" @click="switchCategory('graphicsCards')">
+    <div :class="{ active: $route.path === '/rankings/graphicsCards'}" class="rankings-menu-el rankings" @click="switchCategory('graphicsCards')">
       <v-icon class="rankings-icon" color="#fff" size="27px">mdi-expansion-card</v-icon>
       <p class="category rankings">Karty graficzne</p>
     </div>
