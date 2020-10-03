@@ -26,7 +26,9 @@
       name="fade"
       mode="out-in"
     >
-      <router-view/>
+      <router-view
+        v-on:outerHeightAlert="outerHeightAlert"
+      />
     </transition>
     <footer id="main-footer">
       <div class="container footer-container">
@@ -59,6 +61,13 @@ export default {
     }
   },
   methods: {
+    outerHeightAlert (value) {
+      if (value === true) {
+        const navbar = document.getElementById('main-nav')
+        navbar.style.position = 'relative'
+        navbar.style.transform = 'translateY(0)'
+      }
+    },
     changeRoute (route) {
       if (route !== this.$route.path) {
         this.$router.push(route)

@@ -230,7 +230,7 @@
             <div v-for="product in sliderCollection" :key="product._id" class="product-el">
               <v-img contain class="product-image" :src="getImgUrl(product.imagePath)"/>
               <div class="second-col">
-                <h3>{{ product.brand + ' ' + product.model }}</h3>
+                <h3>{{ product.model }}</h3>
                 <p class="product-specs">Ekran: {{ product.screen }} | Bateria: {{ product.battery
                   }} | Pamięć: {{ product.memory }}</p>
                 <div class="price">
@@ -347,6 +347,11 @@ export default {
     },
     '$route.path' () {
       this.getProducts(this.$route.params.category, this.$route.params.subcategory)
+    },
+    'sliderCollection.length' () {
+      if (document.getElementById('rankings').offsetHeight - window.outerHeight < 100) {
+        this.$emit('outerHeightAlert', true)
+      }
     }
   },
   mounted () {

@@ -139,31 +139,32 @@
       <!--    </div>-->
     </section>
     <section>
-<!--        :items="categories"-->
-<!--        v-model="selectedCategory"-->
-      <v-autocomplete
-        id="autocomplete-input"
-        background-color="rgba(255,255,255, 0.8)"
-        search="searchValue"
-        hide-no-data
-        item-value="id"
-        item-text="name"
-        label="Wybierz kategorię urządzeń"
-        solo
-        hide-details
-        search-input.sync="search"
-        cache-items
-        return-object
-      >
-        <template v-slot:no-data>
-          <v-list-item>
-            <v-list-item-title>
-              Brak wybranej kateogrii
-            </v-list-item-title>
-          </v-list-item>
-        </template>
-      </v-autocomplete>
       <div class="container">
+        <v-autocomplete
+          v-model="selectedProduct"
+          :items="allProducts"
+          id="autocomplete-input"
+          style="padding: 2rem 0"
+          background-color="rgba(255,255,255, 0.8)"
+          search="searchValue"
+          hide-no-data
+          item-value="id"
+          item-text="model"
+          label="Wybierz kategorię urządzeń"
+          solo
+          hide-details
+          search-input.sync="search"
+          cache-items
+          return-object
+        >
+          <template v-slot:no-data>
+            <v-list-item>
+              <v-list-item-title>
+                Brak wybranej kateogrii
+              </v-list-item-title>
+            </v-list-item>
+          </template>
+        </v-autocomplete>
         <!--      <div id="filters">-->
         <!--        <div class="container filters">-->
         <!--          <div id="filters-container">-->
@@ -172,7 +173,7 @@
         <!--          </div>-->
         <!--        </div>-->
         <!--      </div>-->
-        <div id="products" v-if="products !== null">
+        <div id="products" v-if="allProducts.length > 0">
           <!--        <div v-if="$route.params.category === 'drones'">-->
           <!--          <div v-for="product in sliderCollection" :key="product.index" class="product-el">-->
           <!--            <v-img class="product-image" :src="getImgUrl(product.imagePath)"/>-->
@@ -203,8 +204,6 @@
                   x-large
                   color="rgb(223, 57, 104)"
                   icon
-                  v-bind="attrs"
-                  v-on="on"
                 >
                   <v-icon>
                     mdi-pencil-outline
@@ -214,8 +213,6 @@
                   x-large
                   color="rgb(223, 57, 104)"
                   icon
-                  v-bind="attrs"
-                  v-on="on"
                 >
                   <v-icon>
                     mdi-delete
@@ -253,8 +250,6 @@
                   x-large
                   color="rgb(223, 57, 104)"
                   icon
-                  v-bind="attrs"
-                  v-on="on"
                 >
                   <v-icon>
                     mdi-pencil-outline
@@ -264,8 +259,6 @@
                   x-large
                   color="rgb(223, 57, 104)"
                   icon
-                  v-bind="attrs"
-                  v-on="on"
                 >
                   <v-icon>
                     mdi-delete
@@ -279,7 +272,7 @@
               <div v-for="product in products" :key="product._id" class="product-el">
                 <v-img contain class="product-image" :src="getImgUrl(product.imagePath)"/>
                 <div class="second-col">
-                  <h3>{{ product.brand + ' ' + product.model }}</h3>
+                  <h3>{{ product.model }}</h3>
                   <p class="product-specs">Ekran: {{ product.screen }} | Bateria: {{ product.battery
                     }} | Pamięć: {{ product.memory }}</p>
                   <div class="price">
@@ -291,8 +284,6 @@
                     x-large
                     color="rgb(223, 57, 104)"
                     icon
-                    v-bind="attrs"
-                    v-on="on"
                   >
                     <v-icon>
                       mdi-pencil-outline
@@ -302,8 +293,6 @@
                     x-large
                     color="rgb(223, 57, 104)"
                     icon
-                    v-bind="attrs"
-                    v-on="on"
                   >
                     <v-icon>
                       mdi-delete
@@ -376,6 +365,19 @@
             indeterminate
           ></v-progress-linear>
         </div>
+        <transition name="fade">
+          <v-btn
+            v-if="arrowVisibility === true"
+            @click="clearFilters"
+            x-large
+            color="rgb(223, 57, 104)"
+            icon
+          >
+            <v-icon>
+              mdi-arrow-left-bold-circle
+            </v-icon>
+          </v-btn>
+        </transition>
       </div>
     </section>
   </div>
@@ -389,7 +391,10 @@ export default {
     return {
       firstname: 'dupa',
       productsService: new ProductsService(),
-      products: null
+      allProducts: [],
+      products: [],
+      selectedProduct: null,
+      arrowVisibility: false
     }
   },
   methods: {
@@ -402,20 +407,37 @@ export default {
       return require('../assets/productImages' + imagePath)
     },
     async getProducts (category, subcategory) {
-      this.products = null
       if (subcategory !== undefined) {
-        this.products = await this.productsService.getSubProducts(category, subcategory)
+        this.allProducts = this.products = await this.productsService.getSubProducts(category, subcategory)
       } else {
-        this.products = await this.productsService.getAllProducts(category)
+        this.allProducts = this.products = await this.productsService.getAllProducts(category)
       }
     },
     async switchCategory (category) {
       this.$router.push(`/adminpanel/${category}`)
+    },
+    clearFilters () {
+      this.products = this.allProducts
+      this.arrowVisibility = false
     }
   },
   watch: {
     '$route.path' () {
       this.getProducts(this.$route.params.category, this.$route.params.subcategory)
+    },
+    'selectedProduct' (value) {
+      this.products = null
+      setTimeout(function () {
+        this.products = this.allProducts.filter(({ model }) => model.includes(value.model))
+        this.arrowVisibility = true
+      }
+        .bind(this),
+      600)
+    },
+    'products.length' () {
+      if (document.getElementById('admin-panel').offsetHeight - window.outerHeight < 100) {
+        this.$emit('outerHeightAlert', true)
+      }
     }
   },
   mounted () {
