@@ -42,19 +42,19 @@
       >
         <template v-slot:activator="{ on, attrs }">
           <v-btn
-            x-large
-            color="rgb(223, 57, 104)"
-            icon
             v-bind="attrs"
             v-on="on"
+            color="#df3968"
+            x-small
+            fab
           >
-            <v-icon>
-              mdi-plus-circle
+            <v-icon style="color: #fff">
+              mdi-plus-thick
             </v-icon>
           </v-btn>
         </template>
         <v-list>
-          <v-list-item>
+          <v-list-item @click="openNewProductDialog('laptop')">
             <v-list-item-title>Laptop</v-list-item-title>
           </v-list-item>
           <v-list-item>
@@ -343,6 +343,21 @@
           <!--            </div>-->
           <!--          </div>-->
           <!--        </div>-->
+          <div class="floating-button">
+            <v-fab-transition>
+              <v-btn
+                @click="returnButtonAction"
+                v-show="returnButtonVisibility"
+                color="#000"
+                absolute
+                top
+                right
+                fab
+              >
+                <v-icon style="color: white; font-size: 30px">mdi-arrow-up</v-icon>
+              </v-btn>
+            </v-fab-transition>
+          </div>
         </div>
         <div v-else>
           <v-progress-linear
@@ -367,26 +382,36 @@
         </div>
         <transition name="fade">
           <v-btn
+            style="margin-top: 0.7rem"
             v-if="arrowVisibility === true"
             @click="clearFilters"
-            x-large
             color="rgb(223, 57, 104)"
-            icon
+            top
+            small
+            right
+            fab
           >
-            <v-icon>
-              mdi-arrow-left-bold-circle
+            <v-icon style="color: #fff; font-size: 24px">
+              mdi-arrow-left-bold
             </v-icon>
           </v-btn>
         </transition>
       </div>
     </section>
+    <NewProductDialog
+      :newProductDialogVisibility.sync="newProductDialogVisibility"
+      :choosenProductCategory.sync="choosenProductCategory"
+      v-on:closeNewProductDialog="closeNewProductDialog"
+    />
   </div>
 </template>
 
 <script>
 import ProductsService from '@/services/productsService'
+import NewProductDialog from '@/components/NewProductDialog'
 export default {
   name: 'AdminPanel',
+  components: { NewProductDialog },
   data () {
     return {
       firstname: 'dupa',
@@ -394,10 +419,31 @@ export default {
       allProducts: [],
       products: [],
       selectedProduct: null,
-      arrowVisibility: false
+      arrowVisibility: false,
+      returnButtonVisibility: false,
+      newProductDialogVisibility: false,
+      choosenProductCategory: null
     }
   },
   methods: {
+    closeNewProductDialog (value) {
+      this.newProductDialogVisibility = value
+      this.choosenProductCategory = null
+    },
+    openNewProductDialog (category) {
+      this.choosenProductCategory = category
+      this.newProductDialogVisibility = true
+    },
+    returnButtonAction () {
+      document.documentElement.scrollTop = 0
+    },
+    returnButtonAppearance () {
+      if (window.pageYOffset > 100) {
+        this.returnButtonVisibility = true
+      } else {
+        this.returnButtonVisibility = false
+      }
+    },
     async scrape () {
       const products = await this.productsService.getScrapedProduct()
       this.firstname = products.details.brand
@@ -439,6 +485,9 @@ export default {
         this.$emit('outerHeightAlert', true)
       }
     }
+  },
+  created () {
+    window.onscroll = this.returnButtonAppearance
   },
   mounted () {
     this.getProducts(this.$route.params.category, this.$route.params.subcategory)

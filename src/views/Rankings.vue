@@ -281,6 +281,21 @@
 <!--            </div>-->
 <!--          </div>-->
 <!--        </div>-->
+        <div class="floating-button">
+          <v-fab-transition>
+            <v-btn
+              @click="returnButtonAction"
+              v-show="returnButtonVisibility"
+              color="#df3968"
+              absolute
+              top
+              right
+              fab
+            >
+              <v-icon style="color: white; font-size: 30px">mdi-arrow-up</v-icon>
+            </v-btn>
+          </v-fab-transition>
+        </div>
       </div>
       <div v-else>
         <v-progress-linear
@@ -322,10 +337,21 @@ export default {
       sliderCollection: null,
       products: null,
       productsService: new ProductsService(),
-      gaming: false
+      gaming: false,
+      returnButtonVisibility: false
     }
   },
   methods: {
+    returnButtonAction () {
+      document.documentElement.scrollTop = 0
+    },
+    returnButtonAppearance () {
+      if (window.pageYOffset > 100) {
+        this.returnButtonVisibility = true
+      } else {
+        this.returnButtonVisibility = false
+      }
+    },
     getImgUrl (imagePath) {
       return require('../assets/productImages' + imagePath)
     },
@@ -342,6 +368,9 @@ export default {
     }
   },
   watch: {
+    'returnButtonStatement' (value) {
+      console.log(value)
+    },
     'sliderValue' (value) {
       this.sliderCollection = this.products.filter(({ price }) => value[0] <= parseFloat(price.replace(' ', '')) && parseFloat(price.replace(' ', '')) <= value[1])
     },
@@ -353,6 +382,9 @@ export default {
         this.$emit('outerHeightAlert', true)
       }
     }
+  },
+  created () {
+    window.onscroll = this.returnButtonAppearance
   },
   mounted () {
     this.getProducts(this.$route.params.category, this.$route.params.subcategory)
