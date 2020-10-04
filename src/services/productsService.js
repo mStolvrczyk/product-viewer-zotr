@@ -9,4 +9,8 @@ export default class ProductsService {
   async getSubProducts (category, subcategory) {
     return appHttpClient.get(`/${category}/${subcategory}`).then(prop('data'))
   }
+
+  async getScrapedProduct () {
+    return appHttpClient.get('/graphicsCards').then(prop('data'))
+  }
 }

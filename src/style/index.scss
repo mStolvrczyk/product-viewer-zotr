@@ -1,4 +1,5 @@
 * {
+  scroll-behavior: smooth;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -23,7 +24,7 @@ p {
   &.category {
     font-size: 15px;
     &.rankings {
-      text-transform: uppercase;
+      //text-transform: uppercase;
       font-weight: bold;
       color: #ffffff;
     }
@@ -37,6 +38,7 @@ p {
 
 ul {
   list-style: none;
+  align-items: center;
 }
 
 img {
@@ -190,20 +192,31 @@ img {
   padding: 0 2rem;
 }
 
-#rankings-menu {
-  padding: 0.8rem;
+.rankings-menu {
   display: flex;
   //grid-template-columns: repeat(6, 1fr);
-  background: #202020;
   justify-content: center;
+  &.rankings {
+    padding: 0.8rem;
+    background: #df3968;
+  }
+  &.admin-panel {
+    padding: 0.3rem;
+    background: #333;
+  }
 }
 
 .rankings-menu-el {
   display: flex;
   align-items: center;
   padding: 0.3rem;
-  margin: 0 0.5rem;
   transition: background 0.3s;
+  &.rankings {
+    margin: 0 1.5rem;
+  }
+  &.admin-panel {
+    margin: 0 0.5rem;
+  }
   &:hover {
     background: rgb(167, 167, 167, 0.4);
     cursor: pointer;
@@ -416,7 +429,7 @@ img {
   padding: 1rem;
   background: #fff;
   display: grid;
-  grid-template-columns: 1fr 6fr 1fr;
+  grid-template-columns: 1fr 4fr 1fr;
   transition: box-shadow 0.3s;
   &:hover {
     cursor: pointer;
@@ -425,12 +438,21 @@ img {
   .second-col {
     padding: 2rem 0.5rem;
     text-align: left;
-    display: flex;
     flex-direction: column;
+  }
+  .third-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 #slider-section {
   margin-top: 1rem;
+}
+.floating-button {
+  position: fixed;
+  top: 90%;
+  right: 5px;
 }
 .photo-content {
   color: #fff;
@@ -452,13 +474,15 @@ img {
 }
 
 #main-footer {
+  background: #fff;
+  margin-top: 1.5rem;
   left: 0;
   bottom: 0;
 }
 
 .footer-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, auto);
   grid-gap: 1.5rem;
 }
 

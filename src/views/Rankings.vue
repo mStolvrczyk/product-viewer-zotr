@@ -1,18 +1,18 @@
 <template>
 <div id="rankings">
-  <section id="rankings-menu">
+  <section class="rankings-menu rankings">
     <v-menu
       class="drop-down-cat"
       transition="slide-y-transition"
       bottom
     >
       <template v-slot:activator="{ on, attrs }">
-        <div class="rankings-menu-el"
+        <div class="rankings-menu-el rankings"
              :class="{ active: $route.path === '/rankings/laptops/gamingLaptops' || $route.path === '/rankings/laptops/regularLaptops'}"
              v-bind="attrs"
              v-on="on"
         >
-          <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-keyboard-outline</v-icon>
+          <v-icon class="rankings-icon" color="#fff" size="27px">mdi-keyboard-outline</v-icon>
           <p class="category rankings">Laptopy</p>
         </div>
       </template>
@@ -30,12 +30,12 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <div :class="{ active: $route.path === '/rankings/smartphones'}" class="rankings-menu-el" @click="switchCategory('smartphones')">
-      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-cellphone</v-icon>
+    <div :class="{ active: $route.path === '/rankings/smartphones'}" class="rankings-menu-el rankings" @click="switchCategory('smartphones')">
+      <v-icon class="rankings-icon" color="#fff" size="27px">mdi-cellphone</v-icon>
       <p class="category rankings">Smartfony</p>
     </div>
-    <div :class="{ active: $route.path === '/rankings/graphicsCards'}" class="rankings-menu-el" @click="switchCategory('graphicsCards')">
-      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-expansion-card</v-icon>
+    <div :class="{ active: $route.path === '/rankings/graphicsCards'}" class="rankings-menu-el rankings" @click="switchCategory('graphicsCards')">
+      <v-icon class="rankings-icon" color="#fff" size="27px">mdi-expansion-card</v-icon>
       <p class="category rankings">Karty graficzne</p>
     </div>
 <!--    <div class="rankings-menu-el" @click="switchCategory('keyboards')">-->
@@ -230,7 +230,7 @@
             <div v-for="product in sliderCollection" :key="product._id" class="product-el">
               <v-img contain class="product-image" :src="getImgUrl(product.imagePath)"/>
               <div class="second-col">
-                <h3>{{ product.brand + ' ' + product.model }}</h3>
+                <h3>{{ product.model }}</h3>
                 <p class="product-specs">Ekran: {{ product.screen }} | Bateria: {{ product.battery
                   }} | Pamięć: {{ product.memory }}</p>
                 <div class="price">
@@ -281,6 +281,21 @@
 <!--            </div>-->
 <!--          </div>-->
 <!--        </div>-->
+        <div class="floating-button">
+          <v-fab-transition>
+            <v-btn
+              @click="returnButtonAction"
+              v-show="returnButtonVisibility"
+              color="#df3968"
+              absolute
+              top
+              right
+              fab
+            >
+              <v-icon style="color: white; font-size: 30px">mdi-arrow-up</v-icon>
+            </v-btn>
+          </v-fab-transition>
+        </div>
       </div>
       <div v-else>
         <v-progress-linear
@@ -322,10 +337,21 @@ export default {
       sliderCollection: null,
       products: null,
       productsService: new ProductsService(),
-      gaming: false
+      gaming: false,
+      returnButtonVisibility: false
     }
   },
   methods: {
+    returnButtonAction () {
+      document.documentElement.scrollTop = 0
+    },
+    returnButtonAppearance () {
+      if (window.pageYOffset > 100) {
+        this.returnButtonVisibility = true
+      } else {
+        this.returnButtonVisibility = false
+      }
+    },
     getImgUrl (imagePath) {
       return require('../assets/productImages' + imagePath)
     },
@@ -342,12 +368,23 @@ export default {
     }
   },
   watch: {
+    'returnButtonStatement' (value) {
+      console.log(value)
+    },
     'sliderValue' (value) {
       this.sliderCollection = this.products.filter(({ price }) => value[0] <= parseFloat(price.replace(' ', '')) && parseFloat(price.replace(' ', '')) <= value[1])
     },
     '$route.path' () {
       this.getProducts(this.$route.params.category, this.$route.params.subcategory)
+    },
+    'sliderCollection.length' () {
+      if (document.getElementById('rankings').offsetHeight - window.outerHeight < 100) {
+        this.$emit('outerHeightAlert', true)
+      }
     }
+  },
+  created () {
+    window.onscroll = this.returnButtonAppearance
   },
   mounted () {
     this.getProducts(this.$route.params.category, this.$route.params.subcategory)
@@ -356,6 +393,9 @@ export default {
 </script>
 
 <style lang="scss">
+  h1 {
+    color: #333;
+  }
   .popup-enter,
   .popup-leave-to{
     transform: rotateY(50deg);
@@ -381,7 +421,7 @@ export default {
     flex: 1;
   }
   .category-photo {
-    background: #333;
+    background: #fff;
     padding: 2rem;
     position: relative;
     width: 100%;
@@ -393,13 +433,13 @@ export default {
       left: 0;
       width: 100%;
       height: 100%;
-      opacity: 0.4;
+      opacity: 0.3;
     }
     &.smartphone:before {
-      background: url('../assets/categoriesImages/smartphone.png')no-repeat center center/cover;
+      background: url('../assets/categoriesImages/pexels-jessica-lewis-583848.jpg')no-repeat 60% 40%/cover;
     }
     &.graphics-card:before {
-      background: url('../assets/categoriesImages/graphicsCard.png')no-repeat center center/cover;
+      background: url('../assets/categoriesImages/graphicsCard.jpg')no-repeat center center/cover;
     }
     &.gaming-laptop:before {
       background: url('../assets/categoriesImages/gamingLaptop.png')no-repeat center center/cover;
