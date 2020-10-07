@@ -12,16 +12,16 @@
       <div class="container">
         <div class="row-dialog">
           <v-text-field
-            label="Zeskrapuj laptop z linku"
+            v-model="scrapingTarget"
+            label="Zeskrapuj dane laptopa z linku"
             required
           ></v-text-field>
 <!--            loading="true"-->
           <v-btn
             style="text-transform: none"
-            :disabled="true"
             color="blue-grey"
             class="ma-2 white--text"
-            @click="loader = 'loading3'"
+            @click="scrape"
           >
             Zeskrapuj dane
             <v-icon
@@ -34,14 +34,17 @@
         </div>
         <div class="row-dialog">
           <v-text-field
+            v-model="productData[1].data.imageOne"
             label="Zdjęcie nr 1"
             required
           ></v-text-field>
           <v-text-field
+            v-model="productData[1].data.imageTwo"
             label="Zdjęcie nr 2"
             required
           ></v-text-field>
           <v-text-field
+            v-model="productData[1].data.imageThree"
             label="Zdjęcie nr 3"
             required
           ></v-text-field>
@@ -49,36 +52,44 @@
         <div class="second-row">
           <div class="col">
             <v-text-field
+              v-model="productData[2].data"
               label="Marka"
               required
             ></v-text-field>
             <v-text-field
+              v-model="productData[3].data"
               label="Model"
               required
             ></v-text-field>
             <v-text-field
+              v-model="productData[3].data"
               label="RAM"
               required
             ></v-text-field>
             <v-text-field
+              v-model="productData[4].data"
               label="CPU"
               required
             ></v-text-field>
           </div>
           <div class="col">
             <v-text-field
+              v-model="productData[5].data"
               label="GPU"
               required
             ></v-text-field>
             <v-text-field
+              v-model="productData[6].data"
               label="Dysk"
               required
             ></v-text-field>
             <v-text-field
+              v-model="productData[7].data"
               label="Matryca"
               required
             ></v-text-field>
             <v-text-field
+              v-model="productData[8].data"
               label="Cena"
               required
             ></v-text-field>
@@ -94,6 +105,12 @@
               gamingowy
             </v-btn>
           </v-btn-toggle>
+        </div>
+        <div class="row-dialog">
+          <v-textarea
+            name="input-7-4"
+            label="Opis produktu"
+          ></v-textarea>
         </div>
 <!--        <div class="col-1">-->
 <!--          <v-text-field-->
@@ -134,13 +151,49 @@
 </template>
 
 <script>
+import ProductsService from '@/services/productsService'
+
 export default {
   name: 'NewProductDialog',
+  data () {
+    return {
+      scrapingTarget: null,
+      productsService: new ProductsService(),
+      alignment: 0,
+      productData: [
+        { data: null },
+        {
+          data: {
+            imageOne: null,
+            imageTwo: null,
+            imageThree: null
+          }
+        },
+        { data: null },
+        { data: null },
+        { data: null },
+        { data: null },
+        { data: null },
+        { data: null },
+        { data: null },
+        { data: null }
+      ]
+    }
+  },
   props: {
     newProductDialogVisibility: Boolean,
     choosenProductCategory: String
   },
   methods: {
+    async scrape () {
+      if (this.scrapingTarget !== null) {
+        const productAddress = this.scrapingTarget.replace('https://www.x-kom.pl/p/', '')
+        const products = await this.productsService.scrapeLaptop(productAddress)
+        console.log(products)
+      }
+      // this.firstname = products.details.brand
+      // console.log(products)
+    },
     closeNewProductDialog () {
       this.$emit('closeNewProductDialog', false)
     }
@@ -151,6 +204,13 @@ export default {
         return 70 + '%'
       } else {
         return 95 + '%'
+      }
+    },
+    laptopType () {
+      if (this.alignment === 0) {
+        return 'regular Laptops'
+      } else {
+        return 'gamingLaptops'
       }
     }
   }

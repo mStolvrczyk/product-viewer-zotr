@@ -346,7 +346,7 @@
           <div class="floating-button">
             <v-fab-transition>
               <v-btn
-                @click="returnButtonAction"
+                @click="scrape('485405-karta-graficzna-nvidia-gigabyte-geforce-rtx-2060-oc-6gb-gddr6.html?gclid=Cj0KCQjw5eX7BRDQARIsAMhYLP8mCdMBsNbDT7vbos8VE5QfY8bRGJlhkfOAvcTm6A_Qq7OJSS1kD18aAsCGEALw_wcB')"
                 v-show="returnButtonVisibility"
                 color="#000"
                 absolute
@@ -444,10 +444,10 @@ export default {
         this.returnButtonVisibility = false
       }
     },
-    async scrape () {
-      const products = await this.productsService.getScrapedProduct()
-      this.firstname = products.details.brand
-      // console.log(products.details.brand)
+    async scrape (target) {
+      const products = await this.productsService.getScrapedProduct(target)
+      // this.firstname = products.details.brand
+      console.log(products)
     },
     getImgUrl (imagePath) {
       return require('../assets/productImages' + imagePath)

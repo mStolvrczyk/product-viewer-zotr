@@ -10,7 +10,15 @@ export default class ProductsService {
     return appHttpClient.get(`/${category}/${subcategory}`).then(prop('data'))
   }
 
-  async getScrapedProduct () {
-    return appHttpClient.get('/graphicsCards').then(prop('data'))
+  async scrapeGraphicsCard (target) {
+    return appHttpClient.get(`/graphicsCard/${target}`).then(prop('data'))
+  }
+
+  async scrapeSmartphone (target) {
+    return appHttpClient.get(`/smartphone/${target}`).then(prop('data'))
+  }
+
+  async scrapeLaptop (target) {
+    return appHttpClient.get(`/laptop/${target}`).then(prop('data'))
   }
 }
