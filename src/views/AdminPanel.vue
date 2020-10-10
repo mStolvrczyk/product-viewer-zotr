@@ -398,7 +398,7 @@
         </transition>
       </div>
     </section>
-    <NewProductDialog
+    <NewLaptopDialog
       :newProductDialogVisibility.sync="newProductDialogVisibility"
       :choosenProductCategory.sync="choosenProductCategory"
       v-on:closeNewProductDialog="closeNewProductDialog"
@@ -408,10 +408,10 @@
 
 <script>
 import ProductsService from '@/services/productsService'
-import NewProductDialog from '@/components/NewProductDialog'
+import NewLaptopDialog from '@/components/NewLaptopDialog'
 export default {
   name: 'AdminPanel',
-  components: { NewProductDialog },
+  components: { NewLaptopDialog },
   data () {
     return {
       firstname: 'dupa',

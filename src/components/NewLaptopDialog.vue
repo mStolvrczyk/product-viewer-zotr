@@ -7,7 +7,7 @@
   >
     <div id="new-product-dialog">
       <div id="new-product-header">
-        <h3>Dodaj {{ choosenProductCategory }}</h3>
+        <h3>Dodaj laptop</h3>
       </div>
       <div class="container">
         <div class="row-dialog">
@@ -21,7 +21,7 @@
             style="text-transform: none"
             color="blue-grey"
             class="ma-2 white--text"
-            @click="scrape"
+            @click="scrapeLaptop"
           >
             Zeskrapuj dane
             <v-icon
@@ -34,17 +34,17 @@
         </div>
         <div class="row-dialog">
           <v-text-field
-            v-model="productData[1].data.imageOne"
+            v-model="newLaptop.images.imageOne"
             label="Zdjęcie nr 1"
             required
           ></v-text-field>
           <v-text-field
-            v-model="productData[1].data.imageTwo"
+            v-model="newLaptop.images.imageTwo"
             label="Zdjęcie nr 2"
             required
           ></v-text-field>
           <v-text-field
-            v-model="productData[1].data.imageThree"
+            v-model="newLaptop.images.imageThree"
             label="Zdjęcie nr 3"
             required
           ></v-text-field>
@@ -152,11 +152,13 @@
 
 <script>
 import ProductsService from '@/services/productsService'
+import Laptop from '@/models/Laptop'
 
 export default {
-  name: 'NewProductDialog',
+  name: 'NewLaptopDialog',
   data () {
     return {
+      newLaptop: Laptop,
       scrapingTarget: null,
       productsService: new ProductsService(),
       alignment: 0,
@@ -181,15 +183,17 @@ export default {
     }
   },
   props: {
-    newProductDialogVisibility: Boolean,
-    choosenProductCategory: String
+    newProductDialogVisibility: Boolean
+    // choosenProductCategory: String
   },
   methods: {
-    async scrape () {
+    async scrapeLaptop () {
       if (this.scrapingTarget !== null) {
         const productAddress = this.scrapingTarget.replace('https://www.x-kom.pl/p/', '')
-        const products = await this.productsService.scrapeLaptop(productAddress)
-        console.log(products)
+        const product = await this.productsService.scrapeLaptop(productAddress)
+        this.newLaptop.images.imageOne = product.images.imageOne
+        this.newLaptop.images.imageTwo = product.images.imageTwo
+        this.newLaptop.images.imageOne = product.images.imageOne
       }
       // this.firstname = products.details.brand
       // console.log(products)
