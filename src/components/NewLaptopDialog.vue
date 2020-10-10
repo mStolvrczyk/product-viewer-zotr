@@ -18,6 +18,7 @@
           ></v-text-field>
 <!--            loading="true"-->
           <v-btn
+            :loading="scrapeLoadingStatement"
             style="text-transform: none"
             color="blue-grey"
             class="ma-2 white--text"
@@ -52,44 +53,44 @@
         <div class="second-row">
           <div class="col">
             <v-text-field
-              v-model="productData[2].data"
+              v-model="newLaptop.brand"
               label="Marka"
               required
             ></v-text-field>
             <v-text-field
-              v-model="productData[3].data"
+              v-model="newLaptop.model"
               label="Model"
               required
             ></v-text-field>
             <v-text-field
-              v-model="productData[3].data"
+              v-model="newLaptop.ram"
               label="RAM"
               required
             ></v-text-field>
             <v-text-field
-              v-model="productData[4].data"
+              v-model="newLaptop.cpu"
               label="CPU"
               required
             ></v-text-field>
           </div>
           <div class="col">
             <v-text-field
-              v-model="productData[5].data"
+              v-model="newLaptop.gpu"
               label="GPU"
               required
             ></v-text-field>
             <v-text-field
-              v-model="productData[6].data"
+              v-model="newLaptop.drive"
               label="Dysk"
               required
             ></v-text-field>
             <v-text-field
-              v-model="productData[7].data"
+              v-model="newLaptop.matrix"
               label="Matryca"
               required
             ></v-text-field>
             <v-text-field
-              v-model="productData[8].data"
+              v-model="newLaptop.price"
               label="Cena"
               required
             ></v-text-field>
@@ -108,6 +109,7 @@
         </div>
         <div class="row-dialog">
           <v-textarea
+            v-model="newLaptop.description"
             name="input-7-4"
             label="Opis produktu"
           ></v-textarea>
@@ -158,28 +160,11 @@ export default {
   name: 'NewLaptopDialog',
   data () {
     return {
+      scrapeLoadingStatement: false,
       newLaptop: Laptop,
       scrapingTarget: null,
       productsService: new ProductsService(),
-      alignment: 0,
-      productData: [
-        { data: null },
-        {
-          data: {
-            imageOne: null,
-            imageTwo: null,
-            imageThree: null
-          }
-        },
-        { data: null },
-        { data: null },
-        { data: null },
-        { data: null },
-        { data: null },
-        { data: null },
-        { data: null },
-        { data: null }
-      ]
+      alignment: 0
     }
   },
   props: {
@@ -189,11 +174,24 @@ export default {
   methods: {
     async scrapeLaptop () {
       if (this.scrapingTarget !== null) {
+        this.scrapeLoadingStatement = true
         const productAddress = this.scrapingTarget.replace('https://www.x-kom.pl/p/', '')
         const product = await this.productsService.scrapeLaptop(productAddress)
         this.newLaptop.images.imageOne = product.images.imageOne
         this.newLaptop.images.imageTwo = product.images.imageTwo
-        this.newLaptop.images.imageOne = product.images.imageOne
+        this.newLaptop.images.imageThree = product.images.imageThree
+        this.newLaptop.brand = product.details.brand
+        this.newLaptop.model = product.details.model
+        this.newLaptop.ram = product.details.ram
+        this.newLaptop.cpu = product.details.cpu
+        this.newLaptop.gpu = product.details.gpu
+        this.newLaptop.drive = product.details.drive
+        this.newLaptop.matrix = product.details.matrix
+        this.newLaptop.type = this.laptopType
+        this.newLaptop.description = product.details.description
+        this.newLaptop.price = product.details.price
+        this.scrapeLoadingStatement = false
+        console.log(this.newLaptop)
       }
       // this.firstname = products.details.brand
       // console.log(products)
@@ -212,10 +210,15 @@ export default {
     },
     laptopType () {
       if (this.alignment === 0) {
-        return 'regular Laptops'
+        return 'regularLaptops'
       } else {
         return 'gamingLaptops'
       }
+    }
+  },
+  watch: {
+    'laptopType' (value) {
+      this.newLaptop.type = value
     }
   }
 }
