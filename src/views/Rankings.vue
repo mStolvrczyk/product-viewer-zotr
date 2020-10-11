@@ -281,21 +281,6 @@
 <!--            </div>-->
 <!--          </div>-->
 <!--        </div>-->
-        <div class="floating-button">
-          <v-fab-transition>
-            <v-btn
-              @click="returnButtonAction"
-              v-show="returnButtonVisibility"
-              color="#df3968"
-              absolute
-              top
-              right
-              fab
-            >
-              <v-icon style="color: white; font-size: 30px">mdi-arrow-up</v-icon>
-            </v-btn>
-          </v-fab-transition>
-        </div>
       </div>
       <div v-else>
         <v-progress-linear
@@ -368,9 +353,6 @@ export default {
     }
   },
   watch: {
-    'returnButtonStatement' (value) {
-      console.log(value)
-    },
     'sliderValue' (value) {
       this.sliderCollection = this.products.filter(({ price }) => value[0] <= parseFloat(price.replace(' ', '')) && parseFloat(price.replace(' ', '')) <= value[1])
     },
@@ -378,13 +360,10 @@ export default {
       this.getProducts(this.$route.params.category, this.$route.params.subcategory)
     },
     'sliderCollection.length' () {
-      if (document.getElementById('rankings').offsetHeight - window.outerHeight < 100) {
+      if (document.getElementById('rankings').offsetHeight - window.outerHeight < 200) {
         this.$emit('outerHeightAlert', true)
       }
     }
-  },
-  created () {
-    window.onscroll = this.returnButtonAppearance
   },
   mounted () {
     this.getProducts(this.$route.params.category, this.$route.params.subcategory)

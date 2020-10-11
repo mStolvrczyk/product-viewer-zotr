@@ -30,6 +30,21 @@
         v-on:outerHeightAlert="outerHeightAlert"
       />
     </transition>
+    <div class="floating-button">
+      <v-fab-transition>
+        <v-btn
+          @click="scrape('485405-karta-graficzna-nvidia-gigabyte-geforce-rtx-2060-oc-6gb-gddr6.html?gclid=Cj0KCQjw5eX7BRDQARIsAMhYLP8mCdMBsNbDT7vbos8VE5QfY8bRGJlhkfOAvcTm6A_Qq7OJSS1kD18aAsCGEALw_wcB')"
+          v-show="returnButtonVisibility"
+          :color="returnButtonColor"
+          absolute
+          top
+          right
+          fab
+        >
+          <v-icon style="color: white; font-size: 30px">mdi-arrow-up</v-icon>
+        </v-btn>
+      </v-fab-transition>
+    </div>
     <footer id="main-footer">
       <div class="container footer-container">
         <div class="footer-col">
@@ -56,11 +71,15 @@ export default {
   },
   data () {
     return {
+      returnButtonVisibility: false,
       scrolled: false,
       prevScrollPos: window.pageYOffset
     }
   },
   methods: {
+    returnButtonAction () {
+      document.documentElement.scrollTop = 0
+    },
     outerHeightAlert (value) {
       if (value === true) {
         const navbar = document.getElementById('main-nav')
@@ -74,6 +93,11 @@ export default {
       }
     },
     navbarAction () {
+      if (window.pageYOffset > 100) {
+        this.returnButtonVisibility = true
+      } else {
+        this.returnButtonVisibility = false
+      }
       const currScrollPos = window.pageYOffset
       const navbar = document.getElementById('main-nav')
       if (window.pageYOffset > 100 && (this.prevScrollPos > currScrollPos)) {
@@ -85,6 +109,15 @@ export default {
         navbar.style.position = 'relative'
       }
       this.prevScrollPos = currScrollPos
+    }
+  },
+  computed: {
+    returnButtonColor () {
+      if (this.$route.path === '/home' || this.$route.path === `/rankings/${this.$route.params.category}`) {
+        return '#df3968'
+      } else {
+        return '#000'
+      }
     }
   },
   created () {

@@ -343,21 +343,6 @@
           <!--            </div>-->
           <!--          </div>-->
           <!--        </div>-->
-          <div class="floating-button">
-            <v-fab-transition>
-              <v-btn
-                @click="scrape('485405-karta-graficzna-nvidia-gigabyte-geforce-rtx-2060-oc-6gb-gddr6.html?gclid=Cj0KCQjw5eX7BRDQARIsAMhYLP8mCdMBsNbDT7vbos8VE5QfY8bRGJlhkfOAvcTm6A_Qq7OJSS1kD18aAsCGEALw_wcB')"
-                v-show="returnButtonVisibility"
-                color="#000"
-                absolute
-                top
-                right
-                fab
-              >
-                <v-icon style="color: white; font-size: 30px">mdi-arrow-up</v-icon>
-              </v-btn>
-            </v-fab-transition>
-          </div>
         </div>
         <div v-else>
           <v-progress-linear
@@ -420,7 +405,6 @@ export default {
       products: [],
       selectedProduct: null,
       arrowVisibility: false,
-      returnButtonVisibility: false,
       newProductDialogVisibility: false,
       choosenProductCategory: null
     }
@@ -434,20 +418,12 @@ export default {
       this.choosenProductCategory = category
       this.newProductDialogVisibility = true
     },
-    returnButtonAction () {
-      document.documentElement.scrollTop = 0
-    },
     returnButtonAppearance () {
       if (window.pageYOffset > 100) {
         this.returnButtonVisibility = true
       } else {
         this.returnButtonVisibility = false
       }
-    },
-    async scrape (target) {
-      const products = await this.productsService.getScrapedProduct(target)
-      // this.firstname = products.details.brand
-      console.log(products)
     },
     getImgUrl (imagePath) {
       return require('../assets/productImages' + imagePath)
@@ -485,9 +461,6 @@ export default {
         this.$emit('outerHeightAlert', true)
       }
     }
-  },
-  created () {
-    window.onscroll = this.returnButtonAppearance
   },
   mounted () {
     this.getProducts(this.$route.params.category, this.$route.params.subcategory)

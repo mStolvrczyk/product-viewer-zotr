@@ -18,7 +18,6 @@
           ></v-text-field>
 <!--            loading="true"-->
           <v-btn
-            :loading="scrapeLoadingStatement"
             style="text-transform: none"
             color="blue-grey"
             class="ma-2 white--text"
@@ -147,6 +146,19 @@
 <!--          ></v-text-field>-->
 <!--        </div>-->
       </div>
+      <v-dialog
+        v-model="scrapeLoadingStatement"
+        persistent
+        width="300"
+      >
+        <div class="loading-dialog">
+          <h4>Skrapowanie</h4>
+          <v-progress-linear
+            color="#fff"
+            indeterminate
+          ></v-progress-linear>
+        </div>
+      </v-dialog>
       <v-btn @click="closeNewProductDialog"></v-btn>
     </div>
   </v-dialog>
@@ -225,6 +237,15 @@ export default {
 </script>
 
 <style lang="scss">
+  .loading-dialog {
+    color: #fff;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    background-color: #000;
+    justify-content: center;
+    align-items: center;
+  }
   .row-dialog {
     padding: 1rem;
     background-color: #F5F5F5;
