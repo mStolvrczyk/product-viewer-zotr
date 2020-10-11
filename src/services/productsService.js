@@ -21,4 +21,8 @@ export default class ProductsService {
   async scrapeLaptop (target) {
     return appHttpClient.get(`/laptop/${target}`).then(prop('data'))
   }
+
+  async createLaptop () {
+    return appHttpClient.post('/laptops', { dupa: 'dupa' })
+  }
 }

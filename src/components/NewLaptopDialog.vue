@@ -159,7 +159,7 @@
           ></v-progress-linear>
         </div>
       </v-dialog>
-      <v-btn @click="closeNewProductDialog"></v-btn>
+      <v-btn @click="test"></v-btn>
     </div>
   </v-dialog>
 </template>
@@ -184,6 +184,10 @@ export default {
     // choosenProductCategory: String
   },
   methods: {
+    test () {
+      console.log('dupa')
+      this.productsService.createLaptop()
+    },
     async scrapeLaptop () {
       if (this.scrapingTarget !== null) {
         this.scrapeLoadingStatement = true
