@@ -1,5 +1,6 @@
 import appHttpClient from '../libs/appHttpClient'
 import { prop } from 'ramda'
+import { bus } from '@/main'
 
 export default class ProductsService {
   async getAllProducts (category) {
@@ -22,7 +23,12 @@ export default class ProductsService {
     return appHttpClient.get(`/laptop/${target}`).then(prop('data'))
   }
 
-  async createLaptop () {
-    return appHttpClient.post('/laptops', { dupa: 'dupa' })
+  async createLaptop (data) {
+    return appHttpClient.post('/laptops', data)
+      .then(response => bus.$emit('newProductMessage', true))
+      .then(response => setTimeout(function () {
+        bus.$emit('newProductMessage', false)
+      }
+      , 3000))
   }
 }

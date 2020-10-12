@@ -96,15 +96,12 @@
           </div>
         </div>
         <div class="row-dialog choose-type">
-          <v-btn-toggle v-model="alignment">
-            <v-btn style="text-transform: lowercase">
-              biurowy
-            </v-btn>
-
-            <v-btn style="text-transform: lowercase">
-              gamingowy
-            </v-btn>
-          </v-btn-toggle>
+          <v-select
+            style="width: 20%"
+            :items="laptopTypes"
+            label="Typ laptopa"
+            v-model="choosenType"
+          ></v-select>
         </div>
         <div class="row-dialog">
           <v-textarea
@@ -151,12 +148,21 @@
         persistent
         width="300"
       >
-        <div class="loading-dialog">
+        <div class="information-dialog">
           <h4>Skrapowanie</h4>
           <v-progress-linear
             color="#fff"
             indeterminate
           ></v-progress-linear>
+        </div>
+      </v-dialog>
+      <v-dialog
+        v-model="newObjectStatement"
+        persistent
+        width="350"
+      >
+        <div class="information-dialog">
+          <h4>Laptop został dodany do bazy danych</h4>
         </div>
       </v-dialog>
       <v-btn @click="test"></v-btn>
@@ -167,26 +173,31 @@
 <script>
 import ProductsService from '@/services/productsService'
 import Laptop from '@/models/Laptop'
+import { bus } from '@/main'
 
 export default {
   name: 'NewLaptopDialog',
   data () {
     return {
+      laptopTypes: [
+        'biurowy',
+        'gamingowy'
+      ],
+      choosenType: null,
       scrapeLoadingStatement: false,
+      newObjectStatement: false,
       newLaptop: Laptop,
       scrapingTarget: null,
-      productsService: new ProductsService(),
-      alignment: 0
+      productsService: new ProductsService()
     }
   },
   props: {
     newProductDialogVisibility: Boolean
-    // choosenProductCategory: String
   },
   methods: {
     test () {
-      console.log('dupa')
-      this.productsService.createLaptop()
+      // console.log(this.newLaptop)
+      this.productsService.createLaptop(this.newLaptop)
     },
     async scrapeLaptop () {
       if (this.scrapingTarget !== null) {
@@ -225,7 +236,7 @@ export default {
       }
     },
     laptopType () {
-      if (this.alignment === 0) {
+      if (this.choosenType === 'biurowy') {
         return 'regularLaptops'
       } else {
         return 'gamingLaptops'
@@ -236,12 +247,20 @@ export default {
     'laptopType' (value) {
       this.newLaptop.type = value
     }
+  },
+  beforeMount () {
+    bus.$on('newProductMessage', (value) => {
+      this.newObjectStatement = value
+    })
   }
 }
 </script>
 
 <style lang="scss">
-  .loading-dialog {
+  .choose-type-container {
+    width: 20%;
+  }
+  .information-dialog {
     color: #fff;
     padding: 1rem;
     display: flex;
