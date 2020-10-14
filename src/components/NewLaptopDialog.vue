@@ -16,7 +16,6 @@
             label="Zeskrapuj dane laptopa z linku"
             required
           ></v-text-field>
-<!--            loading="true"-->
           <v-btn
             style="text-transform: none"
             color="blue-grey"
@@ -143,28 +142,10 @@
 <!--          ></v-text-field>-->
 <!--        </div>-->
       </div>
-      <v-dialog
-        v-model="scrapeLoadingStatement"
-        persistent
-        width="300"
-      >
-        <div class="information-dialog">
-          <h4>Skrapowanie</h4>
-          <v-progress-linear
-            color="#fff"
-            indeterminate
-          ></v-progress-linear>
-        </div>
-      </v-dialog>
-      <v-dialog
-        v-model="newObjectStatement"
-        persistent
-        width="350"
-      >
-        <div class="information-dialog">
-          <h4>Laptop został dodany do bazy danych</h4>
-        </div>
-      </v-dialog>
+      <InformationDialog
+        :informationDialogVisibility.sync="informationDialogVisibility"
+        :informationDialogType.sync="informationDialogType"
+      />
       <v-btn @click="test"></v-btn>
     </div>
   </v-dialog>
@@ -174,11 +155,15 @@
 import ProductsService from '@/services/productsService'
 import Laptop from '@/models/Laptop'
 import { bus } from '@/main'
+import InformationDialog from '@/components/InformationDialog'
 
 export default {
   name: 'NewLaptopDialog',
+  components: { InformationDialog },
   data () {
     return {
+      informationDialogVisibility: false,
+      informationDialogType: null,
       laptopTypes: [
         'biurowy',
         'gamingowy'
@@ -196,12 +181,12 @@ export default {
   },
   methods: {
     test () {
-      // console.log(this.newLaptop)
       this.productsService.createLaptop(this.newLaptop)
     },
     async scrapeLaptop () {
       if (this.scrapingTarget !== null) {
-        this.scrapeLoadingStatement = true
+        this.informationDialogType = 'scraping'
+        this.informationDialogVisibility = true
         const productAddress = this.scrapingTarget.replace('https://www.x-kom.pl/p/', '')
         const product = await this.productsService.scrapeLaptop(productAddress)
         this.newLaptop.images.imageOne = product.images.imageOne
@@ -217,11 +202,30 @@ export default {
         this.newLaptop.type = this.laptopType
         this.newLaptop.description = product.details.description
         this.newLaptop.price = product.details.price
-        this.scrapeLoadingStatement = false
-        console.log(this.newLaptop)
+        this.informationDialogType = null
+        this.informationDialogVisibility = false
+        setTimeout(function () {
+          this.informationDialogType = 'scraping finished'
+          this.informationDialogVisibility = true
+        }
+          .bind(this),
+        500)
+        setTimeout(function () {
+          this.informationDialogVisibility = false
+          this.informationDialogType = null
+        }
+          .bind(this),
+        2000)
+      } else {
+        this.informationDialogType = 'target is not defined'
+        this.informationDialogVisibility = true
+        setTimeout(function () {
+          this.informationDialogVisibility = false
+          this.informationDialogType = null
+        }
+          .bind(this),
+        2000)
       }
-      // this.firstname = products.details.brand
-      // console.log(products)
     },
     closeNewProductDialog () {
       this.$emit('closeNewProductDialog', false)
@@ -249,8 +253,9 @@ export default {
     }
   },
   beforeMount () {
-    bus.$on('newProductMessage', (value) => {
-      this.newObjectStatement = value
+    bus.$on('informationDialogMessage', (value) => {
+      this.informationDialogType = value.informationDialogType
+      this.informationDialogVisibility = value.informationDialogVisibility
     })
   }
 }
@@ -262,10 +267,10 @@ export default {
   }
   .information-dialog {
     color: #fff;
-    padding: 1rem;
+    padding: 1rem 1.5rem;
     display: flex;
     flex-direction: column;
-    background-color: #000;
+    background-color: #df3968;
     justify-content: center;
     align-items: center;
   }

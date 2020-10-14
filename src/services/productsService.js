@@ -25,10 +25,10 @@ export default class ProductsService {
 
   async createLaptop (data) {
     return appHttpClient.post('/laptops', data)
-      .then(response => bus.$emit('newProductMessage', true))
+      .then(response => bus.$emit('informationDialogMessage', { informationDialogVisibility: true, informationDialogType: 'loading' }))
       .then(response => setTimeout(function () {
-        bus.$emit('newProductMessage', false)
+        bus.$emit('informationDialogMessage', { informationDialogVisibility: false, informationDialogType: null })
       }
-      , 3000))
+      , 2000))
   }
 }
