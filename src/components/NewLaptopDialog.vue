@@ -5,18 +5,18 @@
     v-model="newProductDialogVisibility"
      :max-width="informationDialogWidth"
   >
+    <div id="new-product-header">
+      <h3>Dodaj laptop</h3>
+    </div>
     <div id="new-product-dialog">
-      <div id="new-product-header">
-        <h3>Dodaj laptop</h3>
-      </div>
       <div class="container">
         <div class="row-dialog">
           <v-text-field
             v-model="scrapingTarget"
             label="Zeskrapuj dane laptopa z linku"
-            required
           ></v-text-field>
           <v-btn
+            :disabled="scrapingStatement"
             style="text-transform: none"
             color="blue-grey"
             class="ma-2 white--text"
@@ -35,16 +35,19 @@
           <v-text-field
             v-model="newLaptop.images.imageOne"
             label="Zdjęcie nr 1"
+            :rules="rules.laptopDetails"
             required
           ></v-text-field>
           <v-text-field
             v-model="newLaptop.images.imageTwo"
             label="Zdjęcie nr 2"
+            :rules="rules.laptopDetails"
             required
           ></v-text-field>
           <v-text-field
             v-model="newLaptop.images.imageThree"
             label="Zdjęcie nr 3"
+            :rules="rules.laptopDetails"
             required
           ></v-text-field>
         </div>
@@ -53,21 +56,25 @@
             <v-text-field
               v-model="newLaptop.brand"
               label="Marka"
+              :rules="rules.laptopDetails"
               required
             ></v-text-field>
             <v-text-field
               v-model="newLaptop.model"
               label="Model"
+              :rules="rules.laptopDetails"
               required
             ></v-text-field>
             <v-text-field
               v-model="newLaptop.ram"
               label="RAM"
+              :rules="rules.laptopDetails"
               required
             ></v-text-field>
             <v-text-field
               v-model="newLaptop.cpu"
               label="CPU"
+              :rules="rules.laptopDetails"
               required
             ></v-text-field>
           </div>
@@ -75,21 +82,25 @@
             <v-text-field
               v-model="newLaptop.gpu"
               label="GPU"
+              :rules="rules.laptopDetails"
               required
             ></v-text-field>
             <v-text-field
               v-model="newLaptop.drive"
               label="Dysk"
+              :rules="rules.laptopDetails"
               required
             ></v-text-field>
             <v-text-field
               v-model="newLaptop.matrix"
               label="Matryca"
+              :rules="rules.laptopDetails"
               required
             ></v-text-field>
             <v-text-field
               v-model="newLaptop.price"
               label="Cena"
+              :rules="rules.laptopDetails"
               required
             ></v-text-field>
           </div>
@@ -100,6 +111,8 @@
             :items="laptopTypes"
             label="Typ laptopa"
             v-model="choosenType"
+            :rules="rules.laptopDetails"
+            required
           ></v-select>
         </div>
         <div class="row-dialog">
@@ -107,46 +120,45 @@
             v-model="newLaptop.description"
             name="input-7-4"
             label="Opis produktu"
+            :rules="rules.laptopDetails"
+            required
           ></v-textarea>
         </div>
-<!--        <div class="col-1">-->
-<!--          <v-text-field-->
-<!--            label="Zeskrapuj laptop z linku"-->
-<!--            required-->
-<!--          ></v-text-field>-->
-<!--          <v-text-field-->
-<!--            label="Model"-->
-<!--            required-->
-<!--          ></v-text-field>-->
-<!--          <v-text-field-->
-<!--            label="Marka"-->
-<!--            required-->
-<!--          ></v-text-field>-->
-<!--          <v-text-field-->
-<!--            label="E-mail"-->
-<!--            required-->
-<!--          ></v-text-field>-->
-<!--        </div>-->
-<!--        <div class="col-2">-->
-<!--          <v-text-field-->
-<!--            label="Zeskrapuj laptop z linku"-->
-<!--            required-->
-<!--          ></v-text-field>-->
-<!--          <v-text-field-->
-<!--            label="Model"-->
-<!--            required-->
-<!--          ></v-text-field>-->
-<!--          <v-text-field-->
-<!--            label="Marka"-->
-<!--            required-->
-<!--          ></v-text-field>-->
-<!--        </div>-->
+        <div class="row-dialog">
+          <v-btn
+            style="text-transform: none"
+            color="blue-grey"
+            class="ma-2 white--text"
+            @click="scrapeLaptop"
+          >
+            Dodaj Produkt do bazy danych
+            <v-icon
+              right
+              dark
+            >
+              mdi-upload
+            </v-icon>
+          </v-btn>
+          <v-btn
+            style="text-transform: none"
+            color="blue-grey"
+            class="ma-2 white--text"
+            @click="scrapeLaptop"
+          >
+            Wróć
+            <v-icon
+              right
+              dark
+            >
+              mdi-arrow-left
+            </v-icon>
+          </v-btn>
+        </div>
       </div>
       <InformationDialog
         :informationDialogVisibility.sync="informationDialogVisibility"
         :informationDialogType.sync="informationDialogType"
       />
-      <v-btn @click="test"></v-btn>
     </div>
   </v-dialog>
 </template>
@@ -162,6 +174,9 @@ export default {
   components: { InformationDialog },
   data () {
     return {
+      rules: {
+        laptopDetails: [val => (val || '').length > 0 || 'To pole jest wymagane']
+      },
       informationDialogVisibility: false,
       informationDialogType: null,
       laptopTypes: [
@@ -232,6 +247,9 @@ export default {
     }
   },
   computed: {
+    scrapingStatement () {
+      return this.scrapingTarget === null || this.scrapingTarget === ''
+    },
     informationDialogWidth () {
       if (this.$vuetify.breakpoint.xsOnly) {
         return 70 + '%'
@@ -270,9 +288,14 @@ export default {
     padding: 1rem 1.5rem;
     display: flex;
     flex-direction: column;
-    background-color: #df3968;
     justify-content: center;
     align-items: center;
+    &.success {
+      background-color: #df3968;
+    }
+    &.failure {
+      background-color: #000;
+    }
   }
   .row-dialog {
     padding: 1rem;
