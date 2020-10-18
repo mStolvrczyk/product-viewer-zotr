@@ -124,10 +124,24 @@
             required
           ></v-textarea>
         </div>
-        <div class="row-dialog">
+        <div class="button-row">
           <v-btn
             style="text-transform: none"
             color="blue-grey"
+            class="ma-2 white--text"
+            @click="scrapeLaptop"
+          >
+            Wróć
+            <v-icon
+              right
+              dark
+            >
+              mdi-arrow-left
+            </v-icon>
+          </v-btn>
+          <v-btn
+            style="text-transform: none; color: white"
+            color="#df3968"
             class="ma-2 white--text"
             @click="scrapeLaptop"
           >
@@ -145,12 +159,12 @@
             class="ma-2 white--text"
             @click="scrapeLaptop"
           >
-            Wróć
+            Wyczyść pola
             <v-icon
               right
               dark
             >
-              mdi-arrow-left
+              mdi-eraser
             </v-icon>
           </v-btn>
         </div>
@@ -280,6 +294,15 @@ export default {
 </script>
 
 <style lang="scss">
+  .button-row {
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 0.5rem;
+  }
+  .v-dialog {
+    overflow-y: hidden;
+  }
   .choose-type-container {
     width: 20%;
   }
@@ -331,6 +354,8 @@ export default {
     justify-content: center;
     align-items: center;
     width: 100%;
+    height: 700px;
+    overflow-y: auto;
     background-color: #fff;
   }
   .col-1 {
