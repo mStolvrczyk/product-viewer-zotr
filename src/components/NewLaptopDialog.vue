@@ -125,48 +125,56 @@
           ></v-textarea>
         </div>
         <div class="button-row">
-          <v-btn
-            style="text-transform: none"
-            color="blue-grey"
-            class="ma-2 white--text"
-            @click="scrapeLaptop"
-          >
-            Wróć
-            <v-icon
-              right
-              dark
-            >
-              mdi-arrow-left
-            </v-icon>
-          </v-btn>
-          <v-btn
-            style="text-transform: none; color: white"
-            color="#df3968"
-            class="ma-2 white--text"
-            @click="scrapeLaptop"
-          >
-            Dodaj Produkt do bazy danych
-            <v-icon
-              right
-              dark
-            >
-              mdi-upload
-            </v-icon>
-          </v-btn>
-          <v-btn
-            style="text-transform: none"
-            color="blue-grey"
-            class="ma-2 white--text"
-            @click="scrapeLaptop"
-          >
-            Wyczyść pola
-            <v-icon
-              right
-              dark
-            >
-              mdi-eraser
-            </v-icon>
-          </v-btn>
+          <div class="col-test">
+            <div class="dialog-button short">
+              <v-btn
+                style="text-transform: none"
+                color="blue-grey"
+                class="ma-2 white--text"
+                @click="scrapeLaptop"
+              >
+                Wróć
+                <v-icon
+                  right
+                  dark
+                >
+                  mdi-arrow-left
+                </v-icon>
+              </v-btn>
+            </div>
+          </div>
+          <div class="col-test">
+            <div class="dialog-button">
+              <v-btn
+                style="text-transform: none; color: white"
+                color="#df3968"
+                class="my-2"
+                @click="scrapeLaptop"
+              >
+                Dodaj Produkt do bazy danych
+                <v-icon
+                  right
+                  dark
+                >
+                  mdi-upload
+                </v-icon>
+              </v-btn>
+              <v-btn
+                style="text-transform: none"
+                color="blue-grey"
+                class="ma-2 white--text"
+                @click="scrapeLaptop"
+              >
+                Wyczyść pola
+                <v-icon
+                  right
+                  dark
+                >
+                  mdi-eraser
+                </v-icon>
+              </v-btn>
+            </div>
+          </div>
         </div>
       </div>
       <InformationDialog
@@ -294,11 +302,15 @@ export default {
 </script>
 
 <style lang="scss">
+  .col-test {
+    display: flex;
+    width: 100%;
+  }
   .button-row {
+    justify-content: right;
     padding: 1rem;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    column-gap: 0.5rem;
+    grid-template-columns: 3fr 1fr;
   }
   .v-dialog {
     overflow-y: hidden;
@@ -354,9 +366,22 @@ export default {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 700px;
+    height: 470px;
     overflow-y: auto;
     background-color: #fff;
+  }
+  .dialog-button {
+    margin: 0.5rem;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    &.short {
+      margin: 0.5rem;
+      width: 150px;
+      display: flex;
+      justify-content: right;
+    }
   }
   .col-1 {
     display: flex;
