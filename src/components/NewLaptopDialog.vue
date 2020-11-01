@@ -159,6 +159,8 @@
                   mdi-upload
                 </v-icon>
               </v-btn>
+            </div>
+            <div class="dialog-button">
               <v-btn
                 style="text-transform: none"
                 color="blue-grey"
@@ -304,6 +306,7 @@ export default {
 <style lang="scss">
   .col-test {
     display: flex;
+    flex-direction: column;
     width: 100%;
   }
   .button-row {
@@ -371,7 +374,7 @@ export default {
     background-color: #fff;
   }
   .dialog-button {
-    margin: 0.5rem;
+    margin: 0.4rem;
     justify-content: center;
     display: flex;
     flex-direction: column;
