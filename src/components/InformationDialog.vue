@@ -20,6 +20,9 @@
     <div class="information-dialog failure" v-else-if="informationDialogType === 'target is not defined'">
       <h4>Link do produktu nie został dodany</h4>
     </div>
+    <div class="information-dialog failure" v-else-if="informationDialogType === 'connection error'">
+      <h4>Brak połączenia z internetem</h4>
+    </div>
   </v-dialog>
 </template>
 

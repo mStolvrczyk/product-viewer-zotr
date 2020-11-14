@@ -149,7 +149,7 @@
                 style="text-transform: none; color: white"
                 color="#df3968"
                 class="my-2"
-                @click="scrapeLaptop"
+                @click="saveLaptop"
               >
                 Dodaj Produkt do bazy danych
                 <v-icon
@@ -165,7 +165,7 @@
                 style="text-transform: none"
                 color="blue-grey"
                 class="ma-2 white--text"
-                @click="scrapeLaptop"
+                @click="clearCells"
               >
                 Wyczyść pola
                 <v-icon
@@ -219,8 +219,23 @@ export default {
     newProductDialogVisibility: Boolean
   },
   methods: {
-    test () {
+    saveLaptop () {
       this.productsService.createLaptop(this.newLaptop)
+    },
+    clearCells () {
+      this.newLaptop.images.imageOne = null
+      this.newLaptop.images.imageTwo = null
+      this.newLaptop.images.imageThree = null
+      this.newLaptop.brand = null
+      this.newLaptop.model = null
+      this.newLaptop.ram = null
+      this.newLaptop.cpu = null
+      this.newLaptop.gpu = null
+      this.newLaptop.drive = null
+      this.newLaptop.matrix = null
+      this.newLaptop.type = null
+      this.newLaptop.description = null
+      this.newLaptop.price = null
     },
     async scrapeLaptop () {
       if (this.scrapingTarget !== null) {

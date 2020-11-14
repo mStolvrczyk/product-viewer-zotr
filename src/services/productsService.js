@@ -24,11 +24,34 @@ export default class ProductsService {
   }
 
   async createLaptop (data) {
-    return appHttpClient.post('/laptops', data)
-      .then(response => bus.$emit('informationDialogMessage', { informationDialogVisibility: true, informationDialogType: 'loading' }))
-      .then(response => setTimeout(function () {
-        bus.$emit('informationDialogMessage', { informationDialogVisibility: false, informationDialogType: null })
+    return appHttpClient.post('/laptops', data).catch(function (error) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log(error.response.data)
+        console.log(error.response.status)
+        console.log(error.response.headers)
+        bus.$emit('informationDialogMessage', { informationDialogVisibility: true, informationDialogType: 'connection error' })
+        setTimeout(function () {
+          bus.$emit('informationDialogMessage', { informationDialogVisibility: false, informationDialogType: null })
+        }
+        , 2000)
+      } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+        // http.ClientRequest in node.js
+        console.log(error.request)
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', error.message)
       }
-      , 2000))
+      console.log(error.config)
+    })
+    // bus.$emit('informationDialogMessage', { informationDialogVisibility: true, informationDialogType: 'loading' })
+    // setTimeout(function () {
+    //   bus.$emit('informationDialogMessage', { informationDialogVisibility: false, informationDialogType: null })
+    // }
+    // , 2000)
+    // })
   }
 }
