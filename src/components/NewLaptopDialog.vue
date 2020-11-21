@@ -131,7 +131,7 @@
                 style="text-transform: none"
                 color="blue-grey"
                 class="ma-2 white--text"
-                @click="scrapeLaptop"
+                @click="returnToAdminPanel"
               >
                 Wróć
                 <v-icon
@@ -182,6 +182,7 @@
       <InformationDialog
         :informationDialogVisibility.sync="informationDialogVisibility"
         :informationDialogType.sync="informationDialogType"
+        v-on:closeInformationDialog="closeInformationDialog"
       />
     </div>
   </v-dialog>
@@ -219,6 +220,14 @@ export default {
     newProductDialogVisibility: Boolean
   },
   methods: {
+    closeInformationDialog (value) {
+      this.informationDialogVisibility = value
+      this.informationDialogType = null
+    },
+    returnToAdminPanel () {
+      this.closeNewProductDialog()
+      this.clearCells()
+    },
     saveLaptop () {
       this.productsService.createLaptop(this.newLaptop)
     },
@@ -242,34 +251,40 @@ export default {
         this.informationDialogType = 'scraping'
         this.informationDialogVisibility = true
         const productAddress = this.scrapingTarget.replace('https://www.x-kom.pl/p/', '')
-        const product = await this.productsService.scrapeLaptop(productAddress)
-        this.newLaptop.images.imageOne = product.images.imageOne
-        this.newLaptop.images.imageTwo = product.images.imageTwo
-        this.newLaptop.images.imageThree = product.images.imageThree
-        this.newLaptop.brand = product.details.brand
-        this.newLaptop.model = product.details.model
-        this.newLaptop.ram = product.details.ram
-        this.newLaptop.cpu = product.details.cpu
-        this.newLaptop.gpu = product.details.gpu
-        this.newLaptop.drive = product.details.drive
-        this.newLaptop.matrix = product.details.matrix
-        this.newLaptop.type = this.laptopType
-        this.newLaptop.description = product.details.description
-        this.newLaptop.price = product.details.price
-        this.informationDialogType = null
-        this.informationDialogVisibility = false
-        setTimeout(function () {
-          this.informationDialogType = 'scraping finished'
-          this.informationDialogVisibility = true
-        }
-          .bind(this),
-        500)
-        setTimeout(function () {
-          this.informationDialogVisibility = false
-          this.informationDialogType = null
-        }
-          .bind(this),
-        2000)
+        await this.productsService.scrapeLaptop(productAddress).then(product => {
+          if (product.details.brand === '' && product.details.cpu === '' && product.details.description === '' && product.details.drive === '' && product.details.gpu === '' && product.details.matrix === '' && product.details.model === '' && product.details.price === '' && product.details.ram === '') {
+            this.informationDialogType = null
+            this.informationDialogVisibility = false
+            setTimeout(function () {
+              this.informationDialogType = 'scraping failed'
+              this.informationDialogVisibility = true
+            }
+              .bind(this),
+            500)
+          } else {
+            this.newLaptop.images.imageOne = product.images.imageOne
+            this.newLaptop.images.imageTwo = product.images.imageTwo
+            this.newLaptop.images.imageThree = product.images.imageThree
+            this.newLaptop.brand = product.details.brand
+            this.newLaptop.model = product.details.model
+            this.newLaptop.ram = product.details.ram
+            this.newLaptop.cpu = product.details.cpu
+            this.newLaptop.gpu = product.details.gpu
+            this.newLaptop.drive = product.details.drive
+            this.newLaptop.matrix = product.details.matrix
+            this.newLaptop.type = this.laptopType
+            this.newLaptop.description = product.details.description
+            this.newLaptop.price = product.details.price
+            this.informationDialogType = null
+            this.informationDialogVisibility = false
+            setTimeout(function () {
+              this.informationDialogType = 'scraping finished'
+              this.informationDialogVisibility = true
+            }
+              .bind(this),
+            500)
+          }
+        })
       } else {
         this.informationDialogType = 'target is not defined'
         this.informationDialogVisibility = true
