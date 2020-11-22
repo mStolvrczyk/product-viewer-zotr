@@ -54,7 +54,7 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-item @click="openNewProductDialog('laptop')">
+          <v-list-item @click="openNewProductDialog('laptops')">
             <v-list-item-title>Laptop</v-list-item-title>
           </v-list-item>
           <v-list-item>
@@ -384,6 +384,7 @@
       </div>
     </section>
     <NewLaptopDialog
+      :currentProductsNumber="currentProductsNumber"
       :newProductDialogVisibility.sync="newProductDialogVisibility"
       :choosenProductCategory.sync="choosenProductCategory"
       v-on:closeNewProductDialog="closeNewProductDialog"
@@ -399,6 +400,7 @@ export default {
   components: { NewLaptopDialog },
   data () {
     return {
+      currentProductsNumber: null,
       firstname: 'dupa',
       productsService: new ProductsService(),
       allProducts: [],
@@ -414,7 +416,8 @@ export default {
       this.newProductDialogVisibility = value
       this.choosenProductCategory = null
     },
-    openNewProductDialog (category) {
+    async openNewProductDialog (category) {
+      this.currentProductsNumber = await this.productsService.getCountOfProducts(category)
       this.choosenProductCategory = category
       this.newProductDialogVisibility = true
     },

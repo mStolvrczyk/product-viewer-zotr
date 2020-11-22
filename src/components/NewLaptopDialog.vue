@@ -217,7 +217,8 @@ export default {
     }
   },
   props: {
-    newProductDialogVisibility: Boolean
+    newProductDialogVisibility: Boolean,
+    currentProductsNumber: Number
   },
   methods: {
     closeInformationDialog (value) {
@@ -283,6 +284,12 @@ export default {
             }
               .bind(this),
             500)
+            setTimeout(function () {
+              this.informationDialogType = null
+              this.informationDialogVisibility = false
+            }
+              .bind(this),
+            1500)
           }
         })
       } else {

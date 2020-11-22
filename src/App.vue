@@ -33,7 +33,7 @@
     <div class="floating-button">
       <v-fab-transition>
         <v-btn
-          @click="scrape('485405-karta-graficzna-nvidia-gigabyte-geforce-rtx-2060-oc-6gb-gddr6.html?gclid=Cj0KCQjw5eX7BRDQARIsAMhYLP8mCdMBsNbDT7vbos8VE5QfY8bRGJlhkfOAvcTm6A_Qq7OJSS1kD18aAsCGEALw_wcB')"
+          @click="returnButtonAction"
           v-show="returnButtonVisibility"
           :color="returnButtonColor"
           absolute
