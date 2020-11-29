@@ -6,10 +6,12 @@ export default {
   },
   brand: null,
   model: null,
-  screen: null,
-  battery: null,
   ram: null,
-  memory: null,
+  cpu: null,
+  gpu: null,
+  drive: null,
+  matrix: null,
+  type: null,
   description: null,
   price: null
 }

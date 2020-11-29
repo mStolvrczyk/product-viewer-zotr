@@ -332,9 +332,20 @@ export default {
     }
   },
   beforeMount () {
-    bus.$on('informationDialogMessage', (value) => {
-      this.informationDialogType = value.informationDialogType
-      this.informationDialogVisibility = value.informationDialogVisibility
+    bus.$on('countOfProducts', (value) => {
+      if (value > this.currentProductsNumber) {
+        this.informationDialogVisibility = true
+        this.informationDialogType = 'uploading succesful'
+        setTimeout(function () {
+          this.informationDialogVisibility = false
+          this.informationDialogType = null
+        }
+          .bind(this),
+        2000)
+      } else {
+        this.informationDialogType = 'uploading failed'
+        this.informationDialogVisibility = true
+      }
     })
   }
 }
@@ -357,20 +368,6 @@ export default {
   }
   .choose-type-container {
     width: 20%;
-  }
-  .information-dialog {
-    color: #fff;
-    padding: 1rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    &.success {
-      background-color: #df3968;
-    }
-    &.failure {
-      background-color: #000;
-    }
   }
   .row-dialog {
     padding: 1rem;

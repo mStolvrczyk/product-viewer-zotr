@@ -394,7 +394,7 @@
 
 <script>
 import ProductsService from '@/services/productsService'
-import NewLaptopDialog from '@/components/NewLaptopDialog'
+import NewLaptopDialog from '@/components/CRUD/Laptop/NewLaptopDialog'
 export default {
   name: 'AdminPanel',
   components: { NewLaptopDialog },

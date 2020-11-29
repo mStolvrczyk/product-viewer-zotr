@@ -1,6 +1,6 @@
 import appHttpClient from '../libs/appHttpClient'
 import { prop } from 'ramda'
-// import { bus } from '@/main'
+import { bus } from '@/main'
 
 export default class ProductsService {
   async getAllProducts (category) {
@@ -62,8 +62,9 @@ export default class ProductsService {
   async createLaptop (data) {
     return await appHttpClient.post('/laptops', data)
       .then(response => {
-        response = this.getCountOfProducts('laptops')
-          .then(response => console.log(response))
+        response = this.getCountOfProducts('laptops').then(response => {
+          bus.$emit('countOfProducts', response)
+        })
       })
   }
 }

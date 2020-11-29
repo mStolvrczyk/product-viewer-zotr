@@ -11,8 +11,21 @@
         indeterminate
       ></v-progress-linear>
     </div>
-    <div class="information-dialog success" v-else-if="informationDialogType === 'loading'">
+    <div class="information-dialog success" v-else-if="informationDialogType === 'uploading succesful'">
       <h4>Laptop został dodany do bazy danych</h4>
+    </div>
+    <div class="information-dialog failure" v-else-if="informationDialogType === 'uploading failed'">
+      <h4>Laptop nie został dodany do bazy danych. Sprawdź połączenie z internetem.</h4>
+      <div class="dialog-button short" style="padding-top: 1rem">
+        <v-btn
+          style="text-transform: none"
+          color="blue-grey"
+          class="ma-2 white--text"
+          @click="closeInformationDialog"
+        >
+          OK
+        </v-btn>
+      </div>
     </div>
     <div class="information-dialog scrapping" v-else-if="informationDialogType === 'scraping finished'">
       <h4>Skrapowanie zakończone</h4>
@@ -77,7 +90,7 @@ export default {
   justify-content: center;
   align-items: center;
   &.success {
-    background-color: #fff;
+    background-color: #df3968;
     h4 {
       color: #000;
     }
