@@ -2,7 +2,7 @@
   <v-dialog
     transition="dialog-bottom-transition"
     persistent
-    v-model="newProductDialogVisibility"
+    v-model="newLaptopDialogVisibility"
      :max-width="informationDialogWidth"
   >
     <div id="new-product-header">
@@ -217,8 +217,8 @@ export default {
     }
   },
   props: {
-    newProductDialogVisibility: Boolean,
-    currentProductsNumber: Number
+    currentProductsNumber: Number,
+    productsCategory: String
   },
   methods: {
     closeInformationDialog (value) {
@@ -226,7 +226,7 @@ export default {
       this.informationDialogType = null
     },
     returnToAdminPanel () {
-      this.closeNewProductDialog()
+      this.closeNewLaptopDialog()
       this.clearCells()
     },
     saveLaptop () {
@@ -303,8 +303,8 @@ export default {
         2000)
       }
     },
-    closeNewProductDialog () {
-      this.$emit('closeNewProductDialog', false)
+    closeNewLaptopDialog () {
+      this.$emit('closeNewLaptopDialog', false)
     }
   },
   computed: {
@@ -324,6 +324,9 @@ export default {
       } else {
         return 'gamingLaptops'
       }
+    },
+    newLaptopDialogVisibility () {
+      return this.productsCategory === 'laptops'
     }
   },
   watch: {

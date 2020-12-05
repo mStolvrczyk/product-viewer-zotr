@@ -2,7 +2,7 @@
   <v-dialog
     transition="dialog-bottom-transition"
     persistent
-    v-model="newProductDialogVisibility"
+    v-model="newGraphicsCardDialogVisibility"
      :max-width="informationDialogWidth"
   >
     <div id="new-product-header">
@@ -304,7 +304,7 @@ export default {
       }
     },
     closeNewProductDialog () {
-      this.$emit('closeNewProductDialog', false)
+      this.$emit('closeNewLaptopDialog', false)
     }
   },
   computed: {
@@ -324,6 +324,9 @@ export default {
       } else {
         return 'gamingLaptops'
       }
+    },
+    newGraphicsCardDialogVisibility () {
+      return this.productsCategory === 'graphicsCards'
     }
   },
   watch: {

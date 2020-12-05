@@ -385,9 +385,18 @@
     </section>
     <NewLaptopDialog
       :currentProductsNumber="currentProductsNumber"
-      :newProductDialogVisibility.sync="newProductDialogVisibility"
-      :choosenProductCategory.sync="choosenProductCategory"
-      v-on:closeNewProductDialog="closeNewProductDialog"
+      :newLaptopDialogVisibility.sync="newLaptopDialogVisibility"
+      v-on:closeNewLaptopDialog="closeNewLaptopDialog"
+    />
+    <NewSmartphoneDialog
+      :currentProductsNumber="currentProductsNumber"
+      :newSmartphoneDialogVisibility.sync="newSmartphoneDialogVisibility"
+      v-on:closeNewSmartphoneDialog="closeNewSmartphoneDialog"
+    />
+    <NewGraphicsCardDialog
+      :currentProductsNumber="currentProductsNumber"
+      :newGraphicsCardDialogVisibility.sync="newGraphicsCardDialogVisibility"
+      v-on:closeNewGraphicsCardDialog="closeNewGraphicsCardDialog"
     />
   </div>
 </template>
@@ -395,31 +404,29 @@
 <script>
 import ProductsService from '@/services/productsService'
 import NewLaptopDialog from '@/components/CRUD/Laptop/NewLaptopDialog'
+import NewGraphicsCardDialog from '@/components/CRUD/GraphicsCard/NewGraphicsCardDialog'
+import NewSmartphoneDialog from '@/components/CRUD/Smartphone/NewSmartphoneDialog'
 export default {
   name: 'AdminPanel',
-  components: { NewLaptopDialog },
+  components: { NewLaptopDialog, NewGraphicsCardDialog, NewSmartphoneDialog },
   data () {
     return {
       currentProductsNumber: null,
-      firstname: 'dupa',
       productsService: new ProductsService(),
       allProducts: [],
       products: [],
       selectedProduct: null,
       arrowVisibility: false,
-      newProductDialogVisibility: false,
-      choosenProductCategory: null
+      productsCategory: null
     }
   },
   methods: {
-    closeNewProductDialog (value) {
-      this.newProductDialogVisibility = value
-      this.choosenProductCategory = null
-    },
     async openNewProductDialog (category) {
+      this.productsCategory = category
       this.currentProductsNumber = await this.productsService.getCountOfProducts(category)
-      this.choosenProductCategory = category
-      this.newProductDialogVisibility = true
+    },
+    closeNewProductDialog (value) {
+      this.productsCategory = value
     },
     returnButtonAppearance () {
       if (window.pageYOffset > 100) {

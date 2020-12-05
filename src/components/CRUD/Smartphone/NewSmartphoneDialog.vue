@@ -2,11 +2,11 @@
   <v-dialog
     transition="dialog-bottom-transition"
     persistent
-    v-model="newProductDialogVisibility"
+    v-model="newSmartphoneDialogVisibility"
      :max-width="informationDialogWidth"
   >
     <div id="new-product-header">
-      <h3>Dodaj laptop</h3>
+      <h3>Dodaj smartfon</h3>
     </div>
     <div id="new-product-dialog">
       <div class="container">
@@ -33,19 +33,19 @@
         </div>
         <div class="row-dialog">
           <v-text-field
-            v-model="newLaptop.images.imageOne"
+            v-model="newSmartphone.images.imageOne"
             label="Zdjęcie nr 1"
             :rules="rules.laptopDetails"
             required
           ></v-text-field>
           <v-text-field
-            v-model="newLaptop.images.imageTwo"
+            v-model="newSmartphone.images.imageTwo"
             label="Zdjęcie nr 2"
             :rules="rules.laptopDetails"
             required
           ></v-text-field>
           <v-text-field
-            v-model="newLaptop.images.imageThree"
+            v-model="newSmartphone.images.imageThree"
             label="Zdjęcie nr 3"
             :rules="rules.laptopDetails"
             required
@@ -54,25 +54,25 @@
         <div class="second-row">
           <div class="col">
             <v-text-field
-              v-model="newLaptop.brand"
+              v-model="newSmartphone.brand"
               label="Marka"
               :rules="rules.laptopDetails"
               required
             ></v-text-field>
             <v-text-field
-              v-model="newLaptop.model"
+              v-model="newSmartphone.model"
               label="Model"
               :rules="rules.laptopDetails"
               required
             ></v-text-field>
             <v-text-field
-              v-model="newLaptop.ram"
+              v-model="newSmartphone.ram"
               label="RAM"
               :rules="rules.laptopDetails"
               required
             ></v-text-field>
             <v-text-field
-              v-model="newLaptop.cpu"
+              v-model="newSmartphone.cpu"
               label="CPU"
               :rules="rules.laptopDetails"
               required
@@ -80,44 +80,34 @@
           </div>
           <div class="col">
             <v-text-field
-              v-model="newLaptop.gpu"
+              v-model="newSmartphone.gpu"
               label="GPU"
               :rules="rules.laptopDetails"
               required
             ></v-text-field>
             <v-text-field
-              v-model="newLaptop.drive"
+              v-model="newSmartphone.drive"
               label="Dysk"
               :rules="rules.laptopDetails"
               required
             ></v-text-field>
             <v-text-field
-              v-model="newLaptop.matrix"
+              v-model="newSmartphone.matrix"
               label="Matryca"
               :rules="rules.laptopDetails"
               required
             ></v-text-field>
             <v-text-field
-              v-model="newLaptop.price"
+              v-model="newSmartphone.price"
               label="Cena"
               :rules="rules.laptopDetails"
               required
             ></v-text-field>
           </div>
         </div>
-        <div class="row-dialog choose-type">
-          <v-select
-            style="width: 20%"
-            :items="laptopTypes"
-            label="Typ laptopa"
-            v-model="choosenType"
-            :rules="rules.laptopDetails"
-            required
-          ></v-select>
-        </div>
         <div class="row-dialog">
           <v-textarea
-            v-model="newLaptop.description"
+            v-model="newSmartphone.description"
             name="input-7-4"
             label="Opis produktu"
             :rules="rules.laptopDetails"
@@ -190,12 +180,12 @@
 
 <script>
 import ProductsService from '@/services/productsService'
-import Laptop from '@/models/Laptop'
+import Smartphone from '@/models/Smartphone'
 import { bus } from '@/main'
 import InformationDialog from '@/components/InformationDialog'
 
 export default {
-  name: 'NewLaptopDialog',
+  name: 'newSmartphoneDialog',
   components: { InformationDialog },
   data () {
     return {
@@ -211,7 +201,7 @@ export default {
       choosenType: null,
       scrapeLoadingStatement: false,
       newObjectStatement: false,
-      newLaptop: Laptop,
+      newSmartphone: Smartphone,
       scrapingTarget: null,
       productsService: new ProductsService()
     }
@@ -230,22 +220,22 @@ export default {
       this.clearCells()
     },
     saveLaptop () {
-      this.productsService.createLaptop(this.newLaptop)
+      this.productsService.createLaptop(this.newSmartphone)
     },
     clearCells () {
-      this.newLaptop.images.imageOne = null
-      this.newLaptop.images.imageTwo = null
-      this.newLaptop.images.imageThree = null
-      this.newLaptop.brand = null
-      this.newLaptop.model = null
-      this.newLaptop.ram = null
-      this.newLaptop.cpu = null
-      this.newLaptop.gpu = null
-      this.newLaptop.drive = null
-      this.newLaptop.matrix = null
-      this.newLaptop.type = null
-      this.newLaptop.description = null
-      this.newLaptop.price = null
+      this.newSmartphone.images.imageOne = null
+      this.newSmartphone.images.imageTwo = null
+      this.newSmartphone.images.imageThree = null
+      this.newSmartphone.brand = null
+      this.newSmartphone.model = null
+      this.newSmartphone.ram = null
+      this.newSmartphone.cpu = null
+      this.newSmartphone.gpu = null
+      this.newSmartphone.drive = null
+      this.newSmartphone.matrix = null
+      this.newSmartphone.type = null
+      this.newSmartphone.description = null
+      this.newSmartphone.price = null
     },
     async scrapeLaptop () {
       if (this.scrapingTarget !== null) {
@@ -263,19 +253,19 @@ export default {
               .bind(this),
             500)
           } else {
-            this.newLaptop.images.imageOne = product.images.imageOne
-            this.newLaptop.images.imageTwo = product.images.imageTwo
-            this.newLaptop.images.imageThree = product.images.imageThree
-            this.newLaptop.brand = product.details.brand
-            this.newLaptop.model = product.details.model
-            this.newLaptop.ram = product.details.ram
-            this.newLaptop.cpu = product.details.cpu
-            this.newLaptop.gpu = product.details.gpu
-            this.newLaptop.drive = product.details.drive
-            this.newLaptop.matrix = product.details.matrix
-            this.newLaptop.type = this.laptopType
-            this.newLaptop.description = product.details.description
-            this.newLaptop.price = product.details.price
+            this.newSmartphone.images.imageOne = product.images.imageOne
+            this.newSmartphone.images.imageTwo = product.images.imageTwo
+            this.newSmartphone.images.imageThree = product.images.imageThree
+            this.newSmartphone.brand = product.details.brand
+            this.newSmartphone.model = product.details.model
+            this.newSmartphone.ram = product.details.ram
+            this.newSmartphone.cpu = product.details.cpu
+            this.newSmartphone.gpu = product.details.gpu
+            this.newSmartphone.drive = product.details.drive
+            this.newSmartphone.matrix = product.details.matrix
+            this.newSmartphone.type = this.laptopType
+            this.newSmartphone.description = product.details.description
+            this.newSmartphone.price = product.details.price
             this.informationDialogType = null
             this.informationDialogVisibility = false
             setTimeout(function () {
@@ -318,17 +308,13 @@ export default {
         return 95 + '%'
       }
     },
-    laptopType () {
-      if (this.choosenType === 'biurowy') {
-        return 'regularLaptops'
-      } else {
-        return 'gamingLaptops'
-      }
+    newSmartphoneDialogVisibility () {
+      return this.productsCategory === 'smartphones'
     }
   },
   watch: {
     'laptopType' (value) {
-      this.newLaptop.type = value
+      this.newSmartphone.type = value
     }
   },
   beforeMount () {
