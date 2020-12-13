@@ -6,21 +6,21 @@
      :max-width="informationDialogWidth"
   >
     <div id="new-product-header">
-      <h3>Dodaj laptop</h3>
+      <h3>Dodaj kartę graficzną</h3>
     </div>
     <div id="new-product-dialog">
       <div class="container">
         <div class="row-dialog">
           <v-text-field
             v-model="scrapingTarget"
-            label="Zeskrapuj dane laptopa z linku"
+            label="Zeskrapuj dane karty graficznej z linku"
           ></v-text-field>
           <v-btn
             :disabled="scrapingStatement"
             style="text-transform: none"
             color="blue-grey"
             class="ma-2 white--text"
-            @click="scrapeLaptop"
+            @click="scrapeGraphicsCard"
           >
             Zeskrapuj dane
             <v-icon
@@ -33,94 +33,72 @@
         </div>
         <div class="row-dialog">
           <v-text-field
-            v-model="newLaptop.images.imageOne"
+            v-model="newGraphicsCard.images.imageOne"
             label="Zdjęcie nr 1"
-            :rules="rules.laptopDetails"
+            :rules="rules.graphicsCardDetails"
             required
           ></v-text-field>
           <v-text-field
-            v-model="newLaptop.images.imageTwo"
+            v-model="newGraphicsCard.images.imageTwo"
             label="Zdjęcie nr 2"
-            :rules="rules.laptopDetails"
+            :rules="rules.graphicsCardDetails"
             required
           ></v-text-field>
           <v-text-field
-            v-model="newLaptop.images.imageThree"
+            v-model="newGraphicsCard.images.imageThree"
             label="Zdjęcie nr 3"
-            :rules="rules.laptopDetails"
+            :rules="rules.graphicsCardDetails"
             required
           ></v-text-field>
         </div>
         <div class="second-row">
           <div class="col">
             <v-text-field
-              v-model="newLaptop.brand"
+              v-model="newGraphicsCard.brand"
               label="Marka"
-              :rules="rules.laptopDetails"
+              :rules="rules.graphicsCardDetails"
               required
             ></v-text-field>
             <v-text-field
-              v-model="newLaptop.model"
+              v-model="newGraphicsCard.model"
               label="Model"
-              :rules="rules.laptopDetails"
+              :rules="rules.graphicsCardDetails"
               required
             ></v-text-field>
             <v-text-field
-              v-model="newLaptop.ram"
+              v-model="newGraphicsCard.ram"
               label="RAM"
-              :rules="rules.laptopDetails"
-              required
-            ></v-text-field>
-            <v-text-field
-              v-model="newLaptop.cpu"
-              label="CPU"
-              :rules="rules.laptopDetails"
+              :rules="rules.graphicsCardDetails"
               required
             ></v-text-field>
           </div>
           <div class="col">
             <v-text-field
-              v-model="newLaptop.gpu"
-              label="GPU"
-              :rules="rules.laptopDetails"
+              v-model="newGraphicsCard.cpuClockSpeed"
+              label="Taktowanie procesora"
+              :rules="rules.graphicsCardDetails"
               required
             ></v-text-field>
             <v-text-field
-              v-model="newLaptop.drive"
-              label="Dysk"
-              :rules="rules.laptopDetails"
+              v-model="newGraphicsCard.ports"
+              label="Porty"
+              :rules="rules.graphicsCardDetails"
               required
             ></v-text-field>
             <v-text-field
-              v-model="newLaptop.matrix"
-              label="Matryca"
-              :rules="rules.laptopDetails"
-              required
-            ></v-text-field>
-            <v-text-field
-              v-model="newLaptop.price"
+              v-model="newGraphicsCard.price"
               label="Cena"
-              :rules="rules.laptopDetails"
+              :rules="rules.graphicsCardDetails"
               required
             ></v-text-field>
           </div>
         </div>
-        <div class="row-dialog choose-type">
-          <v-select
-            style="width: 20%"
-            :items="laptopTypes"
-            label="Typ laptopa"
-            v-model="choosenType"
-            :rules="rules.laptopDetails"
-            required
-          ></v-select>
-        </div>
         <div class="row-dialog">
           <v-textarea
-            v-model="newLaptop.description"
+            v-model="newGraphicsCard.description"
             name="input-7-4"
             label="Opis produktu"
-            :rules="rules.laptopDetails"
+            :rules="rules.graphicsCardDetails"
             required
           ></v-textarea>
         </div>
@@ -149,9 +127,9 @@
                 style="text-transform: none; color: white"
                 color="#df3968"
                 class="my-2"
-                @click="saveLaptop"
+                @click="saveGraphicsCard"
               >
-                Dodaj Produkt do bazy danych
+                Dodaj produkt do bazy danych
                 <v-icon
                   right
                   dark
@@ -190,34 +168,29 @@
 
 <script>
 import ProductsService from '@/services/productsService'
-import Laptop from '@/models/Laptop'
+import GraphicsCard from '@/models/GraphicsCard'
 import { bus } from '@/main'
 import InformationDialog from '@/components/InformationDialog'
 
 export default {
-  name: 'NewLaptopDialog',
+  name: 'newGraphicsCardDialog',
   components: { InformationDialog },
   data () {
     return {
       rules: {
-        laptopDetails: [val => (val || '').length > 0 || 'To pole jest wymagane']
+        graphicsCardDetails: [val => (val || '').length > 0 || 'To pole jest wymagane']
       },
       informationDialogVisibility: false,
       informationDialogType: null,
-      laptopTypes: [
-        'biurowy',
-        'gamingowy'
-      ],
-      choosenType: null,
       scrapeLoadingStatement: false,
       newObjectStatement: false,
-      newLaptop: Laptop,
+      newGraphicsCard: GraphicsCard,
       scrapingTarget: null,
       productsService: new ProductsService()
     }
   },
   props: {
-    newProductDialogVisibility: Boolean,
+    productsCategory: String,
     currentProductsNumber: Number
   },
   methods: {
@@ -226,34 +199,34 @@ export default {
       this.informationDialogType = null
     },
     returnToAdminPanel () {
-      this.closeNewProductDialog()
+      this.$emit('closeProductDialog', null)
       this.clearCells()
     },
-    saveLaptop () {
-      this.productsService.createLaptop(this.newLaptop)
+    saveGraphicsCard () {
+      this.productsService.createGraphicsCard(this.newGraphicsCard)
     },
     clearCells () {
-      this.newLaptop.images.imageOne = null
-      this.newLaptop.images.imageTwo = null
-      this.newLaptop.images.imageThree = null
-      this.newLaptop.brand = null
-      this.newLaptop.model = null
-      this.newLaptop.ram = null
-      this.newLaptop.cpu = null
-      this.newLaptop.gpu = null
-      this.newLaptop.drive = null
-      this.newLaptop.matrix = null
-      this.newLaptop.type = null
-      this.newLaptop.description = null
-      this.newLaptop.price = null
+      this.newGraphicsCard.images.imageOne = null
+      this.newGraphicsCard.images.imageTwo = null
+      this.newGraphicsCard.images.imageThree = null
+      this.newGraphicsCard.brand = null
+      this.newGraphicsCard.model = null
+      this.newGraphicsCard.ram = null
+      this.newGraphicsCard.cpu = null
+      this.newGraphicsCard.gpu = null
+      this.newGraphicsCard.drive = null
+      this.newGraphicsCard.matrix = null
+      this.newGraphicsCard.type = null
+      this.newGraphicsCard.description = null
+      this.newGraphicsCard.price = null
     },
-    async scrapeLaptop () {
+    async scrapeGraphicsCard () {
       if (this.scrapingTarget !== null) {
         this.informationDialogType = 'scraping'
         this.informationDialogVisibility = true
         const productAddress = this.scrapingTarget.replace('https://www.x-kom.pl/p/', '')
-        await this.productsService.scrapeLaptop(productAddress).then(product => {
-          if (product.details.brand === '' && product.details.cpu === '' && product.details.description === '' && product.details.drive === '' && product.details.gpu === '' && product.details.matrix === '' && product.details.model === '' && product.details.price === '' && product.details.ram === '') {
+        await this.productsService.scrapeGraphicsCard(productAddress).then(product => {
+          if (product.details.brand === '' && product.details.model === '' && product.details.ram === '' && product.details.cpu === '' && product.details.gpu === '' && product.details.drive === '' && product.details.matrix === '' && product.details.description === '' && product.details.price === '') {
             this.informationDialogType = null
             this.informationDialogVisibility = false
             setTimeout(function () {
@@ -263,19 +236,17 @@ export default {
               .bind(this),
             500)
           } else {
-            this.newLaptop.images.imageOne = product.images.imageOne
-            this.newLaptop.images.imageTwo = product.images.imageTwo
-            this.newLaptop.images.imageThree = product.images.imageThree
-            this.newLaptop.brand = product.details.brand
-            this.newLaptop.model = product.details.model
-            this.newLaptop.ram = product.details.ram
-            this.newLaptop.cpu = product.details.cpu
-            this.newLaptop.gpu = product.details.gpu
-            this.newLaptop.drive = product.details.drive
-            this.newLaptop.matrix = product.details.matrix
-            this.newLaptop.type = this.laptopType
-            this.newLaptop.description = product.details.description
-            this.newLaptop.price = product.details.price
+            console.log(product)
+            this.newGraphicsCard.images.imageOne = product.images.imageOne
+            this.newGraphicsCard.images.imageTwo = product.images.imageTwo
+            this.newGraphicsCard.images.imageThree = product.images.imageThree
+            this.newGraphicsCard.brand = product.details.brand
+            this.newGraphicsCard.model = product.details.model
+            this.newGraphicsCard.ram = product.details.ram
+            this.newGraphicsCard.cpuClockSpeed = product.details.cpuClockSpeed
+            this.newGraphicsCard.ports = product.details.ports
+            this.newGraphicsCard.description = product.details.description
+            this.newGraphicsCard.price = product.details.price
             this.informationDialogType = null
             this.informationDialogVisibility = false
             setTimeout(function () {
@@ -302,9 +273,6 @@ export default {
           .bind(this),
         2000)
       }
-    },
-    closeNewProductDialog () {
-      this.$emit('closeNewLaptopDialog', false)
     }
   },
   computed: {
@@ -318,20 +286,8 @@ export default {
         return 95 + '%'
       }
     },
-    laptopType () {
-      if (this.choosenType === 'biurowy') {
-        return 'regularLaptops'
-      } else {
-        return 'gamingLaptops'
-      }
-    },
     newGraphicsCardDialogVisibility () {
       return this.productsCategory === 'graphicsCards'
-    }
-  },
-  watch: {
-    'laptopType' (value) {
-      this.newLaptop.type = value
     }
   },
   beforeMount () {
@@ -345,6 +301,11 @@ export default {
         }
           .bind(this),
         2000)
+        setTimeout(function () {
+          this.returnToAdminPanel()
+        }
+          .bind(this),
+        200)
       } else {
         this.informationDialogType = 'uploading failed'
         this.informationDialogVisibility = true

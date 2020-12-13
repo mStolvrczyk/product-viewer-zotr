@@ -54,13 +54,13 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-item @click="openNewProductDialog('laptops')">
+          <v-list-item @click="openProductDialog('laptops')">
             <v-list-item-title>Laptop</v-list-item-title>
           </v-list-item>
-          <v-list-item>
+          <v-list-item @click="openProductDialog('smartphones')">
             <v-list-item-title>Smartfon</v-list-item-title>
           </v-list-item>
-          <v-list-item>
+          <v-list-item @click="openProductDialog('graphicsCards')">
             <v-list-item-title>Karta graficzna</v-list-item-title>
           </v-list-item>
         </v-list>
@@ -173,7 +173,7 @@
         <!--          </div>-->
         <!--        </div>-->
         <!--      </div>-->
-        <div id="products" v-if="allProducts.length > 0">
+        <div id="products" v-if="currentProductsNumber !== 0">
           <!--        <div v-if="$route.params.category === 'drones'">-->
           <!--          <div v-for="product in sliderCollection" :key="product.index" class="product-el">-->
           <!--            <v-img class="product-image" :src="getImgUrl(product.imagePath)"/>-->
@@ -344,6 +344,9 @@
           <!--          </div>-->
           <!--        </div>-->
         </div>
+        <div v-if="currentProductsNumber === 0">
+          BRAK PRODUKTÓW DO WYŚWIETLENIA
+        </div>
         <div v-else>
           <v-progress-linear
             color="#202020"
@@ -385,18 +388,18 @@
     </section>
     <NewLaptopDialog
       :currentProductsNumber="currentProductsNumber"
-      :newLaptopDialogVisibility.sync="newLaptopDialogVisibility"
-      v-on:closeNewLaptopDialog="closeNewLaptopDialog"
+      :productsCategory="productsCategory"
+      v-on:closeProductDialog="closeProductDialog"
     />
     <NewSmartphoneDialog
       :currentProductsNumber="currentProductsNumber"
-      :newSmartphoneDialogVisibility.sync="newSmartphoneDialogVisibility"
-      v-on:closeNewSmartphoneDialog="closeNewSmartphoneDialog"
+      :productsCategory="productsCategory"
+      v-on:closeProductDialog="closeProductDialog"
     />
     <NewGraphicsCardDialog
       :currentProductsNumber="currentProductsNumber"
-      :newGraphicsCardDialogVisibility.sync="newGraphicsCardDialogVisibility"
-      v-on:closeNewGraphicsCardDialog="closeNewGraphicsCardDialog"
+      :productsCategory="productsCategory"
+      v-on:closeProductDialog="closeProductDialog"
     />
   </div>
 </template>
@@ -421,11 +424,11 @@ export default {
     }
   },
   methods: {
-    async openNewProductDialog (category) {
+    async openProductDialog (category) {
       this.productsCategory = category
       this.currentProductsNumber = await this.productsService.getCountOfProducts(category)
     },
-    closeNewProductDialog (value) {
+    closeProductDialog (value) {
       this.productsCategory = value
     },
     returnButtonAppearance () {
@@ -441,11 +444,13 @@ export default {
     async getProducts (category, subcategory) {
       if (subcategory !== undefined) {
         this.allProducts = this.products = await this.productsService.getSubProducts(category, subcategory)
+        this.currentProductsNumber = await this.productsService.getCountByCategory(category, subcategory)
       } else {
         this.allProducts = this.products = await this.productsService.getAllProducts(category)
+        this.currentProductsNumber = await this.productsService.getCountOfProducts(category)
       }
     },
-    async switchCategory (category) {
+    switchCategory (category) {
       this.$router.push(`/adminpanel/${category}`)
     },
     clearFilters () {

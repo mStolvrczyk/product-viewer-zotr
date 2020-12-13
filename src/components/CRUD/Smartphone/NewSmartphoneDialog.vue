@@ -13,14 +13,14 @@
         <div class="row-dialog">
           <v-text-field
             v-model="scrapingTarget"
-            label="Zeskrapuj dane laptopa z linku"
+            label="Zeskrapuj dane smartfona z linku"
           ></v-text-field>
           <v-btn
             :disabled="scrapingStatement"
             style="text-transform: none"
             color="blue-grey"
             class="ma-2 white--text"
-            @click="scrapeLaptop"
+            @click="scrapeSmartphone"
           >
             Zeskrapuj dane
             <v-icon
@@ -35,19 +35,19 @@
           <v-text-field
             v-model="newSmartphone.images.imageOne"
             label="Zdjęcie nr 1"
-            :rules="rules.laptopDetails"
+            :rules="rules.smartphoneDetails"
             required
           ></v-text-field>
           <v-text-field
             v-model="newSmartphone.images.imageTwo"
             label="Zdjęcie nr 2"
-            :rules="rules.laptopDetails"
+            :rules="rules.smartphoneDetails"
             required
           ></v-text-field>
           <v-text-field
             v-model="newSmartphone.images.imageThree"
             label="Zdjęcie nr 3"
-            :rules="rules.laptopDetails"
+            :rules="rules.smartphoneDetails"
             required
           ></v-text-field>
         </div>
@@ -56,51 +56,45 @@
             <v-text-field
               v-model="newSmartphone.brand"
               label="Marka"
-              :rules="rules.laptopDetails"
+              :rules="rules.smartphoneDetails"
               required
             ></v-text-field>
             <v-text-field
               v-model="newSmartphone.model"
               label="Model"
-              :rules="rules.laptopDetails"
+              :rules="rules.smartphoneDetails"
               required
             ></v-text-field>
             <v-text-field
-              v-model="newSmartphone.ram"
+              v-model="newSmartphone.screen"
               label="RAM"
-              :rules="rules.laptopDetails"
+              :rules="rules.smartphoneDetails"
               required
             ></v-text-field>
             <v-text-field
-              v-model="newSmartphone.cpu"
+              v-model="newSmartphone.battery"
               label="CPU"
-              :rules="rules.laptopDetails"
+              :rules="rules.smartphoneDetails"
               required
             ></v-text-field>
           </div>
           <div class="col">
             <v-text-field
-              v-model="newSmartphone.gpu"
+              v-model="newSmartphone.ram"
               label="GPU"
-              :rules="rules.laptopDetails"
+              :rules="rules.smartphoneDetails"
               required
             ></v-text-field>
             <v-text-field
-              v-model="newSmartphone.drive"
+              v-model="newSmartphone.memory"
               label="Dysk"
-              :rules="rules.laptopDetails"
-              required
-            ></v-text-field>
-            <v-text-field
-              v-model="newSmartphone.matrix"
-              label="Matryca"
-              :rules="rules.laptopDetails"
+              :rules="rules.smartphoneDetails"
               required
             ></v-text-field>
             <v-text-field
               v-model="newSmartphone.price"
               label="Cena"
-              :rules="rules.laptopDetails"
+              :rules="rules.smartphoneDetails"
               required
             ></v-text-field>
           </div>
@@ -110,7 +104,7 @@
             v-model="newSmartphone.description"
             name="input-7-4"
             label="Opis produktu"
-            :rules="rules.laptopDetails"
+            :rules="rules.smartphoneDetails"
             required
           ></v-textarea>
         </div>
@@ -139,9 +133,9 @@
                 style="text-transform: none; color: white"
                 color="#df3968"
                 class="my-2"
-                @click="saveLaptop"
+                @click="saveSmartphone"
               >
-                Dodaj Produkt do bazy danych
+                Dodaj produkt do bazy danych
                 <v-icon
                   right
                   dark
@@ -190,15 +184,10 @@ export default {
   data () {
     return {
       rules: {
-        laptopDetails: [val => (val || '').length > 0 || 'To pole jest wymagane']
+        smartphoneDetails: [val => (val || '').length > 0 || 'To pole jest wymagane']
       },
       informationDialogVisibility: false,
       informationDialogType: null,
-      laptopTypes: [
-        'biurowy',
-        'gamingowy'
-      ],
-      choosenType: null,
       scrapeLoadingStatement: false,
       newObjectStatement: false,
       newSmartphone: Smartphone,
@@ -207,7 +196,7 @@ export default {
     }
   },
   props: {
-    newProductDialogVisibility: Boolean,
+    productsCategory: String,
     currentProductsNumber: Number
   },
   methods: {
@@ -216,11 +205,11 @@ export default {
       this.informationDialogType = null
     },
     returnToAdminPanel () {
-      this.closeNewProductDialog()
+      this.closeProductDialog()
       this.clearCells()
     },
-    saveLaptop () {
-      this.productsService.createLaptop(this.newSmartphone)
+    saveSmartphone () {
+      this.productsService.createSmartphone(this.newSmartphone)
     },
     clearCells () {
       this.newSmartphone.images.imageOne = null
@@ -228,22 +217,20 @@ export default {
       this.newSmartphone.images.imageThree = null
       this.newSmartphone.brand = null
       this.newSmartphone.model = null
+      this.newSmartphone.screen = null
+      this.newSmartphone.battery = null
       this.newSmartphone.ram = null
-      this.newSmartphone.cpu = null
-      this.newSmartphone.gpu = null
-      this.newSmartphone.drive = null
-      this.newSmartphone.matrix = null
-      this.newSmartphone.type = null
+      this.newSmartphone.memory = null
       this.newSmartphone.description = null
       this.newSmartphone.price = null
     },
-    async scrapeLaptop () {
+    async scrapeSmartphone () {
       if (this.scrapingTarget !== null) {
         this.informationDialogType = 'scraping'
         this.informationDialogVisibility = true
         const productAddress = this.scrapingTarget.replace('https://www.x-kom.pl/p/', '')
-        await this.productsService.scrapeLaptop(productAddress).then(product => {
-          if (product.details.brand === '' && product.details.cpu === '' && product.details.description === '' && product.details.drive === '' && product.details.gpu === '' && product.details.matrix === '' && product.details.model === '' && product.details.price === '' && product.details.ram === '') {
+        await this.productsService.scrapeSmartphone(productAddress).then(product => {
+          if (product.details.brand === '' && product.details.model === '' && product.details.screen === '' && product.details.battery === '' && product.details.ram === '' && product.details.memory === '' && product.details.description === '' && product.details.price) {
             this.informationDialogType = null
             this.informationDialogVisibility = false
             setTimeout(function () {
@@ -258,12 +245,10 @@ export default {
             this.newSmartphone.images.imageThree = product.images.imageThree
             this.newSmartphone.brand = product.details.brand
             this.newSmartphone.model = product.details.model
+            this.newSmartphone.screen = product.details.screen
+            this.newSmartphone.battery = product.details.battery
             this.newSmartphone.ram = product.details.ram
-            this.newSmartphone.cpu = product.details.cpu
-            this.newSmartphone.gpu = product.details.gpu
-            this.newSmartphone.drive = product.details.drive
-            this.newSmartphone.matrix = product.details.matrix
-            this.newSmartphone.type = this.laptopType
+            this.newSmartphone.memory = product.details.memory
             this.newSmartphone.description = product.details.description
             this.newSmartphone.price = product.details.price
             this.informationDialogType = null
@@ -294,7 +279,7 @@ export default {
       }
     },
     closeNewProductDialog () {
-      this.$emit('closeNewProductDialog', false)
+      this.$emit('closeProductDialog', null)
     }
   },
   computed: {
@@ -310,11 +295,6 @@ export default {
     },
     newSmartphoneDialogVisibility () {
       return this.productsCategory === 'smartphones'
-    }
-  },
-  watch: {
-    'laptopType' (value) {
-      this.newSmartphone.type = value
     }
   },
   beforeMount () {

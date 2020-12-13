@@ -151,7 +151,7 @@
                 class="my-2"
                 @click="saveLaptop"
               >
-                Dodaj Produkt do bazy danych
+                Dodaj produkt do bazy danych
                 <v-icon
                   right
                   dark
@@ -226,7 +226,7 @@ export default {
       this.informationDialogType = null
     },
     returnToAdminPanel () {
-      this.closeNewLaptopDialog()
+      this.$emit('closeProductDialog', null)
       this.clearCells()
     },
     saveLaptop () {
@@ -302,9 +302,6 @@ export default {
           .bind(this),
         2000)
       }
-    },
-    closeNewLaptopDialog () {
-      this.$emit('closeNewLaptopDialog', false)
     }
   },
   computed: {

@@ -15,6 +15,10 @@ export default class ProductsService {
     return await appHttpClient.get(`/${category}/count`).then(prop('data'))
   }
 
+  async getCountByCategory (category, subcategory) {
+    return await appHttpClient.get(`/${category}/${subcategory}/count`).then(prop('data'))
+  }
+
   async scrapeGraphicsCard (target) {
     return appHttpClient.get(`/graphicsCard/${target}`).then(prop('data'))
   }
@@ -63,6 +67,24 @@ export default class ProductsService {
     return await appHttpClient.post('/laptops', data)
       .then(response => {
         response = this.getCountOfProducts('laptops').then(response => {
+          bus.$emit('countOfProducts', response)
+        })
+      })
+  }
+
+  async createGraphicsCard (data) {
+    return await appHttpClient.post('/graphicsCards', data)
+      .then(response => {
+        response = this.getCountOfProducts('graphicsCards').then(response => {
+          bus.$emit('countOfProducts', response)
+        })
+      })
+  }
+
+  async createSmartphone (data) {
+    return await appHttpClient.post('/smartphones', data)
+      .then(response => {
+        response = this.getCountOfProducts('smartphones').then(response => {
           bus.$emit('countOfProducts', response)
         })
       })
