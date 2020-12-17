@@ -349,7 +349,9 @@ export default {
       }
     },
     async switchCategory (category) {
-      this.$router.push(`/rankings/${category}`)
+      if (category !== this.$route.path) {
+        this.$router.push(`/rankings/${category}`)
+      }
     }
   },
   watch: {

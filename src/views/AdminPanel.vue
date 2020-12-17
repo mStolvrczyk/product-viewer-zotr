@@ -189,88 +189,92 @@
           <!--          </div>-->
           <!--        </div>-->
           <div v-if="$route.params.category === 'graphicsCards'">
-            <div v-for="product in products" :key="product.index" class="product-el">
-              <v-img class="product-image" :src="getImgUrl(product.imagePath)"/>
-              <div class="second-col">
-                <h3>{{ product.brand + ' ' + product.model }}</h3>
-                <p class="product-specs">RAM: {{ product.ram }} | Chipset: {{ product.chipset
-                  }} | Taktowanie procesora: {{ product.cpuClockSpeed }}</p>
-                <div class="price">
-                  {{ product.price }}
+            <transition-group name="fade">
+              <div v-for="product in products" :key="product._id" class="product-el">
+                <v-img class="product-image" :src="product.images.imageOne"/>
+                <div class="second-col">
+                  <h3>{{ product.brand + ' ' + product.model }}</h3>
+                  <p class="product-specs">RAM: {{ product.ram }} | Chipset: {{ product.chipset
+                    }} | Taktowanie procesora: {{ product.cpuClockSpeed }}</p>
+                  <div class="price">
+                    {{ product.price }}
+                  </div>
+                </div>
+                <div class="third-col">
+                  <v-btn
+                    x-large
+                    color="rgb(223, 57, 104)"
+                    icon
+                  >
+                    <v-icon>
+                      mdi-pencil-outline
+                    </v-icon>
+                  </v-btn>
+                  <v-btn
+                    x-large
+                    color="rgb(223, 57, 104)"
+                    icon
+                  >
+                    <v-icon>
+                      mdi-delete
+                    </v-icon>
+                  </v-btn>
                 </div>
               </div>
-              <div class="third-col">
-                <v-btn
-                  x-large
-                  color="rgb(223, 57, 104)"
-                  icon
-                >
-                  <v-icon>
-                    mdi-pencil-outline
-                  </v-icon>
-                </v-btn>
-                <v-btn
-                  x-large
-                  color="rgb(223, 57, 104)"
-                  icon
-                >
-                  <v-icon>
-                    mdi-delete
-                  </v-icon>
-                </v-btn>
-              </div>
-            </div>
+            </transition-group>
           </div>
-          <div v-if="$route.params.category === 'keyboards'">
-            <div v-for="product in products" :key="product.index" class="product-el">
-              <v-img contain class="product-image" :src="getImgUrl(product.imagePath)"/>
-              <div class="second-col">
-                <h3>{{ product.brand + ' ' + product.model }}</h3>
-                <p class="product-specs">Typ: {{ product.keyboardType }} | Łączność: {{ product.connection
-                  }} | Interfejs: {{ product.interface }}</p>
-                <div class="price">
-                  {{ product.price }}
-                </div>
-              </div>
-            </div>
-          </div>
+<!--          <div v-if="$route.params.category === 'keyboards'">-->
+<!--            <div v-for="product in products" :key="product.index" class="product-el">-->
+<!--              <v-img contain class="product-image" :src="getImgUrl(product.imagePath)"/>-->
+<!--              <div class="second-col">-->
+<!--                <h3>{{ product.brand + ' ' + product.model }}</h3>-->
+<!--                <p class="product-specs">Typ: {{ product.keyboardType }} | Łączność: {{ product.connection-->
+<!--                  }} | Interfejs: {{ product.interface }}</p>-->
+<!--                <div class="price">-->
+<!--                  {{ product.price }}-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
           <div v-if="$route.params.category === 'laptops'">
-            <div v-for="product in products" :key="product._id" class="product-el">
-              <v-img contain class="product-image" :src="getImgUrl(product.imagePath)"/>
-              <div class="second-col">
-                <h3>{{ product.brand + ' ' + product.model }}</h3>
-                <p class="product-specs">RAM: {{ product.ram }} | CPU: {{ product.cpu
-                  }} | Dysk: {{ product.drive }}</p>
-                <div class="price">
-                  {{ product.price }}
+            <transition-group name="fade">
+              <div v-for="product in products" :key="product._id" class="product-el">
+                <v-img contain class="product-image" :src="product.images.imageOne"/>
+                <div class="second-col">
+                  <h3>{{ product.brand + ' ' + product.model }}</h3>
+                  <p class="product-specs">RAM: {{ product.ram }} | CPU: {{ product.cpu
+                    }} | Dysk: {{ product.drive }}</p>
+                  <div class="price">
+                    {{ product.price }}
+                  </div>
+                </div>
+                <div class="third-col">
+                  <v-btn
+                    x-large
+                    color="rgb(223, 57, 104)"
+                    icon
+                  >
+                    <v-icon>
+                      mdi-pencil-outline
+                    </v-icon>
+                  </v-btn>
+                  <v-btn
+                    x-large
+                    color="rgb(223, 57, 104)"
+                    icon
+                  >
+                    <v-icon>
+                      mdi-delete
+                    </v-icon>
+                  </v-btn>
                 </div>
               </div>
-              <div class="third-col">
-                <v-btn
-                  x-large
-                  color="rgb(223, 57, 104)"
-                  icon
-                >
-                  <v-icon>
-                    mdi-pencil-outline
-                  </v-icon>
-                </v-btn>
-                <v-btn
-                  x-large
-                  color="rgb(223, 57, 104)"
-                  icon
-                >
-                  <v-icon>
-                    mdi-delete
-                  </v-icon>
-                </v-btn>
-              </div>
-            </div>
+            </transition-group>
           </div>
           <div v-if="$route.params.category === 'smartphones'">
             <transition-group name="fade">
               <div v-for="product in products" :key="product._id" class="product-el">
-                <v-img contain class="product-image" :src="getImgUrl(product.imagePath)"/>
+                <v-img contain class="product-image" :src="product.images.imageOne"/>
                 <div class="second-col">
                   <h3>{{ product.model }}</h3>
                   <p class="product-specs">Ekran: {{ product.screen }} | Bateria: {{ product.battery
@@ -347,26 +351,38 @@
         <div v-if="currentProductsNumber === 0">
           BRAK PRODUKTÓW DO WYŚWIETLENIA
         </div>
-        <div v-else>
-          <v-progress-linear
-            color="#202020"
-            indeterminate
-          ></v-progress-linear>
-          <br>
-          <v-progress-linear
-            color="#df3968"
-            indeterminate
-          ></v-progress-linear>
-          <br>
-          <v-progress-linear
-            color="#202020"
-            indeterminate
-          ></v-progress-linear>
-          <br>
-          <v-progress-linear
-            color="#df3968"
-            indeterminate
-          ></v-progress-linear>
+        <div v-if="currentProductsNumber === null">
+          <transition-group name="fade">
+            <v-progress-linear
+              :key="1"
+              color="#202020"
+              indeterminate
+            ></v-progress-linear>
+            <br
+              :key="2"
+            >
+            <v-progress-linear
+              :key="3"
+              color="#df3968"
+              indeterminate
+            ></v-progress-linear>
+            <br
+              :key="4"
+            >
+            <v-progress-linear
+              :key="5"
+              color="#202020"
+              indeterminate
+            ></v-progress-linear>
+            <br
+              :key="6"
+            >
+            <v-progress-linear
+              :key="7"
+              color="#df3968"
+              indeterminate
+            ></v-progress-linear>
+          </transition-group>
         </div>
         <transition name="fade">
           <v-btn
@@ -427,6 +443,7 @@ export default {
     async openProductDialog (category) {
       this.productsCategory = category
       this.currentProductsNumber = await this.productsService.getCountOfProducts(category)
+      console.log(this.currentProductsNumber)
     },
     closeProductDialog (value) {
       this.productsCategory = value
@@ -442,16 +459,21 @@ export default {
       return require('../assets/productImages' + imagePath)
     },
     async getProducts (category, subcategory) {
+      this.currentProductsNumber = null
       if (subcategory !== undefined) {
+        this.products = []
         this.allProducts = this.products = await this.productsService.getSubProducts(category, subcategory)
         this.currentProductsNumber = await this.productsService.getCountByCategory(category, subcategory)
       } else {
+        this.products = []
         this.allProducts = this.products = await this.productsService.getAllProducts(category)
         this.currentProductsNumber = await this.productsService.getCountOfProducts(category)
       }
     },
-    switchCategory (category) {
-      this.$router.push(`/adminpanel/${category}`)
+    async switchCategory (category) {
+      if (`/adminpanel/${category}` !== this.$route.path) {
+        this.$router.push(`/adminpanel/${category}`)
+      }
     },
     clearFilters () {
       this.products = this.allProducts
