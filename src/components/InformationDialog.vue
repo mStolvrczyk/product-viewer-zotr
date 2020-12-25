@@ -5,17 +5,44 @@
     width="350"
   >
     <div class="information-dialog scrapping" v-if="informationDialogType === 'scraping'">
-      <h4 style="margin-bottom: 1rem">Skrapowanie</h4>
+      <h4 style="margin-bottom: 1rem">Skrapowanie produktu</h4>
       <v-progress-linear
         color="#fff"
         indeterminate
       ></v-progress-linear>
     </div>
+    <div class="information-dialog scrapping" v-if="informationDialogType === 'uploading'">
+      <h4 style="margin-bottom: 1rem">Dodawanie produktu do bazy danych</h4>
+      <v-progress-linear
+        color="#fff"
+        indeterminate
+      ></v-progress-linear>
+    </div>
+    <div class="information-dialog scrapping" v-if="informationDialogType === 'removing'">
+      <h4 style="margin-bottom: 1rem">Usuwanie produktu z bazy danych</h4>
+      <v-progress-linear
+        color="#fff"
+        indeterminate
+      ></v-progress-linear>
+    </div>
+    <div class="information-dialog scrapping" v-if="informationDialogType === 'updating'">
+      <h4 style="margin-bottom: 1rem">Aktualizowanie produktu</h4>
+      <v-progress-linear
+        color="#fff"
+        indeterminate
+      ></v-progress-linear>
+    </div>
+    <div class="information-dialog success" v-else-if="informationDialogType === 'removing succesful'">
+      <h4>Produkt został usunięty z bazy danych</h4>
+    </div>
+    <div class="information-dialog success" v-else-if="informationDialogType === 'updating succesful'">
+      <h4>Produkt został zaktualizowany</h4>
+    </div>
     <div class="information-dialog success" v-else-if="informationDialogType === 'uploading succesful'">
-      <h4>Laptop został dodany do bazy danych</h4>
+      <h4>Produkt został dodany do bazy danych</h4>
     </div>
     <div class="information-dialog failure" v-else-if="informationDialogType === 'uploading failed'">
-      <h4>Laptop nie został dodany do bazy danych. Sprawdź połączenie z internetem.</h4>
+      <h4>Produkt nie został dodany do bazy danych. Sprawdź połączenie z internetem.</h4>
       <div class="dialog-button short" style="padding-top: 1rem">
         <v-btn
           style="text-transform: none"
@@ -27,7 +54,58 @@
         </v-btn>
       </div>
     </div>
-    <div class="information-dialog scrapping" v-else-if="informationDialogType === 'scraping finished'">
+    <div class="information-dialog failure" v-else-if="informationDialogType === 'updating failed'">
+      <h4>Produkt nie zaktualizowany. Sprawdź połączenie z internetem.</h4>
+      <div class="dialog-button short" style="padding-top: 1rem">
+        <v-btn
+          style="text-transform: none"
+          color="blue-grey"
+          class="ma-2 white--text"
+          @click="closeInformationDialog"
+        >
+          OK
+        </v-btn>
+      </div>
+    </div>
+    <div class="information-dialog failure" v-else-if="informationDialogType === 'removing failed'">
+      <h4>Produkt nie został usunięty z bazy danych. Sprawdź połączenie z internetem.</h4>
+      <div class="dialog-button short" style="padding-top: 1rem">
+        <v-btn
+          style="text-transform: none"
+          color="blue-grey"
+          class="ma-2 white--text"
+          @click="closeInformationDialog"
+        >
+          OK
+        </v-btn>
+      </div>
+    </div>
+    <div class="information-dialog failure" v-else-if="informationDialogType === 'removing confirmation'">
+      <h4>Czy na pewno chcesz usunąć ten produkt?</h4>
+      <div class="button-row">
+        <div class="dialog-button short" style="padding-top: 1rem">
+          <v-btn
+            style="text-transform: none"
+            color="blue-grey"
+            class="ma-2 white--text"
+            @click="closeInformationDialog"
+          >
+            Wróć
+          </v-btn>
+        </div>
+        <div class="dialog-button short" style="padding-top: 1rem">
+          <v-btn
+            style="text-transform: none"
+            color="blue-grey"
+            class="ma-2 white--text"
+            @click="removeProduct"
+          >
+            TAK
+          </v-btn>
+        </div>
+      </div>
+    </div>
+    <div class="information-dialog scrapping" v-else-if="informationDialogType === 'scraping succesful'">
       <h4>Skrapowanie zakończone</h4>
     </div>
     <div class="information-dialog failure" v-else-if="informationDialogType === 'target is not defined'">
@@ -57,9 +135,14 @@ export default {
   name: 'InformationDialog',
   props: {
     informationDialogVisibility: Boolean,
-    informationDialogType: String
+    informationDialogType: String,
+    category: String,
+    productId: String
   },
   methods: {
+    removeProduct () {
+      this.$emit('removeProduct')
+    },
     closeInformationDialog () {
       this.$emit('closeInformationDialog', false)
     }
@@ -68,6 +151,12 @@ export default {
 </script>
 
 <style lang="scss">
+.button-row {
+  justify-content: right;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+}
 .dialog-button {
   margin: 0.4rem;
   justify-content: center;

@@ -6,7 +6,7 @@
      :max-width="informationDialogWidth"
   >
     <div id="new-product-header">
-      <h3>Dodaj smartfon</h3>
+      <h3>Panel produktu smartfon</h3>
     </div>
     <div id="new-product-dialog">
       <div class="container">
@@ -54,45 +54,45 @@
         <div class="second-row">
           <div class="col">
             <v-text-field
-              v-model="newSmartphone.brand"
+              v-model="newSmartphone.details.brand"
               label="Marka"
               :rules="rules.smartphoneDetails"
               required
             ></v-text-field>
             <v-text-field
-              v-model="newSmartphone.model"
+              v-model="newSmartphone.details.model"
               label="Model"
               :rules="rules.smartphoneDetails"
               required
             ></v-text-field>
             <v-text-field
-              v-model="newSmartphone.screen"
-              label="RAM"
+              v-model="newSmartphone.details.screen"
+              label="Ekran"
               :rules="rules.smartphoneDetails"
               required
             ></v-text-field>
             <v-text-field
-              v-model="newSmartphone.battery"
-              label="CPU"
+              v-model="newSmartphone.details.battery"
+              label="Bateria"
               :rules="rules.smartphoneDetails"
               required
             ></v-text-field>
           </div>
           <div class="col">
             <v-text-field
-              v-model="newSmartphone.ram"
-              label="GPU"
+              v-model="newSmartphone.details.ram"
+              label="RAM"
               :rules="rules.smartphoneDetails"
               required
             ></v-text-field>
             <v-text-field
-              v-model="newSmartphone.memory"
-              label="Dysk"
+              v-model="newSmartphone.details.memory"
+              label="Pamięć"
               :rules="rules.smartphoneDetails"
               required
             ></v-text-field>
             <v-text-field
-              v-model="newSmartphone.price"
+              v-model="newSmartphone.details.price"
               label="Cena"
               :rules="rules.smartphoneDetails"
               required
@@ -101,7 +101,7 @@
         </div>
         <div class="row-dialog">
           <v-textarea
-            v-model="newSmartphone.description"
+            v-model="newSmartphone.details.description"
             name="input-7-4"
             label="Opis produktu"
             :rules="rules.smartphoneDetails"
@@ -130,12 +130,30 @@
           <div class="col-test">
             <div class="dialog-button">
               <v-btn
+                v-if="!updateStatement"
+                :disabled="uploadStatement"
                 style="text-transform: none; color: white"
                 color="#df3968"
                 class="my-2"
                 @click="saveSmartphone"
               >
                 Dodaj produkt do bazy danych
+                <v-icon
+                  right
+                  dark
+                >
+                  mdi-upload
+                </v-icon>
+              </v-btn>
+              <v-btn
+                v-if="updateStatement"
+                :disabled="uploadStatement"
+                style="text-transform: none; color: white"
+                color="#df3968"
+                class="my-2"
+                @click="updateSmartphone"
+              >
+                Zaktualizuj produkt
                 <v-icon
                   right
                   dark
@@ -175,7 +193,6 @@
 <script>
 import ProductsService from '@/services/productsService'
 import Smartphone from '@/models/Smartphone'
-import { bus } from '@/main'
 import InformationDialog from '@/components/InformationDialog'
 
 export default {
@@ -197,32 +214,106 @@ export default {
   },
   props: {
     productsCategory: String,
-    currentProductsNumber: Number
+    currentProductsNumber: Number,
+    updateStatement: Boolean,
+    productToUpdate: Object
   },
   methods: {
     closeInformationDialog (value) {
       this.informationDialogVisibility = value
       this.informationDialogType = null
     },
+    refreshProductsList () {
+      this.$emit('refreshProductsList', 'smartphones')
+    },
     returnToAdminPanel () {
-      this.closeProductDialog()
+      this.$emit('closeProductDialog', null)
+      if (this.updateStatement === true) {
+        this.$emit('resetUpdateStatus', false)
+      }
       this.clearCells()
     },
-    saveSmartphone () {
-      this.productsService.createSmartphone(this.newSmartphone)
+    async saveSmartphone () {
+      this.informationDialogType = 'uploading'
+      this.informationDialogVisibility = true
+      await this.productsService.createSmartphone(this.newSmartphone)
+        .then(response => {
+          if (response === 'error') {
+            this.informationDialogType = null
+            this.informationDialogVisibility = false
+            setTimeout(function () {
+              this.informationDialogType = 'uploading failed'
+              this.informationDialogVisibility = true
+            }
+              .bind(this),
+            500)
+          } else {
+            this.informationDialogType = null
+            this.informationDialogVisibility = false
+            setTimeout(function () {
+              this.informationDialogType = 'uploading succesful'
+              this.informationDialogVisibility = true
+            }
+              .bind(this),
+            500)
+            setTimeout(function () {
+              this.informationDialogType = null
+              this.informationDialogVisibility = false
+              this.returnToAdminPanel()
+              this.refreshProductsList()
+            }
+              .bind(this),
+            1500)
+          }
+        })
+    },
+    async updateSmartphone () {
+      this.informationDialogType = 'updating'
+      this.informationDialogVisibility = true
+      await this.productsService.updateProduct('smartphones', this.productToUpdate._id, this.newSmartphone)
+        .then(response => {
+          if (response === 'error') {
+            this.informationDialogType = null
+            this.informationDialogVisibility = false
+            setTimeout(function () {
+              this.informationDialogType = 'updating failed'
+              this.informationDialogVisibility = true
+            }
+              .bind(this),
+            500)
+          } else {
+            this.informationDialogType = null
+            this.informationDialogVisibility = false
+            setTimeout(function () {
+              this.informationDialogType = 'updating succesful'
+              this.informationDialogVisibility = true
+            }
+              .bind(this),
+            500)
+            setTimeout(function () {
+              this.informationDialogType = null
+              this.informationDialogVisibility = false
+              this.returnToAdminPanel()
+              this.refreshProductsList()
+            }
+              .bind(this),
+            1500)
+          }
+        })
     },
     clearCells () {
-      this.newSmartphone.images.imageOne = null
-      this.newSmartphone.images.imageTwo = null
-      this.newSmartphone.images.imageThree = null
-      this.newSmartphone.brand = null
-      this.newSmartphone.model = null
-      this.newSmartphone.screen = null
-      this.newSmartphone.battery = null
-      this.newSmartphone.ram = null
-      this.newSmartphone.memory = null
-      this.newSmartphone.description = null
-      this.newSmartphone.price = null
+      this.scrapingTarget = null
+      this.newSmartphone.images.imageOne = ''
+      this.newSmartphone.images.imageTwo = ''
+      this.newSmartphone.images.imageThree = ''
+      this.newSmartphone.details.brand = ''
+      this.newSmartphone.details.model = ''
+      this.newSmartphone.details.screen = ''
+      this.newSmartphone.details.battery = ''
+      this.newSmartphone.details.ram = ''
+      this.newSmartphone.details.memory = ''
+      this.newSmartphone.details.description = ''
+      this.newSmartphone.details.price = ''
     },
     async scrapeSmartphone () {
       if (this.scrapingTarget !== null) {
@@ -230,7 +321,7 @@ export default {
         this.informationDialogVisibility = true
         const productAddress = this.scrapingTarget.replace('https://www.x-kom.pl/p/', '')
         await this.productsService.scrapeSmartphone(productAddress).then(product => {
-          if (product.details.brand === '' && product.details.model === '' && product.details.screen === '' && product.details.battery === '' && product.details.ram === '' && product.details.memory === '' && product.details.description === '' && product.details.price) {
+          if (product === 'error') {
             this.informationDialogType = null
             this.informationDialogVisibility = false
             setTimeout(function () {
@@ -240,51 +331,53 @@ export default {
               .bind(this),
             500)
           } else {
-            this.newSmartphone.images.imageOne = product.images.imageOne
-            this.newSmartphone.images.imageTwo = product.images.imageTwo
-            this.newSmartphone.images.imageThree = product.images.imageThree
-            this.newSmartphone.brand = product.details.brand
-            this.newSmartphone.model = product.details.model
-            this.newSmartphone.screen = product.details.screen
-            this.newSmartphone.battery = product.details.battery
-            this.newSmartphone.ram = product.details.ram
-            this.newSmartphone.memory = product.details.memory
-            this.newSmartphone.description = product.details.description
-            this.newSmartphone.price = product.details.price
-            this.informationDialogType = null
-            this.informationDialogVisibility = false
-            setTimeout(function () {
-              this.informationDialogType = 'scraping finished'
-              this.informationDialogVisibility = true
-            }
-              .bind(this),
-            500)
-            setTimeout(function () {
+            if (product.details.brand === '' && product.details.model === '' && product.details.screen === '' && product.details.battery === '' && product.details.ram === '' && product.details.memory === '' && product.details.description === '' && product.details.price === '') {
               this.informationDialogType = null
               this.informationDialogVisibility = false
+              setTimeout(function () {
+                this.informationDialogType = 'scraping failed'
+                this.informationDialogVisibility = true
+              }
+                .bind(this),
+              500)
+            } else {
+              this.newSmartphone.images.imageOne = product.images.imageOne
+              this.newSmartphone.images.imageTwo = product.images.imageTwo
+              this.newSmartphone.images.imageThree = product.images.imageThree
+              this.newSmartphone.details.brand = product.details.brand
+              this.newSmartphone.details.model = product.details.model
+              this.newSmartphone.details.screen = product.details.screen
+              this.newSmartphone.details.battery = product.details.battery
+              this.newSmartphone.details.ram = product.details.ram
+              this.newSmartphone.details.memory = product.details.memory
+              this.newSmartphone.details.description = product.details.description
+              this.newSmartphone.details.price = product.details.price
+              this.informationDialogType = null
+              this.informationDialogVisibility = false
+              setTimeout(function () {
+                this.informationDialogType = 'scraping succesful'
+                this.informationDialogVisibility = true
+              }
+                .bind(this),
+              500)
+              setTimeout(function () {
+                this.informationDialogType = null
+                this.informationDialogVisibility = false
+              }
+                .bind(this),
+              1500)
             }
-              .bind(this),
-            1500)
           }
         })
-      } else {
-        this.informationDialogType = 'target is not defined'
-        this.informationDialogVisibility = true
-        setTimeout(function () {
-          this.informationDialogVisibility = false
-          this.informationDialogType = null
-        }
-          .bind(this),
-        2000)
       }
-    },
-    closeNewProductDialog () {
-      this.$emit('closeProductDialog', null)
     }
   },
   computed: {
     scrapingStatement () {
       return this.scrapingTarget === null || this.scrapingTarget === ''
+    },
+    uploadStatement () {
+      return this.newSmartphone.details.brand === '' || this.newSmartphone.details.model === '' || this.newSmartphone.details.screen === '' || this.newSmartphone.details.battery === '' || this.newSmartphone.details.ram === '' || this.newSmartphone.details.memory === '' || this.newSmartphone.details.description === '' || this.newSmartphone.details.price === ''
     },
     informationDialogWidth () {
       if (this.$vuetify.breakpoint.xsOnly) {
@@ -297,22 +390,23 @@ export default {
       return this.productsCategory === 'smartphones'
     }
   },
-  beforeMount () {
-    bus.$on('countOfProducts', (value) => {
-      if (value > this.currentProductsNumber) {
-        this.informationDialogVisibility = true
-        this.informationDialogType = 'uploading succesful'
-        setTimeout(function () {
-          this.informationDialogVisibility = false
-          this.informationDialogType = null
-        }
-          .bind(this),
-        2000)
-      } else {
-        this.informationDialogType = 'uploading failed'
-        this.informationDialogVisibility = true
+  watch: {
+    'updateStatement' (value) {
+      if (value === true) {
+        console.log(this.productToUpdate)
+        this.newSmartphone.images.imageOne = this.productToUpdate.images.imageOne
+        this.newSmartphone.images.imageTwo = this.productToUpdate.images.imageTwo
+        this.newSmartphone.images.imageThree = this.productToUpdate.images.imageThree
+        this.newSmartphone.details.brand = this.productToUpdate.details.brand
+        this.newSmartphone.details.model = this.productToUpdate.details.model
+        this.newSmartphone.details.screen = this.productToUpdate.details.screen
+        this.newSmartphone.details.battery = this.productToUpdate.details.battery
+        this.newSmartphone.details.ram = this.productToUpdate.details.ram
+        this.newSmartphone.details.memory = this.productToUpdate.details.memory
+        this.newSmartphone.details.description = this.productToUpdate.details.description
+        this.newSmartphone.details.price = this.productToUpdate.details.price
       }
-    })
+    }
   }
 }
 </script>

@@ -4,11 +4,13 @@ export default {
     imageTwo: null,
     imageThree: null
   },
-  brand: null,
-  model: null,
-  ram: null,
-  cpuClockSpeed: null,
-  ports: null,
-  description: null,
-  price: null
+  details: {
+    brand: null,
+    model: null,
+    ram: null,
+    cpuClockSpeed: null,
+    ports: null,
+    description: null,
+    price: null
+  }
 }

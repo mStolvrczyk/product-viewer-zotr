@@ -4,31 +4,59 @@ import { bus } from '@/main'
 
 export default class ProductsService {
   async getAllProducts (category) {
-    return await appHttpClient.get(`/${category}`).then(prop('data'))
+    return await appHttpClient.get(`/${category}`)
+      .then(prop('data'))
+      .catch(e => {
+        return 'error'
+      })
   }
 
   async getSubProducts (category, subcategory) {
-    return appHttpClient.get(`/${category}/${subcategory}`).then(prop('data'))
+    return appHttpClient.get(`/${category}/${subcategory}`)
+      .then(prop('data'))
+      .catch(e => {
+        return 'error'
+      })
   }
 
   async getCountOfProducts (category) {
-    return await appHttpClient.get(`/${category}/count`).then(prop('data'))
+    return await appHttpClient.get(`/${category}/count`)
+      .then(prop('data'))
+      .catch(e => {
+        return 'error'
+      })
   }
 
   async getCountByCategory (category, subcategory) {
-    return await appHttpClient.get(`/${category}/${subcategory}/count`).then(prop('data'))
+    return await appHttpClient.get(`/${category}/${subcategory}/count`)
+      .then(prop('data'))
+      .catch(e => {
+        return 'error'
+      })
   }
 
   async scrapeGraphicsCard (target) {
-    return appHttpClient.get(`/graphicsCard/${target}`).then(prop('data'))
+    return appHttpClient.get(`/graphicsCard/${target}`)
+      .then(prop('data'))
+      .catch(e => {
+        return 'error'
+      })
   }
 
   async scrapeSmartphone (target) {
-    return appHttpClient.get(`/smartphone/${target}`).then(prop('data'))
+    return appHttpClient.get(`/smartphone/${target}`)
+      .then(prop('data'))
+      .catch(e => {
+        return 'error'
+      })
   }
 
   async scrapeLaptop (target) {
-    return appHttpClient.get(`/laptop/${target}`).then(prop('data'))
+    return appHttpClient.get(`/laptop/${target}`)
+      .then(prop('data'))
+      .catch(e => {
+        return 'error'
+      })
   }
 
   // async createLaptop (data) {
@@ -70,6 +98,9 @@ export default class ProductsService {
           bus.$emit('countOfProducts', response)
         })
       })
+      .catch(e => {
+        return 'error'
+      })
   }
 
   async createGraphicsCard (data) {
@@ -79,14 +110,20 @@ export default class ProductsService {
           bus.$emit('countOfProducts', response)
         })
       })
+      .catch(e => {
+        return 'error'
+      })
   }
 
   async createSmartphone (data) {
-    return await appHttpClient.post('/smartphones', data)
-      .then(response => {
-        response = this.getCountOfProducts('smartphones').then(response => {
-          bus.$emit('countOfProducts', response)
-        })
-      })
+    return await appHttpClient.post('/smartphones', data).catch(e => { return 'error' })
+  }
+
+  async removeProduct (category, id) {
+    return await appHttpClient.delete(`/${category}/${id}`).catch(e => { return 'error' })
+  }
+
+  async updateProduct (category, id, data) {
+    return await appHttpClient.put(`/${category}/${id}`, data).catch(e => { return 'error' })
   }
 }

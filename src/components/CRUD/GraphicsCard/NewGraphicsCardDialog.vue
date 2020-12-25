@@ -6,7 +6,7 @@
      :max-width="informationDialogWidth"
   >
     <div id="new-product-header">
-      <h3>Dodaj kartę graficzną</h3>
+      <h3>Panel produktu karta graficzna</h3>
     </div>
     <div id="new-product-dialog">
       <div class="container">
@@ -226,7 +226,7 @@ export default {
         this.informationDialogVisibility = true
         const productAddress = this.scrapingTarget.replace('https://www.x-kom.pl/p/', '')
         await this.productsService.scrapeGraphicsCard(productAddress).then(product => {
-          if (product.details.brand === '' && product.details.model === '' && product.details.ram === '' && product.details.cpu === '' && product.details.gpu === '' && product.details.drive === '' && product.details.matrix === '' && product.details.description === '' && product.details.price === '') {
+          if (product === 'error') {
             this.informationDialogType = null
             this.informationDialogVisibility = false
             setTimeout(function () {
@@ -236,42 +236,44 @@ export default {
               .bind(this),
             500)
           } else {
-            console.log(product)
-            this.newGraphicsCard.images.imageOne = product.images.imageOne
-            this.newGraphicsCard.images.imageTwo = product.images.imageTwo
-            this.newGraphicsCard.images.imageThree = product.images.imageThree
-            this.newGraphicsCard.brand = product.details.brand
-            this.newGraphicsCard.model = product.details.model
-            this.newGraphicsCard.ram = product.details.ram
-            this.newGraphicsCard.cpuClockSpeed = product.details.cpuClockSpeed
-            this.newGraphicsCard.ports = product.details.ports
-            this.newGraphicsCard.description = product.details.description
-            this.newGraphicsCard.price = product.details.price
-            this.informationDialogType = null
-            this.informationDialogVisibility = false
-            setTimeout(function () {
-              this.informationDialogType = 'scraping finished'
-              this.informationDialogVisibility = true
-            }
-              .bind(this),
-            500)
-            setTimeout(function () {
+            if (product.details.brand === '' && product.details.model === '' && product.details.ram === '' &&
+              product.details.cpuClockSpeed === '' && product.details.ports === '' && product.details.description === '' && product.details.price === '') {
               this.informationDialogType = null
               this.informationDialogVisibility = false
+              setTimeout(function () {
+                this.informationDialogType = 'scraping failed'
+                this.informationDialogVisibility = true
+              }
+                .bind(this),
+              500)
+            } else {
+              this.newGraphicsCard.images.imageOne = product.images.imageOne
+              this.newGraphicsCard.images.imageTwo = product.images.imageTwo
+              this.newGraphicsCard.images.imageThree = product.images.imageThree
+              this.newGraphicsCard.details.brand = product.details.brand
+              this.newGraphicsCard.details.model = product.details.model
+              this.newGraphicsCard.details.ram = product.details.ram
+              this.newGraphicsCard.details.cpuClockSpeed = product.details.cpuClockSpeed
+              this.newGraphicsCard.details.ports = product.details.ports
+              this.newGraphicsCard.details.description = product.details.description
+              this.newGraphicsCard.details.price = product.details.price
+              this.informationDialogType = null
+              this.informationDialogVisibility = false
+              setTimeout(function () {
+                this.informationDialogType = 'scraping succesful'
+                this.informationDialogVisibility = true
+              }
+                .bind(this),
+              500)
+              setTimeout(function () {
+                this.informationDialogType = null
+                this.informationDialogVisibility = false
+              }
+                .bind(this),
+              1500)
             }
-              .bind(this),
-            1500)
           }
         })
-      } else {
-        this.informationDialogType = 'target is not defined'
-        this.informationDialogVisibility = true
-        setTimeout(function () {
-          this.informationDialogVisibility = false
-          this.informationDialogType = null
-        }
-          .bind(this),
-        2000)
       }
     }
   },

@@ -6,7 +6,7 @@
      :max-width="informationDialogWidth"
   >
     <div id="new-product-header">
-      <h3>Dodaj laptop</h3>
+      <h3>Panel produktu laptop</h3>
     </div>
     <div id="new-product-dialog">
       <div class="container">
@@ -253,7 +253,7 @@ export default {
         this.informationDialogVisibility = true
         const productAddress = this.scrapingTarget.replace('https://www.x-kom.pl/p/', '')
         await this.productsService.scrapeLaptop(productAddress).then(product => {
-          if (product.details.brand === '' && product.details.cpu === '' && product.details.description === '' && product.details.drive === '' && product.details.gpu === '' && product.details.matrix === '' && product.details.model === '' && product.details.price === '' && product.details.ram === '') {
+          if (product === 'error') {
             this.informationDialogType = null
             this.informationDialogVisibility = false
             setTimeout(function () {
@@ -263,44 +263,46 @@ export default {
               .bind(this),
             500)
           } else {
-            this.newLaptop.images.imageOne = product.images.imageOne
-            this.newLaptop.images.imageTwo = product.images.imageTwo
-            this.newLaptop.images.imageThree = product.images.imageThree
-            this.newLaptop.brand = product.details.brand
-            this.newLaptop.model = product.details.model
-            this.newLaptop.ram = product.details.ram
-            this.newLaptop.cpu = product.details.cpu
-            this.newLaptop.gpu = product.details.gpu
-            this.newLaptop.drive = product.details.drive
-            this.newLaptop.matrix = product.details.matrix
-            this.newLaptop.type = this.laptopType
-            this.newLaptop.description = product.details.description
-            this.newLaptop.price = product.details.price
-            this.informationDialogType = null
-            this.informationDialogVisibility = false
-            setTimeout(function () {
-              this.informationDialogType = 'scraping finished'
-              this.informationDialogVisibility = true
-            }
-              .bind(this),
-            500)
-            setTimeout(function () {
+            if (product.details.brand === '' && product.details.model === '' && product.details.ram === '' && product.details.cpu === '' && product.details.gpu === '' && product.details.drive === '' && product.details.matrix === '' && product.details.type === '' && product.details.description === '' && product.details.price === '') {
               this.informationDialogType = null
               this.informationDialogVisibility = false
+              setTimeout(function () {
+                this.informationDialogType = 'scraping failed'
+                this.informationDialogVisibility = true
+              }
+                .bind(this),
+              500)
+            } else {
+              this.newLaptop.images.imageOne = product.images.imageOne
+              this.newLaptop.images.imageTwo = product.images.imageTwo
+              this.newLaptop.images.imageThree = product.images.imageThree
+              this.newLaptop.details.brand = product.details.brand
+              this.newLaptop.details.model = product.details.model
+              this.newLaptop.details.ram = product.details.ram
+              this.newLaptop.details.cpu = product.details.cpu
+              this.newLaptop.details.gpu = product.details.gpu
+              this.newLaptop.details.drive = product.details.drive
+              this.newLaptop.details.matrix = product.details.matrix
+              this.newLaptop.details.type = this.laptopType
+              this.newLaptop.details.description = product.details.description
+              this.newLaptop.details.price = product.details.price
+              this.informationDialogType = null
+              this.informationDialogVisibility = false
+              setTimeout(function () {
+                this.informationDialogType = 'scraping succesful'
+                this.informationDialogVisibility = true
+              }
+                .bind(this),
+              500)
+              setTimeout(function () {
+                this.informationDialogType = null
+                this.informationDialogVisibility = false
+              }
+                .bind(this),
+              1500)
             }
-              .bind(this),
-            1500)
           }
         })
-      } else {
-        this.informationDialogType = 'target is not defined'
-        this.informationDialogVisibility = true
-        setTimeout(function () {
-          this.informationDialogVisibility = false
-          this.informationDialogType = null
-        }
-          .bind(this),
-        2000)
       }
     }
   },

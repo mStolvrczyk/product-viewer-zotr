@@ -65,78 +65,6 @@
           </v-list-item>
         </v-list>
       </v-menu>
-      <!--    <div class="rankings-menu-el" @click="switchCategory('keyboards')">-->
-      <!--      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-keyboard-outline</v-icon>-->
-      <!--      <p class="category rankings">Klawiatury</p>-->
-      <!--    </div>-->
-      <!--    <v-menu-->
-      <!--      class="drop-down-cat"-->
-      <!--      transition="slide-y-transition"-->
-      <!--      bottom-->
-      <!--    >-->
-      <!--      <template v-slot:activator="{ on, attrs }">-->
-      <!--        <div class="rankings-menu-el"-->
-      <!--           v-bind="attrs"-->
-      <!--           v-on="on"-->
-      <!--        >-->
-      <!--          <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-keyboard-outline</v-icon>-->
-      <!--          <p class="category rankings">Klawiatury</p>-->
-      <!--        </div>-->
-      <!--      </template>-->
-      <!--      <v-list>-->
-      <!--        <v-list-item-->
-      <!--          color="#fff"-->
-      <!--          @click="switchCategory('keyboards/true')"-->
-      <!--        >-->
-      <!--          <v-list-item-title>gamingowe</v-list-item-title>-->
-      <!--        </v-list-item>-->
-      <!--        <v-list-item-->
-      <!--          @click="switchCategory('keyboards/false')"-->
-      <!--        >-->
-      <!--          <v-list-item-title>biurowe</v-list-item-title>-->
-      <!--        </v-list-item>-->
-      <!--      </v-list>-->
-      <!--    </v-menu>-->
-      <!--    <div class="rankings-menu-el" @click="switchCategory('wirelessheadphones')">-->
-      <!--      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-headphones</v-icon>-->
-      <!--      <p class="category rankings">Słuchawki</p>-->
-      <!--    </div>-->
-      <!--    <div class="rankings-menu-el" @click="switchCategory('mouses')">-->
-      <!--      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-mouse</v-icon>-->
-      <!--      <p class="category rankings">Myszki</p>-->
-      <!--    </div>-->
-      <!--    <v-menu-->
-      <!--      class="drop-down-cat"-->
-      <!--      transition="slide-y-transition"-->
-      <!--      bottom-->
-      <!--    >-->
-      <!--      <template v-slot:activator="{ on, attrs }">-->
-      <!--        <div class="rankings-menu-el"-->
-      <!--          v-bind="attrs"-->
-      <!--          v-on="on"-->
-      <!--        >-->
-      <!--          <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-mouse</v-icon>-->
-      <!--          <p class="category rankings">Myszki</p>-->
-      <!--        </div>-->
-      <!--      </template>-->
-      <!--      <v-list>-->
-      <!--        <v-list-item-->
-      <!--          color="#fff"-->
-      <!--          @click="switchCategory('mouses/true')"-->
-      <!--        >-->
-      <!--          <v-list-item-title>gamingowe</v-list-item-title>-->
-      <!--        </v-list-item>-->
-      <!--        <v-list-item-->
-      <!--          @click="switchCategory('mouses/false')"-->
-      <!--        >-->
-      <!--          <v-list-item-title>biurowe</v-list-item-title>-->
-      <!--        </v-list-item>-->
-      <!--      </v-list>-->
-      <!--    </v-menu>-->
-      <!--    <div class="rankings-menu-el" @click="switchCategory('monitors')">-->
-      <!--      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-monitor</v-icon>-->
-      <!--      <p class="category rankings">Monitory</p>-->
-      <!--    </div>-->
     </section>
     <section>
       <div class="container">
@@ -149,7 +77,7 @@
           search="searchValue"
           hide-no-data
           item-value="id"
-          item-text="model"
+          item-text="details.model"
           label="Wybierz kategorię urządzeń"
           solo
           hide-details
@@ -165,29 +93,7 @@
             </v-list-item>
           </template>
         </v-autocomplete>
-        <!--      <div id="filters">-->
-        <!--        <div class="container filters">-->
-        <!--          <div id="filters-container">-->
-        <!--            <v-switch v-model="gaming" :label="'biurowe'"></v-switch>-->
-        <!--            <v-switch v-model="gaming" :label="'gamingowe'"></v-switch>-->
-        <!--          </div>-->
-        <!--        </div>-->
-        <!--      </div>-->
-        <div id="products" v-if="currentProductsNumber !== 0">
-          <!--        <div v-if="$route.params.category === 'drones'">-->
-          <!--          <div v-for="product in sliderCollection" :key="product.index" class="product-el">-->
-          <!--            <v-img class="product-image" :src="getImgUrl(product.imagePath)"/>-->
-          <!--            <div class="second-col">-->
-          <!--              <h3>{{ product.brand + ' ' + product.model }}</h3>-->
-          <!--              <p class="product-specs">Kamera: {{ product.camera }} | Maksymalny czas działania: {{-->
-          <!--                product.batteryWorkTime-->
-          <!--                }} | Kontroler: {{ product.controller }}</p>-->
-          <!--              <div class="price">-->
-          <!--                {{ product.price }}-->
-          <!--              </div>-->
-          <!--            </div>-->
-          <!--          </div>-->
-          <!--        </div>-->
+        <div id="products" v-if="allProducts.length !== 0 && !errorStatement">
           <div v-if="$route.params.category === 'graphicsCards'">
             <transition-group name="fade">
               <div v-for="product in products" :key="product._id" class="product-el">
@@ -223,19 +129,6 @@
               </div>
             </transition-group>
           </div>
-<!--          <div v-if="$route.params.category === 'keyboards'">-->
-<!--            <div v-for="product in products" :key="product.index" class="product-el">-->
-<!--              <v-img contain class="product-image" :src="getImgUrl(product.imagePath)"/>-->
-<!--              <div class="second-col">-->
-<!--                <h3>{{ product.brand + ' ' + product.model }}</h3>-->
-<!--                <p class="product-specs">Typ: {{ product.keyboardType }} | Łączność: {{ product.connection-->
-<!--                  }} | Interfejs: {{ product.interface }}</p>-->
-<!--                <div class="price">-->
-<!--                  {{ product.price }}-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
           <div v-if="$route.params.category === 'laptops'">
             <transition-group name="fade">
               <div v-for="product in products" :key="product._id" class="product-el">
@@ -272,19 +165,20 @@
             </transition-group>
           </div>
           <div v-if="$route.params.category === 'smartphones'">
-            <transition-group name="fade">
-              <div v-for="product in products" :key="product._id" class="product-el">
+            <transition-group name="fade" id="products-group">
+              <div v-for="product in products" :key="product._id" id="product-el" class="product-el" @click="productElAction(product)">
                 <v-img contain class="product-image" :src="product.images.imageOne"/>
                 <div class="second-col">
-                  <h3>{{ product.model }}</h3>
-                  <p class="product-specs">Ekran: {{ product.screen }} | Bateria: {{ product.battery
-                    }} | Pamięć: {{ product.memory }}</p>
+                  <h3>{{ product.details.model }}</h3>
+                  <p class="product-specs">Ekran: {{ product.details.screen }} | Bateria: {{ product.details.battery
+                    }} | Pamięć: {{ product.details.memory }}</p>
                   <div class="price">
-                    {{ product.price }}
+                    {{ product.details.price }}
                   </div>
                 </div>
                 <div class="third-col">
                   <v-btn
+                    @click="updateProduct(product)"
                     x-large
                     color="rgb(223, 57, 104)"
                     icon
@@ -294,6 +188,7 @@
                     </v-icon>
                   </v-btn>
                   <v-btn
+                    @click="removeConfirmation(product._id)"
                     x-large
                     color="rgb(223, 57, 104)"
                     icon
@@ -306,52 +201,11 @@
               </div>
             </transition-group>
           </div>
-          <!--        <div v-if="$route.params.category === 'monitors'">-->
-          <!--          <div v-for="product in sliderCollection" :key="product.index" class="product-el">-->
-          <!--            <v-img class="product-image" :src="getImgUrl(product.imagePath)"/>-->
-          <!--            <div class="second-col">-->
-          <!--              <h3>{{ product.brand + ' ' + product.model }}</h3>-->
-          <!--              <p class="product-specs">Rozdzielczość: {{ product.resolution }} | Przekątna ekranu: {{-->
-          <!--                product.displaySize-->
-          <!--                }} | Matryca: {{ product.matrixType }}</p>-->
-          <!--              <div class="price">-->
-          <!--                {{ product.price }}-->
-          <!--              </div>-->
-          <!--            </div>-->
-          <!--          </div>-->
-          <!--        </div>-->
-          <!--        <div v-if="$route.params.category === 'mouses'">-->
-          <!--          <div v-for="product in sliderCollection" :key="product.index" class="product-el">-->
-          <!--            <v-img class="product-image" :src="getImgUrl(product.imagePath)"/>-->
-          <!--            <div class="second-col">-->
-          <!--              <h3>{{ product.brand + ' ' + product.model }}</h3>-->
-          <!--              <p class="product-specs">DPI: {{ product.dpi }} | Liczba przycisków: {{ product.numberOfButtons-->
-          <!--                }} | Łączność: {{ product.connection }}</p>-->
-          <!--              <div class="price">-->
-          <!--                {{ product.price }}-->
-          <!--              </div>-->
-          <!--            </div>-->
-          <!--          </div>-->
-          <!--        </div>-->
-          <!--        <div v-if="$route.params.category === 'wirelessheadphones'">-->
-          <!--          <div v-for="product in sliderCollection" :key="product.index" class="product-el">-->
-          <!--            <v-img class="product-image" :src="getImgUrl(product.imagePath)"/>-->
-          <!--            <div class="second-col">-->
-          <!--              <h3>{{ product.brand + ' ' + product.model }}</h3>-->
-          <!--              <p class="product-specs">Typ: {{ product.type }} | Maksymalny czas pracy: {{-->
-          <!--                product.batteryWorkTime-->
-          <!--                }} | Zasięg: {{ product.reach }}</p>-->
-          <!--              <div class="price">-->
-          <!--                {{ product.price }}-->
-          <!--              </div>-->
-          <!--            </div>-->
-          <!--          </div>-->
-          <!--        </div>-->
         </div>
-        <div v-if="currentProductsNumber === 0">
+        <div v-if="allProducts.length === 0 && !errorStatement && !loadingStatement">
           BRAK PRODUKTÓW DO WYŚWIETLENIA
         </div>
-        <div v-if="currentProductsNumber === null">
+        <div v-if="loadingStatement">
           <transition-group name="fade">
             <v-progress-linear
               :key="1"
@@ -384,6 +238,9 @@
             ></v-progress-linear>
           </transition-group>
         </div>
+        <div v-if="errorStatement">
+          BRAK POŁĄCZENIA Z BAZĄ DANYCH
+        </div>
         <transition name="fade">
           <v-btn
             style="margin-top: 0.7rem"
@@ -407,15 +264,26 @@
       :productsCategory="productsCategory"
       v-on:closeProductDialog="closeProductDialog"
     />
+<!--      :currentProductsNumber="currentProductsNumber"-->
     <NewSmartphoneDialog
-      :currentProductsNumber="currentProductsNumber"
       :productsCategory="productsCategory"
+      :updateStatement.sync="updateStatement"
+      :productToUpdate.sync="productToUpdate"
+      v-on:resetUpdateStatus="resetUpdateStatus"
       v-on:closeProductDialog="closeProductDialog"
+      v-on:refreshProductsList="refreshProductsList"
     />
     <NewGraphicsCardDialog
       :currentProductsNumber="currentProductsNumber"
       :productsCategory="productsCategory"
       v-on:closeProductDialog="closeProductDialog"
+    />
+    <InformationDialog
+      :informationDialogVisibility.sync="informationDialogVisibility"
+      :informationDialogType.sync="informationDialogType"
+      :category.sync="$route.params.category"
+      v-on:closeInformationDialog="closeInformationDialog"
+      v-on:removeProduct="removeProduct"
     />
   </div>
 </template>
@@ -425,11 +293,20 @@ import ProductsService from '@/services/productsService'
 import NewLaptopDialog from '@/components/CRUD/Laptop/NewLaptopDialog'
 import NewGraphicsCardDialog from '@/components/CRUD/GraphicsCard/NewGraphicsCardDialog'
 import NewSmartphoneDialog from '@/components/CRUD/Smartphone/NewSmartphoneDialog'
+import InformationDialog from '@/components/InformationDialog'
 export default {
   name: 'AdminPanel',
-  components: { NewLaptopDialog, NewGraphicsCardDialog, NewSmartphoneDialog },
+  components: { NewLaptopDialog, NewGraphicsCardDialog, NewSmartphoneDialog, InformationDialog },
   data () {
     return {
+      largeProductElStatement: false,
+      productToUpdate: null,
+      updateStatement: false,
+      productId: null,
+      informationDialogVisibility: false,
+      informationDialogType: null,
+      errorStatement: false,
+      loadingStatement: false,
       currentProductsNumber: null,
       productsService: new ProductsService(),
       allProducts: [],
@@ -440,10 +317,66 @@ export default {
     }
   },
   methods: {
-    async openProductDialog (category) {
+    resetUpdateStatus (value) {
+      this.updateStatement = value
+    },
+    updateProduct (product) {
+      this.productToUpdate = product
+      this.updateStatement = true
+      this.openProductDialog(this.$route.params.category)
+    },
+    removeConfirmation (productId) {
+      this.productId = productId
+      this.informationDialogType = 'removing confirmation'
+      this.informationDialogVisibility = true
+    },
+    closeInformationDialog (value) {
+      this.informationDialogVisibility = value
+      this.informationDialogType = null
+    },
+    async removeProduct () {
+      this.informationDialogType = 'removing'
+      this.informationDialogVisibility = true
+      await this.productsService.removeProduct(this.$route.params.category, this.productId)
+        .then(response => {
+          if (response === 'error') {
+            this.informationDialogType = null
+            this.informationDialogVisibility = false
+            setTimeout(function () {
+              this.informationDialogType = 'removing failed'
+              this.informationDialogVisibility = true
+            }
+              .bind(this),
+            500)
+          } else {
+            this.informationDialogType = null
+            this.informationDialogVisibility = false
+            setTimeout(function () {
+              this.informationDialogType = 'removing succesful'
+              this.informationDialogVisibility = true
+            }
+              .bind(this),
+            500)
+            setTimeout(function () {
+              this.informationDialogType = null
+              this.informationDialogVisibility = false
+            }
+              .bind(this),
+            1500)
+          }
+        })
+      this.refreshProductsList(this.$route.params.category)
+    },
+    refreshProductsList (value) {
+      if (this.$route.params.category === value) {
+        this.getProducts(value, undefined)
+      } else {
+        this.switchCategory(value)
+      }
+    },
+    openProductDialog (category) {
       this.productsCategory = category
-      this.currentProductsNumber = await this.productsService.getCountOfProducts(category)
-      console.log(this.currentProductsNumber)
+      // this.currentProductsNumber = await this.productsService.getCountOfProducts(category)
     },
     closeProductDialog (value) {
       this.productsCategory = value
@@ -459,15 +392,31 @@ export default {
       return require('../assets/productImages' + imagePath)
     },
     async getProducts (category, subcategory) {
-      this.currentProductsNumber = null
+      this.loadingStatement = true
+      // this.currentProductsNumber = null
+      this.products = []
       if (subcategory !== undefined) {
-        this.products = []
-        this.allProducts = this.products = await this.productsService.getSubProducts(category, subcategory)
-        this.currentProductsNumber = await this.productsService.getCountByCategory(category, subcategory)
+        // this.currentProductsNumber = await this.productsService.getCountByCategory(category, subcategory)
+        await this.productsService.getSubProducts(category, subcategory)
+          .then(response => {
+            this.loadingStatement = false
+            if (response === 'error') {
+              this.errorStatement = true
+            } else {
+              this.allProducts = this.products = response
+            }
+          })
       } else {
-        this.products = []
-        this.allProducts = this.products = await this.productsService.getAllProducts(category)
-        this.currentProductsNumber = await this.productsService.getCountOfProducts(category)
+        // this.currentProductsNumber = await this.productsService.getCountOfProducts(category)
+        await this.productsService.getAllProducts(category)
+          .then(response => {
+            this.loadingStatement = false
+            if (response === 'error') {
+              this.errorStatement = true
+            } else {
+              this.allProducts = this.products = response
+            }
+          })
       }
     },
     async switchCategory (category) {
@@ -478,6 +427,17 @@ export default {
     clearFilters () {
       this.products = this.allProducts
       this.arrowVisibility = false
+    },
+    productElAction (index) {
+      console.log(this.products.indexOf(index))
+      // document.getElementById('products-group').children.item(this.products.indexOf(index)).className = 'product-el'
+      if (this.largeProductElStatement === false) {
+        document.getElementById('products-group').children.item(this.products.indexOf(index)).className = 'product-el large'
+        this.largeProductElStatement = true
+      } else {
+        document.getElementsByClassName('products-group large').className = 'product-el'
+        this.largeProductElStatement = false
+      }
     }
   },
   watch: {
@@ -506,6 +466,27 @@ export default {
 </script>
 
 <style lang="scss">
+.product-el {
+  margin: 0.3rem 0;
+  padding: 1rem 1rem;
+  background: #fff;
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr;
+  transition: padding 0.5s, box-shadow 0.3s;
+  &.large {
+    padding: 5rem 1rem;
+  }
+  &:hover {
+    cursor: pointer;
+    box-shadow: 5px 0 15px #BDBDBD;
+  }
+
+  .second-col {
+    padding: 2rem 0.5rem;
+    text-align: left;
+    flex-direction: column;
+  }
+}
 .middle-el {
   display: flex;
   justify-content: center;

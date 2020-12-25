@@ -1,15 +1,18 @@
 export default {
+  largeElStatement: false,
   images: {
-    imageOne: null,
-    imageTwo: null,
-    imageThree: null
+    imageOne: '',
+    imageTwo: '',
+    imageThree: ''
   },
-  brand: null,
-  model: null,
-  screen: null,
-  battery: null,
-  ram: null,
-  memory: null,
-  description: null,
-  price: null
+  details: {
+    brand: '',
+    model: '',
+    screen: '',
+    battery: '',
+    ram: '',
+    memory: '',
+    description: '',
+    price: ''
+  }
 }
