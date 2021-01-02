@@ -166,19 +166,42 @@
           </div>
           <div v-if="$route.params.category === 'smartphones'">
             <transition-group name="fade" id="products-group">
-              <div v-for="product in products" :key="product._id" id="product-el" class="product-el" @click="productElAction(product)">
-                <v-img contain class="product-image" :src="product.images.imageOne"/>
+              <div v-for="product in products" :key="product._id" id="product-el"
+                   class="product-el"
+                    @click="productElAction(product)">
+                <v-carousel
+                  :show-arrows="false"
+                  hide-delimiters
+                  :cycle="product.largeProductEl"
+                  interval="2000"
+                  height="200"
+                >
+                  <v-carousel-item
+                    v-for="(image,i) in objectToArray(product)"
+                    :key="i"
+                    reverse-transition="fade-transition"
+                    transition="fade-transition"
+                  >
+                    <v-img contain class="product-image" :src="image"/>
+                  </v-carousel-item>
+                </v-carousel>
                 <div class="second-col">
                   <h3>{{ product.details.model }}</h3>
                   <p class="product-specs">Ekran: {{ product.details.screen }} | Bateria: {{ product.details.battery
                     }} | Pamięć: {{ product.details.memory }}</p>
+                  <transition name="fade">
+                    <p v-if="product.largeProductEl" class="product-specs">Ekran: {{ product.details.screen }} |
+                    Bateria: {{
+                      product.details.battery
+                  }} | Pamięć: {{ product.details.memory }}</p>
+                  </transition>
                   <div class="price">
                     {{ product.details.price }}
                   </div>
                 </div>
                 <div class="third-col">
                   <v-btn
-                    @click="updateProduct(product)"
+                    @click.stop="updateProduct(product)"
                     x-large
                     color="rgb(223, 57, 104)"
                     icon
@@ -188,7 +211,7 @@
                     </v-icon>
                   </v-btn>
                   <v-btn
-                    @click="removeConfirmation(product._id)"
+                    @click.stop="removeConfirmation(product._id)"
                     x-large
                     color="rgb(223, 57, 104)"
                     icon
@@ -299,7 +322,7 @@ export default {
   components: { NewLaptopDialog, NewGraphicsCardDialog, NewSmartphoneDialog, InformationDialog },
   data () {
     return {
-      largeProductElStatement: false,
+      noOfProductInArr: null,
       productToUpdate: null,
       updateStatement: false,
       productId: null,
@@ -317,6 +340,20 @@ export default {
     }
   },
   methods: {
+    objectToArray (object) {
+      if (object.largeProductEl) {
+        const arr = [
+          object.images.imageOne,
+          object.images.imageTwo,
+          object.images.imageThree
+        ]
+        return arr.filter((image) => (image !== ''))
+      } else {
+        return [
+          object.images.imageOne
+        ]
+      }
+    },
     resetUpdateStatus (value) {
       this.updateStatement = value
     },
@@ -403,7 +440,7 @@ export default {
             if (response === 'error') {
               this.errorStatement = true
             } else {
-              this.allProducts = this.products = response
+              this.allProducts = this.products = response.map((response) => ({ ...response, largeProductEl: false }))
             }
           })
       } else {
@@ -414,7 +451,7 @@ export default {
             if (response === 'error') {
               this.errorStatement = true
             } else {
-              this.allProducts = this.products = response
+              this.allProducts = this.products = response.map((response) => ({ ...response, largeProductEl: false }))
             }
           })
       }
@@ -428,15 +465,21 @@ export default {
       this.products = this.allProducts
       this.arrowVisibility = false
     },
-    productElAction (index) {
-      console.log(this.products.indexOf(index))
-      // document.getElementById('products-group').children.item(this.products.indexOf(index)).className = 'product-el'
-      if (this.largeProductElStatement === false) {
-        document.getElementById('products-group').children.item(this.products.indexOf(index)).className = 'product-el large'
-        this.largeProductElStatement = true
-      } else {
-        document.getElementsByClassName('products-group large').className = 'product-el'
-        this.largeProductElStatement = false
+    productElAction (product) {
+      if (this.noOfProductInArr === null) {
+        document.getElementById('products-group').children.item(this.products.indexOf(product)).className = 'product-el large'
+        this.noOfProductInArr = this.products.indexOf(product)
+        product.largeProductEl = true
+      } else if (this.noOfProductInArr !== null && this.noOfProductInArr !== this.products.indexOf(product)) {
+        this.products[this.noOfProductInArr].largeProductEl = false
+        document.getElementById('products-group').children.item(this.noOfProductInArr).className = 'product-el'
+        document.getElementById('products-group').children.item(this.products.indexOf(product)).className = 'product-el large'
+        product.largeProductEl = true
+        this.noOfProductInArr = this.products.indexOf(product)
+      } else if (this.noOfProductInArr !== null && this.noOfProductInArr === this.products.indexOf(product)) {
+        document.getElementById('products-group').children.item(this.noOfProductInArr).className = 'product-el'
+        this.products[this.noOfProductInArr].largeProductEl = false
+        this.noOfProductInArr = null
       }
     }
   },
@@ -471,7 +514,7 @@ export default {
   padding: 1rem 1rem;
   background: #fff;
   display: grid;
-  grid-template-columns: 1fr 4fr 1fr;
+  grid-template-columns: 2fr 4fr 1fr;
   transition: padding 0.5s, box-shadow 0.3s;
   &.large {
     padding: 5rem 1rem;
