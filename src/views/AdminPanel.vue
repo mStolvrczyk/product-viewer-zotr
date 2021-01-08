@@ -166,7 +166,7 @@
           </div>
           <div v-if="$route.params.category === 'smartphones'">
             <transition-group name="fade" id="products-group">
-              <div v-for="product in products" :key="product._id" id="product-el"
+              <div v-for="product in products" :key="product._id"
                    class="product-el"
                     @click="productElAction(product)">
                 <v-carousel
@@ -174,7 +174,7 @@
                   hide-delimiters
                   :cycle="product.largeProductEl"
                   interval="2000"
-                  height="200"
+                  :height="260"
                 >
                   <v-carousel-item
                     v-for="(image,i) in objectToArray(product)"
@@ -182,28 +182,30 @@
                     reverse-transition="fade-transition"
                     transition="fade-transition"
                   >
-                    <v-img contain class="product-image" :src="image"/>
+                    <div class="image-container">
+                      <v-img class="product-image" contain :src="image"/>
+                    </div>
                   </v-carousel-item>
                 </v-carousel>
                 <div class="second-col">
                   <h3>{{ product.details.model }}</h3>
-                  <p class="product-specs">Ekran: {{ product.details.screen }} | Bateria: {{ product.details.battery
-                    }} | Pamięć: {{ product.details.memory }}</p>
-                  <transition name="fade">
-                    <p v-if="product.largeProductEl" class="product-specs">Ekran: {{ product.details.screen }} |
-                    Bateria: {{
-                      product.details.battery
-                  }} | Pamięć: {{ product.details.memory }}</p>
-                  </transition>
-                  <div class="price">
+                  <h3 v-if="!product.largeProductEl" class="price">
                     {{ product.details.price }}
+                  </h3>
+                  <p style="margin-bottom: 1rem" v-if="product.largeProductEl" class="product-specs">Ekran: {{ product.details.screen }} | Bateria: {{product.details.battery }} | RAM: {{product.details.ram }} | Pamięć: {{product.details.memory }}</p>
+                  <p v-if="product.largeProductEl" class="product-specs">{{product.details.description }}</p>
+                  <div v-if="product.largeProductEl" class="under-description">
+                    <img class="link-image" src="../assets/x-kom.png"/>
+                    <h3 class="price">
+                      {{ product.details.price }}
+                    </h3>
                   </div>
                 </div>
                 <div class="third-col">
                   <v-btn
                     @click.stop="updateProduct(product)"
                     x-large
-                    color="rgb(223, 57, 104)"
+                    color="#D32F2F"
                     icon
                   >
                     <v-icon>
@@ -213,7 +215,7 @@
                   <v-btn
                     @click.stop="removeConfirmation(product._id)"
                     x-large
-                    color="rgb(223, 57, 104)"
+                    color="#D32F2F"
                     icon
                   >
                     <v-icon>
@@ -322,6 +324,7 @@ export default {
   components: { NewLaptopDialog, NewGraphicsCardDialog, NewSmartphoneDialog, InformationDialog },
   data () {
     return {
+      largeCarousel: false,
       noOfProductInArr: null,
       productToUpdate: null,
       updateStatement: false,
@@ -481,6 +484,21 @@ export default {
         this.products[this.noOfProductInArr].largeProductEl = false
         this.noOfProductInArr = null
       }
+    },
+    carouselHeight (focus) {
+      if (focus) {
+        setTimeout(function () {
+        }
+        ,
+        800)
+        return 300
+      } else {
+        setTimeout(function () {
+        }
+        ,
+        800)
+        return 200
+      }
     }
   },
   watch: {
@@ -509,15 +527,43 @@ export default {
 </script>
 
 <style lang="scss">
+.link-image {
+  float: right;
+  width: 100px;
+  height: 40px;
+}
+.under-description {
+}
+h3 {
+  color: #000C38;
+}
+.image-container {
+  padding-right: 2rem;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
 .product-el {
-  margin: 0.3rem 0;
-  padding: 1rem 1rem;
+  margin: 2rem 0;
   background: #fff;
   display: grid;
   grid-template-columns: 2fr 4fr 1fr;
+  //justify-content: center;
+  align-items: center;
   transition: padding 0.5s, box-shadow 0.3s;
+  .product-image {
+    width: 180px;
+    height: 180px;
+    transition: height 0.5s;
+  }
   &.large {
-    padding: 5rem 1rem;
+    padding: 4rem 0;
+    .product-image {
+      transition: height 0.5s;
+      width: 260px;
+      height: 260px;
+    }
   }
   &:hover {
     cursor: pointer;

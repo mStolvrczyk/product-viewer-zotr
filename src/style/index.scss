@@ -7,7 +7,7 @@
 
 body {
   font-family: 'Poppins';
-  background: #FAFAFA;
+  background: #F9FAFB;
 }
 #app {
   display: flex;
@@ -16,7 +16,6 @@ body {
 }
 
 p {
-  font-family: 'Poppins';
   color: #202020;
   &.section-header {
     font-size: 20px;
@@ -420,13 +419,12 @@ img {
   transform: scale(1);
 }
 .price {
+  float: right;
   margin-top: 0.2rem;
-  color: #fff;
+  color: #D32F2F;
   width: 150px;
   text-align: center;
-  background: #df3968;
   padding: 0.4rem;
-  border-radius: 20px;
 }
 
   .third-col {
