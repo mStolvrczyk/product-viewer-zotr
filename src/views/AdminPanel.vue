@@ -189,17 +189,19 @@
                 </v-carousel>
                 <div class="second-col">
                   <h3>{{ product.details.model }}</h3>
-                  <h3 v-if="!product.largeProductEl" class="price">
-                    {{ product.details.price }}
-                  </h3>
                   <p style="margin-bottom: 1rem" v-if="product.largeProductEl" class="product-specs">Ekran: {{ product.details.screen }} | Bateria: {{product.details.battery }} | RAM: {{product.details.ram }} | Pamięć: {{product.details.memory }}</p>
                   <p v-if="product.largeProductEl" class="product-specs">{{product.details.description }}</p>
                   <div v-if="product.largeProductEl" class="under-description">
-                    <img class="link-image" src="../assets/x-kom.png"/>
+                    <img alt="Logo" class="link-image" src="../assets/x-kom.png"/>
                     <h3 class="price">
                       {{ product.details.price }}
                     </h3>
                   </div>
+                </div>
+                <div class="second-col">
+                  <h3 v-if="!product.largeProductEl" class="price">
+                    {{ product.details.price }}
+                  </h3>
                 </div>
                 <div class="third-col">
                   <v-btn
@@ -215,7 +217,7 @@
                   <v-btn
                     @click.stop="removeConfirmation(product._id)"
                     x-large
-                    color="#D32F2F"
+                    color="#000000"
                     icon
                   >
                     <v-icon>
@@ -529,12 +531,13 @@ export default {
 <style lang="scss">
 .link-image {
   float: right;
-  width: 100px;
+  width: 80px;
   height: 40px;
 }
 .under-description {
 }
 h3 {
+  font-size: 17px;
   color: #000C38;
 }
 .image-container {
@@ -548,7 +551,7 @@ h3 {
   margin: 2rem 0;
   background: #fff;
   display: grid;
-  grid-template-columns: 2fr 4fr 1fr;
+  grid-template-columns: 2fr 4fr 1fr 1fr;
   //justify-content: center;
   align-items: center;
   transition: padding 0.5s, box-shadow 0.3s;
