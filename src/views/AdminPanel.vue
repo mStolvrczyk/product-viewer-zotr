@@ -192,10 +192,10 @@
                   <p style="margin-bottom: 1rem" v-if="product.largeProductEl" class="product-specs">Ekran: {{ product.details.screen }} | Bateria: {{product.details.battery }} | RAM: {{product.details.ram }} | Pamięć: {{product.details.memory }}</p>
                   <p v-if="product.largeProductEl" class="product-specs">{{product.details.description }}</p>
                   <div v-if="product.largeProductEl" class="under-description">
-                    <img alt="Logo" class="link-image" src="../assets/x-kom.png"/>
                     <h3 class="price">
                       {{ product.details.price }}
                     </h3>
+                    <div class="link-button">Zobacz ofertę</div>
                   </div>
                 </div>
                 <div class="second-col">
@@ -529,12 +529,21 @@ export default {
 </script>
 
 <style lang="scss">
-.link-image {
-  float: right;
-  width: 80px;
-  height: 40px;
+.link-button {
+  padding: 0 0.8rem;
+  background: #D32F2F;
+  color: #ffffff;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  &:hover {
+    background: #B71C1C;
+  }
 }
 .under-description {
+  margin-top: 0.8rem;
+  display: flex;
+  float: right;
 }
 h3 {
   font-size: 17px;

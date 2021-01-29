@@ -8,6 +8,8 @@ export default {
   details: {
     brand: '',
     model: '',
+    shopLink: '',
+    link: '',
     screen: '',
     battery: '',
     ram: '',

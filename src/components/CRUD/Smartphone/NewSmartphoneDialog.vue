@@ -12,7 +12,7 @@
       <div class="container">
         <div class="row-dialog">
           <v-text-field
-            v-model="scrapingTarget"
+            v-model="newSmartphone.details.shopLink"
             label="Zeskrapuj dane smartfona z linku"
           ></v-text-field>
           <v-btn
@@ -302,12 +302,12 @@ export default {
         })
     },
     clearCells () {
-      this.scrapingTarget = null
       this.newSmartphone.images.imageOne = ''
       this.newSmartphone.images.imageTwo = ''
       this.newSmartphone.images.imageThree = ''
       this.newSmartphone.details.brand = ''
       this.newSmartphone.details.model = ''
+      this.newSmartphone.details.shopLink = ''
       this.newSmartphone.details.screen = ''
       this.newSmartphone.details.battery = ''
       this.newSmartphone.details.ram = ''
@@ -316,10 +316,10 @@ export default {
       this.newSmartphone.details.price = ''
     },
     async scrapeSmartphone () {
-      if (this.scrapingTarget !== null) {
+      if (this.newSmartphone.details.shopLink !== '') {
         this.informationDialogType = 'scraping'
         this.informationDialogVisibility = true
-        const productAddress = this.scrapingTarget.replace('https://www.x-kom.pl/p/', '')
+        const productAddress = this.newSmartphone.details.shopLink.replace('https://www.x-kom.pl/p/', '')
         await this.productsService.scrapeSmartphone(productAddress).then(product => {
           if (product === 'error') {
             this.informationDialogType = null
@@ -374,7 +374,7 @@ export default {
   },
   computed: {
     scrapingStatement () {
-      return this.scrapingTarget === null || this.scrapingTarget === ''
+      return this.newSmartphone.details.shopLink === ''
     },
     uploadStatement () {
       return this.newSmartphone.details.brand === '' || this.newSmartphone.details.model === '' || this.newSmartphone.details.screen === '' || this.newSmartphone.details.battery === '' || this.newSmartphone.details.ram === '' || this.newSmartphone.details.memory === '' || this.newSmartphone.details.description === '' || this.newSmartphone.details.price === ''
