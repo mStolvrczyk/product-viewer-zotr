@@ -39,7 +39,7 @@
       <p class="category rankings">Karty graficzne</p>
     </div>
 <!--    <div class="rankings-menu-el" @click="switchCategory('keyboards')">-->
-<!--      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-keyboard-outline</v-icon>-->
+<!--      <v-icon class="rankings-icon" color="#D32F2F" size="27px">mdi-keyboard-outline</v-icon>-->
 <!--      <p class="category rankings">Klawiatury</p>-->
 <!--    </div>-->
 <!--    <v-menu-->
@@ -52,7 +52,7 @@
 <!--           v-bind="attrs"-->
 <!--           v-on="on"-->
 <!--        >-->
-<!--          <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-keyboard-outline</v-icon>-->
+<!--          <v-icon class="rankings-icon" color="#D32F2F" size="27px">mdi-keyboard-outline</v-icon>-->
 <!--          <p class="category rankings">Klawiatury</p>-->
 <!--        </div>-->
 <!--      </template>-->
@@ -71,11 +71,11 @@
 <!--      </v-list>-->
 <!--    </v-menu>-->
 <!--    <div class="rankings-menu-el" @click="switchCategory('wirelessheadphones')">-->
-<!--      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-headphones</v-icon>-->
+<!--      <v-icon class="rankings-icon" color="#D32F2F" size="27px">mdi-headphones</v-icon>-->
 <!--      <p class="category rankings">Słuchawki</p>-->
 <!--    </div>-->
 <!--    <div class="rankings-menu-el" @click="switchCategory('mouses')">-->
-<!--      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-mouse</v-icon>-->
+<!--      <v-icon class="rankings-icon" color="#D32F2F" size="27px">mdi-mouse</v-icon>-->
 <!--      <p class="category rankings">Myszki</p>-->
 <!--    </div>-->
 <!--    <v-menu-->
@@ -88,7 +88,7 @@
 <!--          v-bind="attrs"-->
 <!--          v-on="on"-->
 <!--        >-->
-<!--          <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-mouse</v-icon>-->
+<!--          <v-icon class="rankings-icon" color="#D32F2F" size="27px">mdi-mouse</v-icon>-->
 <!--          <p class="category rankings">Myszki</p>-->
 <!--        </div>-->
 <!--      </template>-->
@@ -107,7 +107,7 @@
 <!--      </v-list>-->
 <!--    </v-menu>-->
 <!--    <div class="rankings-menu-el" @click="switchCategory('monitors')">-->
-<!--      <v-icon class="rankings-icon" color="#df3968" size="27px">mdi-monitor</v-icon>-->
+<!--      <v-icon class="rankings-icon" color="#D32F2F" size="27px">mdi-monitor</v-icon>-->
 <!--      <p class="category rankings">Monitory</p>-->
 <!--    </div>-->
   </section>
@@ -289,7 +289,7 @@
         ></v-progress-linear>
         <br>
         <v-progress-linear
-          color="#df3968"
+          color="#D32F2F"
           indeterminate
         ></v-progress-linear>
         <br>
@@ -299,7 +299,7 @@
         ></v-progress-linear>
         <br>
         <v-progress-linear
-          color="#df3968"
+          color="#D32F2F"
           indeterminate
         ></v-progress-linear>
       </div>

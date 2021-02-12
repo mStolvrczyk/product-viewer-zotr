@@ -105,8 +105,8 @@ img {
     }
     &.active {
       //transition: background 1s;
-      color: set-text-color(#df3968);
-      background:  #df3968;
+      color: set-text-color(#D32F2F);
+      background:  #D32F2F;
     }
   }
 }
@@ -202,7 +202,7 @@ img {
   justify-content: center;
   &.rankings {
     padding: 0.8rem;
-    background: #df3968;
+    background: #D32F2F;
   }
   &.admin-panel {
     padding: 0.3rem;
@@ -273,7 +273,7 @@ img {
 
 /* process style */
 .vue-slider-process {
-  background-color: #df3968;
+  background-color: #D32F2F;
   border-radius: 15px;
   transition: background-color 0.3s;
 }

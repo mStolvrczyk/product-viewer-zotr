@@ -11,7 +11,7 @@
           <li>Kontakt</li>
           <v-btn
             large
-            color="rgb(223, 57, 104)"
+            color="rgb(211, 47, 47)"
              @click="changeRoute('/adminpanel/smartphones')"
             icon
           >
@@ -114,7 +114,7 @@ export default {
   computed: {
     returnButtonColor () {
       if (this.$route.path === '/home' || this.$route.path === `/rankings/${this.$route.params.category}`) {
-        return '#df3968'
+        return '#D32F2F'
       } else {
         return '#000'
       }

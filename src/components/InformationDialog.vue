@@ -179,9 +179,9 @@ export default {
   justify-content: center;
   align-items: center;
   &.success {
-    background-color: #df3968;
+    background-color: #D32F2F;
     h4 {
-      color: #000;
+      color: #fff;
     }
   }
   &.failure {
@@ -191,7 +191,7 @@ export default {
     }
   }
   &.scrapping {
-    background-color: #df3968;
+    background-color: #D32F2F;
     h4 {
       color: #fff;
     }

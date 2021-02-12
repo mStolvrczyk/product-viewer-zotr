@@ -44,7 +44,7 @@
           <v-btn
             v-bind="attrs"
             v-on="on"
-            color="#df3968"
+            color="#D32F2F"
             x-small
             fab
           >
@@ -109,7 +109,7 @@
                 <div class="third-col">
                   <v-btn
                     x-large
-                    color="rgb(223, 57, 104)"
+                    color="rgb(211, 47, 47)"
                     icon
                   >
                     <v-icon>
@@ -118,7 +118,7 @@
                   </v-btn>
                   <v-btn
                     x-large
-                    color="rgb(223, 57, 104)"
+                    color="rgb(211, 47, 47)"
                     icon
                   >
                     <v-icon>
@@ -144,7 +144,7 @@
                 <div class="third-col">
                   <v-btn
                     x-large
-                    color="rgb(223, 57, 104)"
+                    color="rgb(211, 47, 47)"
                     icon
                   >
                     <v-icon>
@@ -153,7 +153,7 @@
                   </v-btn>
                   <v-btn
                     x-large
-                    color="rgb(223, 57, 104)"
+                    color="rgb(211, 47, 47)"
                     icon
                   >
                     <v-icon>
@@ -195,7 +195,7 @@
                     <h3 class="price">
                       {{ product.details.price }}
                     </h3>
-                    <div class="link-button">Zobacz ofertę</div>
+                    <div class="link-button"><h4>Sprawdź na</h4><img alt="img" class="x-kom-logo" src="../assets/x-kom.png"></div>
                   </div>
                 </div>
                 <div class="second-col">
@@ -244,7 +244,7 @@
             >
             <v-progress-linear
               :key="3"
-              color="#df3968"
+              color="#D32F2F"
               indeterminate
             ></v-progress-linear>
             <br
@@ -260,7 +260,7 @@
             >
             <v-progress-linear
               :key="7"
-              color="#df3968"
+              color="#D32F2F"
               indeterminate
             ></v-progress-linear>
           </transition-group>
@@ -273,7 +273,7 @@
             style="margin-top: 0.7rem"
             v-if="arrowVisibility === true"
             @click="clearFilters"
-            color="rgb(223, 57, 104)"
+            color="rgb(211, 47, 47)"
             top
             small
             right
@@ -436,7 +436,7 @@ export default {
     async getProducts (category, subcategory) {
       this.loadingStatement = true
       // this.currentProductsNumber = null
-      this.products = []
+      this.products = this.allProducts = []
       if (subcategory !== undefined) {
         // this.currentProductsNumber = await this.productsService.getCountByCategory(category, subcategory)
         await this.productsService.getSubProducts(category, subcategory)
@@ -467,8 +467,12 @@ export default {
       }
     },
     clearFilters () {
-      this.products = this.allProducts
       this.arrowVisibility = false
+      setTimeout(function () {
+        this.products = this.allProducts
+      }
+        .bind(this),
+      100)
     },
     productElAction (product) {
       if (this.noOfProductInArr === null) {
@@ -510,7 +514,9 @@ export default {
     'selectedProduct' (value) {
       this.products = null
       setTimeout(function () {
-        this.products = this.allProducts.filter(({ model }) => model.includes(value.model))
+        this.products = this.allProducts.filter(({ details }) => details.model.includes(value.details.model))
+        console.log(this.products)
+        console.log(value)
         this.arrowVisibility = true
       }
         .bind(this),
@@ -529,6 +535,11 @@ export default {
 </script>
 
 <style lang="scss">
+.x-kom-logo {
+  margin-left: 0.3rem;
+  width: 60px;
+  height: 20px;
+}
 .link-button {
   padding: 0 0.8rem;
   background: #D32F2F;

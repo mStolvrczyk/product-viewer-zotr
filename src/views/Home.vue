@@ -38,19 +38,19 @@
         <p class="section-header">Popularne kategorie</p>
         <div class="categories-container">
           <article class="card" @click="sendCategory('smartphones')">
-            <v-icon color="#df3968" class="py-2" x-large>mdi-cellphone</v-icon>
+            <v-icon color="#D32F2F" class="py-2" x-large>mdi-cellphone</v-icon>
             <p class="category">Smartfony</p>
           </article>
           <article class="card" @click="sendCategory('laptops')">
-            <v-icon color="#df3968" class="py-2" x-large>mdi-laptop</v-icon>
+            <v-icon color="#D32F2F" class="py-2" x-large>mdi-laptop</v-icon>
             <p class="category">Laptopy biurowe</p>
           </article>
           <article class="card" @click="sendCategory('graphicsCards')">
-            <v-icon color="#df3968" class="py-2" x-large>mdi-expansion-card</v-icon>
+            <v-icon color="#D32F2F" class="py-2" x-large>mdi-expansion-card</v-icon>
             <p class="category">Karty graficzne</p>
           </article>
 <!--          <article class="card" @click="sendCategory('mouses')">-->
-<!--            <v-icon color="#df3968" class="py-2" x-large>mdi-mouse</v-icon>-->
+<!--            <v-icon color="#D32F2F" class="py-2" x-large>mdi-mouse</v-icon>-->
 <!--            <p class="category">Myszki</p>-->
 <!--          </article>-->
         </div>
@@ -138,7 +138,7 @@ export default {
     flex: 1;
   }
   #showcase .theme--light.v-icon {
-    color: #df3968 !important;
+    color: #D32F2F !important;
   }
   #showcase {
     color: #333;

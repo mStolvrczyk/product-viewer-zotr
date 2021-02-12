@@ -125,7 +125,7 @@
             <div class="dialog-button">
               <v-btn
                 style="text-transform: none; color: white"
-                color="#df3968"
+                color="#D32F2F"
                 class="my-2"
                 @click="saveGraphicsCard"
               >
